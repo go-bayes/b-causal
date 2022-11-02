@@ -36,9 +36,9 @@ vignettes/*.pdf
 models/*.rds
 **/mods/*rds
 
-posts/.**/*.jpg
-posts/**/*.html
-posts/**/*_files/
+#posts/.**/*.jpg
+#posts/**/*.html
+#posts/**/*_files/
 # data
 
 data/*df
