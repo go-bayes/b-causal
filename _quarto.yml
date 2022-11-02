@@ -7,9 +7,9 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
+        href: https://github.com/go-bayes
       - icon: twitter
-        href: https://twitter.com
+        href: https://twitter.com/prof_joe_
 format:
   html:
     theme: cosmo

@@ -1,12 +1,21 @@
 ---
-title: "Welcome To My Blog"
-author: "Tristan O'Malley"
+title: "Welcome to the B-causal Lab"
+author: "Joseph Bulbulia"
 date: "2022-10-30"
-categories: [news]
+categories: [background]
 ---
 
-This is the first post in a Quarto blog. Welcome!
 
-![](thumbnail.jpg)
+![](jb.jpg)
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+## Me
+
+Greetings. My name is Joseph Bulbulia. I am a Professor of Psychology at Victoria University of Wellington, a member of the New Zealand Attitudes and Values Senior Leadership Team, a research associate at the Max Plank Institute for the Science of Human History, and an adjunct professor at the University of Canterbury.
+
+## Purpose
+
+The purpose of this site is to convey brief research reports to the public. 
+
+## Contact 
+
+My email address for contact is: joseph.bulbulia@vuw.ac.nz
