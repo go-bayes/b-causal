@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "temp/post-with-code/index.html",
+    "href": "temp/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "posts/welcome/index.html#me",
+    "href": "posts/welcome/index.html#me",
+    "title": "Welcome to the B-causal Lab",
+    "section": "Me",
+    "text": "Me\nGreetings. My name is Joseph Bulbulia. I am a Professor of Psychology at Victoria University of Wellington, a member of the New Zealand Attitudes and Values Senior Leadership Team, a research associate at the Max Plank Institute for the Science of Human History, and an adjunct professor at the University of Canterbury."
+  },
+  {
+    "objectID": "posts/welcome/index.html#purpose",
+    "href": "posts/welcome/index.html#purpose",
+    "title": "Welcome to the B-causal Lab",
+    "section": "Purpose",
+    "text": "Purpose\nThe purpose of this site is to convey brief research reports to the public."
+  },
+  {
+    "objectID": "posts/welcome/index.html#contact",
+    "href": "posts/welcome/index.html#contact",
+    "title": "Welcome to the B-causal Lab",
+    "section": "Contact",
+    "text": "Contact\nMy email address for contact is: joseph.bulbulia@vuw.ac.nz"
+  },
+  {
+    "objectID": "posts/nzavs/index.html",
+    "href": "posts/nzavs/index.html",
+    "title": "The New Zealand Attitudes and Values Study",
+    "section": "",
+    "text": "Show the code\n#|fig-cap: \"NZAVS timeline\"\n#|fig-column: page-right.\n\n# https://quarto-dev.github.io/quarto-gallery/page-layout/tufte.html\n# fig.width=12, fig.height=10, fig.cap=\"Sampling from the electoral rol combines with repeated measures within the same people across New Zealand's social diversity to enable robust inference about stability and change in attitudes and values across New Zealand over time.\", layout = \"l-body-outset\", cache = TRUE\n\n# read data\ndat <- readRDS(pull_path)\n\ndatrep <- dat %>%\n  dplyr::mutate(timeline = make_date(year = 2009, month = 6, day = 30) + TSCORE) %>%\n  count(day = floor_date(timeline, \"day\")) %>%\n  dplyr::mutate(Year = factor(ifelse(\n    day < \"2010-01-01\",\n    2009,\n    ifelse(\n      day < \"2011-01-01\",\n      2010,\n      ifelse(\n        day < \"2012-01-01\",\n        2011,\n        ifelse(\n          day < \"2013-01-01\",\n          2012,\n          ifelse(\n            day < \"2014-01-01\",\n            2013,\n            ifelse(\n              day < \"2015-01-01\",\n              2014,\n              ifelse(\n                day < \"2016-01-01\",\n                2015,\n                ifelse(\n                  day < \"2017-01-01\",\n                  2016,\n                  ifelse(\n                    day < \"2018-01-01\",\n                    2017,\n                    ifelse(day < \"2019-01-01\", 2018,\n                           ifelse(day < \"2020-01-01\", 2019, \n                                   ifelse(day < \"2021-01-01\", 2020, \n                                             ifelse(day < \"2022-01-01\", 2021,2022))\n                  )\n                )\n              )\n            )\n          )\n        )\n      )\n    )\n  ))) ))%>%\n  arrange(day)\n\n# create date lines\nceq <- as.Date(\"2011-02-22\")\nkeq <- as.Date(\"2016-11-14\")\nter <- as.Date(\"2019-03-15\")\ncov <- as.Date(\"2020-03-24\")\n\n# get number for dates\nceqD <- which(datrep$day %in% ceq)\nkeqD <- which(datrep$day %in% keq)\nterD <- which(datrep$day %in% ter)\ncovD <- which(datrep$day %in% cov)\n\n\n# create dates\n\nd1 <- as.numeric(datrep$day[ceqD])\nd2 <- as.numeric(datrep$day[keqD])\nd3 <- as.numeric(datrep$day[terD])\nd4 <- as.numeric(datrep$day[covD])\n\n# create break points\ncuts <-\n  data.frame(\n    Big_Events = c(\n      \"Christchurch Earthquake\",\n      \"Kaikoura Earthquake\",\n      \"Mosque Attacks\",\n      \"Stringent COVID-19 LockDown\"\n    ),\n    vals = c(d1, d2, d3, d4),\n    stringsAsFactors = FALSE\n  )\n\nggplot2::ggplot(datrep, aes(day, n)) +\n  geom_col(aes(fill = Year)) + scale_x_date(date_labels = \"%b/%Y\")  +\n  geom_vline(\n    mapping = aes(xintercept = vals,\n                  colour = Big_Events),\n    data = cuts,\n    linetype = \"dashed\",\n    show.legend = TRUE\n  )  +\nlabs(title = \"New Zealand Attitudes and Values Study Daily Response Counts\\n Years 2009-2020; N = 61,535\",\n     x = \"NZAVS daily counts\", y = \"Count of Responses\") + theme_classic()  +  scale_fill_viridis_d() + theme(legend.position = \"top\")"
+  },
+  {
+    "objectID": "posts/nzavs/index.html#where-can-i-go-for-futher-information",
+    "href": "posts/nzavs/index.html#where-can-i-go-for-futher-information",
+    "title": "The New Zealand Attitudes and Values Study",
+    "section": "Where can I go for futher information?",
+    "text": "Where can I go for futher information?\nThe NZAVS website is maintained by Prof Chris Sibley.Link ## Link to data dictionary and questions\nLink to full data dictionary\nLink to questions only"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "b-causal",
+    "section": "",
+    "text": "The New Zealand Attitudes and Values Study\n\n\n\n\n\n\n\nbackground\n\n\n\n\n\n\n\n\n\n\n\nNov 2, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nWelcome to the B-causal Lab\n\n\n\n\n\n\n\nbackground\n\n\n\n\n\n\n\n\n\n\n\nOct 30, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "The purpose of this site is to convey research to a broader public."
+  },
+  {
+    "objectID": "about.html#contact",
+    "href": "about.html#contact",
+    "title": "About",
+    "section": "Contact",
+    "text": "Contact\nMy email address for contact is: joseph.bulbulia@vuw.ac.nz"
+  }
+]
