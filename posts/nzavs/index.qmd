@@ -97,10 +97,7 @@ pull_path <-
   )
 ```
 
-```{r timeline}
-#|fig-cap: "NZAVS timeline"
-#|fig-column: page-right.
-
+```{r}
 # https://quarto-dev.github.io/quarto-gallery/page-layout/tufte.html
 # fig.width=12, fig.height=10, fig.cap="Sampling from the electoral rol combines with repeated measures within the same people across New Zealand's social diversity to enable robust inference about stability and change in attitudes and values across New Zealand over time.", layout = "l-body-outset", cache = TRUE
 

@@ -1,5 +1,5 @@
 ---
-title: "b-causal"
+title: "b-causal-lab brief reports"
 listing:
   contents: posts
   sort: "date desc"

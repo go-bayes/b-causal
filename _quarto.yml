@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "b-causal"
+  title: "b-causal-lab brief reports"
   navbar:
     right:
       - about.qmd
@@ -16,5 +16,6 @@ format:
     theme: cosmo
     css: styles.css
 
+license: CC BY-NC-SA
 
 
