@@ -5,7 +5,7 @@
 
 /.quarto/
 
-
+.DS_Store
 
 # Session Data files
 .RData
