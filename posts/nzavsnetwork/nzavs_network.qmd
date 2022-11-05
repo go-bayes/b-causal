@@ -43,8 +43,8 @@ library("ggthemes") # themes
 library("table1") # tables
 library("ggalluvial") # alluvial graphs
 ```
-```{r dataordering}
 
+```{r dataordering}
 # First we import the data, and create an indicator for measured/lost/withdrawn.
 library("ggalluvial") # alluvial graphs
 
@@ -214,7 +214,7 @@ ssdf.01 <- ssdf.0 %>%
 
 ```{r graphalluvial}
 #| label: fig-alluvial
-#| column: page
+#| column: page-right
 #| fig.cap: "NZAVS alluvial retention graph: waves 2009-2020."
 # prepare data for graph 
 datsSF <- ssdf.01 %>%
@@ -272,7 +272,7 @@ ggsave(
 
 ```{r graphfacet}
 #| label: fig-facet
-#| column: page
+#| column: page-right
 #| fig.cap: "NZAVS alluvial retention graph: facets are sample frames."
 # prepare data
 datsSS <- ssdf.01 %>%
