@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "b-causal-lab brief reports"
+  title: "B-causal-Lab"
   navbar:
     right:
       - about.qmd
