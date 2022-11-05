@@ -24,7 +24,7 @@ format:
 
 ## Alluvial graph: NZAVS sample retention by wave and sample frame
 
-A key challenge in longitudional research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). @fig-alluvial presents the sample frames within a single graph. @fig-facet presents the sample frames separately. 
+The fundamental challenge of longitudinal research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). @fig-alluvial presents the sample frames within a single graph. @fig-facet presents the sample frames separately. 
 
 
 
