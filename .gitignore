@@ -54,7 +54,7 @@ data/*.rds
 #docs/templates/**/*.html
 #_posts/**/*_files/
 
-posts/*.pdf
-docs/posts/**/*.pdf
+#posts/*.pdf
+#docs/posts/**/*.pdf
 #mods/
 #*/figs/

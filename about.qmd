@@ -2,8 +2,11 @@
 title: "About"
 image: dg.jpg
 about:
-  template: jolla
+  template: trestles
   links:
+    - icon: CV
+      text: CV
+      href: https://josephbulbulia.netlify.app
     - icon: twitter
       text: Twitter
       href: https://twitter.com
@@ -13,15 +16,12 @@ about:
     - icon: github
       text: Github
       href: https://github.com
-
 ---
-
-
 
 
 ## Purpose
 
-The purpose of this site is to convey research to a broader public. 
+The purpose of this site is to convey B-causal Lab research to a broader public. 
 
 ## Contact 
 
