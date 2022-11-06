@@ -9,6 +9,8 @@ website:
       - about.qmd
       - icon: github
         href: https://github.com/go-bayes
+      - icon: mastodon
+        href: https://fosstodon.org/@b_causal
       - icon: twitter
         href: https://twitter.com/prof_joe_
 format:
@@ -17,5 +19,3 @@ format:
     css: styles.css
 
 license: CC BY-NC-SA
-
-
