@@ -1,5 +1,5 @@
 ---
-title: "Parametric G-computation in NZAVS Studies"
+title: "G-computation in NZAVS Studies"
 execute:
   warning: false
   echo: false
@@ -46,7 +46,7 @@ $$A \perp\!\!\!\perp Y^a |L$$
 
 Outside of controlled experiments we cannot generally ensure this conditional independence. For this reason, we use sensitivity analysis, such as the *E-value* [@vanderweele2020]
 
-## Parametric G-computation (or regression standardisation)
+## G-computation (or regression standardisation)
 
 To consistently estimate a causal association we must infer the average outcomes for the entire population were it subject to different levels of the exposure variable $A = a$ and $A=a*$. 
 

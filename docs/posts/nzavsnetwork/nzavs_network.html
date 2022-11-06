@@ -184,7 +184,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </div>
       <div class="quarto-title-meta-contents">
           <p class="affiliation">
-              1
+              Victoria University of Wellington, New Zealand
             </p>
         </div>
       </div>
@@ -224,7 +224,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="alluvial-graph-nzavs-sample-retention-by-wave-and-sample-frame" class="level2">
 <h2 class="anchored" data-anchor-id="alluvial-graph-nzavs-sample-retention-by-wave-and-sample-frame">Alluvial graph: NZAVS sample retention by wave and sample frame</h2>
-<p>The fundamental challenge of longitudinal research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). <a href="#fig-alluvial">Figure&nbsp;1</a> presents the sample frames within a single graph. <a href="#fig-facet">Figure&nbsp;2</a> presents the sample frames separately.</p>
+<p>The fundamental challenge of longitudinal research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). <a href="#fig-alluvial">Figure&nbsp;1</a> presents the sample frames within a single graph.</p>
 <p>For more information about the NZAVS see: <a href="https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html">here</a> and <a href="https://go-bayes.github.io/reports/posts/nzavs/">here</a></p>
 <div class="cell">
 <details>
@@ -435,22 +435,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># to save file in your directory at correct resolution, uncomment below</span></span>
 <span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co"># file &lt;- here("figs", paste("alluvial_highres_turbo_BW", ".png", sep = ""))</span></span>
 <span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>p</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  p,</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> here<span class="sc">::</span><span class="fu">here</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"posts"</span>, <span class="st">"nzavsnetwork"</span> )),</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">8</span>,</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="fl">4.5</span>,</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="st">"in"</span>,</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="st">"a_plot.png"</span>,</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">device =</span> <span class="st">"png"</span>,</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="dv">1</span>,</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">dpi =</span> <span class="dv">100</span>,</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">limitsize =</span> <span class="cn">TRUE</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co">#print image</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>p</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co">#   p,</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="co">#   path = here::here(here::here("posts", "nzavsnetwork" )),</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="co">#   width = 8,</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="co">#   height = 4.5,</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co">#   units = "in",</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="co">#   filename = "a_plot.png",</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="co">#   device = "png",</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="co">#   scale = 1,</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="co">#   dpi = 100,</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="co">#   limitsize = TRUE</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display column-page-right">
+<div class="cell-output-display column-screen-inset-right">
 <div id="fig-alluvial" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="nzavs_network_files/figure-html/fig-alluvial-1.png" class="img-fluid figure-img" width="672"></p>
@@ -459,7 +460,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="cell page-columns page-full">
+<div class="cell column-screen">
 <details>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># prepare data</span></span>
@@ -498,30 +499,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>())  <span class="co"># remove legend title</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output-display column-page-right">
-<div id="fig-facet" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="nzavs_network_files/figure-html/fig-facet-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: NZAVS alluvial retention graph: facets are sample frames.</figcaption><p></p>
-</figure>
-</div>
-</div>
 </div>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{bulbulia2022,
-  author = {Joseph Bulbulia and Joseph Bulbulia},
-  title = {NZAVS {Retention} {Graph}},
-  date = {2022-11-04},
-  url = {https://go-bayes.github.io/b-causal/},
-  langid = {en}
-}
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-bulbulia2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Joseph Bulbulia, and Joseph Bulbulia. 2022. <span>“NZAVS Retention
-Graph.”</span> November 4, 2022. <a href="https://go-bayes.github.io/b-causal/">https://go-bayes.github.io/b-causal/</a>.
-</div></div></section></div></main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

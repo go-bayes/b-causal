@@ -8,7 +8,7 @@
 
 <meta name="author" content="Joseph Bulbulia">
 
-<title>B-causal-Lab - Parametric G-computation in NZAVS Studies</title>
+<title>B-causal-Lab - G-computation in NZAVS Studies</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -124,7 +124,7 @@ div.csl-indent {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Parametric G-computation in NZAVS Studies</h1>
+      <h1 class="title">G-computation in NZAVS Studies</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Causal Inference</div>
                 <div class="quarto-category">NZAVS</div>
@@ -173,7 +173,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#the-fundamental-problem-of-causal-inference." id="toc-the-fundamental-problem-of-causal-inference." class="nav-link" data-scroll-target="#the-fundamental-problem-of-causal-inference.">The fundamental problem of causal inference.</a></li>
   </ul></li>
-  <li><a href="#parametric-g-computation-or-regression-standardisation" id="toc-parametric-g-computation-or-regression-standardisation" class="nav-link" data-scroll-target="#parametric-g-computation-or-regression-standardisation">Parametric G-computation (or regression standardisation)</a></li>
+  <li><a href="#g-computation-or-regression-standardisation" id="toc-g-computation-or-regression-standardisation" class="nav-link" data-scroll-target="#g-computation-or-regression-standardisation">G-computation (or regression standardisation)</a></li>
   <li><a href="#the-steps-for-g-computation" id="toc-the-steps-for-g-computation" class="nav-link" data-scroll-target="#the-steps-for-g-computation">The steps for G-computation</a></li>
   <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">Applications</a>
   <ul class="collapse">
@@ -211,8 +211,8 @@ div.csl-indent {
 <p>Outside of controlled experiments we cannot generally ensure this conditional independence. For this reason, we use sensitivity analysis, such as the <em>E-value</em> <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span></p>
 </section>
 </section>
-<section id="parametric-g-computation-or-regression-standardisation" class="level2">
-<h2 class="anchored" data-anchor-id="parametric-g-computation-or-regression-standardisation">Parametric G-computation (or regression standardisation)</h2>
+<section id="g-computation-or-regression-standardisation" class="level2">
+<h2 class="anchored" data-anchor-id="g-computation-or-regression-standardisation">G-computation (or regression standardisation)</h2>
 <p>To consistently estimate a causal association we must infer the average outcomes for the entire population were it subject to different levels of the exposure variable <span class="math inline">\(A = a\)</span> and <span class="math inline">\(A=a*\)</span>.&nbsp;</p>
 <p><span class="math display">\[ATE = E[Y^{a*}] - E[Y^a] = \]</span></p>
 <p><span class="math display">\[\sum_l E[Y|A=a*, L=l]\Pr[L=l] - \sum_c E[Y|A=a, L=l]\Pr[L=l]\]</span></p>
@@ -278,14 +278,14 @@ VanderWeele, Tyler J, Maya B Mathur, and Ying Chen. 2020. <span>“Outcome-Wide 
 </div>
 </div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{bulbulia2022,
   author = {Joseph Bulbulia},
-  title = {Parametric {G-computation} in {NZAVS} {Studies}},
+  title = {G-Computation in {NZAVS} {Studies}},
   date = {2022-11-05},
   url = {https://go-bayes.github.io/b-causal/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-bulbulia2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Joseph Bulbulia. 2022. <span>“Parametric G-Computation in NZAVS
-Studies.”</span> November 5, 2022. <a href="https://go-bayes.github.io/b-causal/">https://go-bayes.github.io/b-causal/</a>.
+Joseph Bulbulia. 2022. <span>“G-Computation in NZAVS Studies.”</span>
+November 5, 2022. <a href="https://go-bayes.github.io/b-causal/">https://go-bayes.github.io/b-causal/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -1,14 +1,5 @@
 ---
 title: "NZAVS Retention Graph"
-author: 
-  - name: Joseph Bulbulia
-    orcid: 0000-0002-5861-2056
-    affiliation: 1
-    corresponding: yes
-    address: Victoria University of Wellington, New Zealand
-    email: joseph.bulbulia@vuw.ac.nz
-citation:
-  url: https://go-bayes.github.io/b-causal/
 date: 2022-11-04
 date-format: short
 categories:
@@ -26,8 +17,7 @@ format:
 
 ## Alluvial graph: NZAVS sample retention by wave and sample frame
 
-The fundamental challenge of longitudinal research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). @fig-alluvial presents the sample frames within a single graph. @fig-facet presents the sample frames separately. 
-
+The fundamental challenge of longitudinal research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). @fig-alluvial presents the sample frames within a single graph.
 
 
 For more information about the NZAVS see: [here](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html) and [here](https://go-bayes.github.io/reports/posts/nzavs/)
@@ -216,7 +206,7 @@ ssdf.01 <- ssdf.0 %>%
 
 ```{r graphalluvial}
 #| label: fig-alluvial
-#| column: page-right
+#| column: screen-inset-right
 #| fig.cap: "NZAVS alluvial retention graph: waves 2009-2020."
 # prepare data for graph 
 datsSF <- ssdf.01 %>%
@@ -255,26 +245,28 @@ p <- ggplot(
 # to save file in your directory at correct resolution, uncomment below
 # file <- here("figs", paste("alluvial_highres_turbo_BW", ".png", sep = ""))
 
+#print image
 p
 
-ggsave(
-  p,
-  path = here::here(here::here("posts", "nzavsnetwork" )),
-  width = 8,
-  height = 4.5,
-  units = "in",
-  filename = "a_plot.png",
-  device = "png",
-  scale = 1,
-  dpi = 100,
-  limitsize = TRUE
-)
+# ggsave(
+#   p,
+#   path = here::here(here::here("posts", "nzavsnetwork" )),
+#   width = 8,
+#   height = 4.5,
+#   units = "in",
+#   filename = "a_plot.png",
+#   device = "png",
+#   scale = 1,
+#   dpi = 100,
+#   limitsize = TRUE
+# )
 ```
 
 
 ```{r graphfacet}
+#| eval: false
 #| label: fig-facet
-#| column: page-right
+#| column: screen
 #| fig.cap: "NZAVS alluvial retention graph: facets are sample frames."
 # prepare data
 datsSS <- ssdf.01 %>%
