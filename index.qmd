@@ -20,4 +20,5 @@ file.create("docs/.nojekyll", showWarnings = FALSE)
 dir.create("data", FALSE)
 ```
 
+
  <a rel="me" href="https://fosstodon.org/@b_causal">Mastodon</a>
