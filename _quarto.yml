@@ -13,6 +13,7 @@ website:
         href: https://fosstodon.org/@b_causal
       - icon: twitter
         href: https://twitter.com/prof_joe_
+
 format:
   html:
     theme: cosmo
