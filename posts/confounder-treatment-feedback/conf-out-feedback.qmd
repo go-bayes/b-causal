@@ -1,5 +1,5 @@
 ---
-title: "On the Problem of Treatement Confounder Feedback"
+title: "On the Problem of Treatment Confounder Feedback"
 citation:
   type: article-journal
   container-title: "PsyArXiv"

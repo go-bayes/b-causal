@@ -37,49 +37,49 @@
   {
     "objectID": "posts/confounder-treatment-feedback/conf-out-feedback.html#purpose",
     "href": "posts/confounder-treatment-feedback/conf-out-feedback.html#purpose",
-    "title": "On the Problem of Treatement Confounder Feedback",
+    "title": "On the Problem of Treatment Confounder Feedback",
     "section": "Purpose",
     "text": "Purpose\nCausation occurs in time. Therefore, investigating the relationship between cause and effect requires time series data.\nCausality is also dynamic. Where there is Treatment-Confounder Feedback, the relationship between cause and effect cannot be identified using standard regression methods, including multi-level regression and structural equation models. Instead, special methods - “G-methods” - are needed.\nHere, I use three causal graphs to describe a problem of treatment-confounder feedback, and direct readers to G-methods for its solution."
   },
   {
     "objectID": "posts/confounder-treatment-feedback/conf-out-feedback.html#my-assumptions-about-you",
     "href": "posts/confounder-treatment-feedback/conf-out-feedback.html#my-assumptions-about-you",
-    "title": "On the Problem of Treatement Confounder Feedback",
+    "title": "On the Problem of Treatment Confounder Feedback",
     "section": "My assumptions about you",
     "text": "My assumptions about you\n\nYou are interested in psychological science.\nYou understand how to read causal graphs 1\nYour “go-to” method for time-series analysis is either a latent growth curve or a multi-level model."
   },
   {
     "objectID": "posts/confounder-treatment-feedback/conf-out-feedback.html#confounding-by-common-cause",
     "href": "posts/confounder-treatment-feedback/conf-out-feedback.html#confounding-by-common-cause",
-    "title": "On the Problem of Treatement Confounder Feedback",
+    "title": "On the Problem of Treatment Confounder Feedback",
     "section": "Confounding by Common Cause",
     "text": "Confounding by Common Cause\nSuppose we wish to compute the causal effect of treatment \\(A\\) on outcome \\(Y\\). Because \\(L\\) is a common cause of both \\(A\\) and \\(Y\\), \\(L\\) will lead to an association between \\(A\\) and \\(Y\\). We face confounding by common cause. The good news: where \\(L\\) is measured, a regression model that conditions on \\(L\\) will break the association between \\(A\\) and \\(Y\\). Again, causation occurs in time. We index measured nodes to ensure our data adhere to time’s arrow\n\n\nreveal code\n\\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]\n\\tikzset{>=latex}\n\\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]\n\\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]\n\\node[squarednode] (1) {$L_{t-1}$};\n\\node[right =of 1] (2) {$A_{t}$};\n\\node[right =of 2] (3) {$Y_{t+1}$};\n\\draw[Arrow,bend left] (1) to (3);\n\\draw[Arrow] (1) to (2);"
   },
   {
     "objectID": "posts/confounder-treatment-feedback/conf-out-feedback.html#confounding-by-over-conditioning",
     "href": "posts/confounder-treatment-feedback/conf-out-feedback.html#confounding-by-over-conditioning",
-    "title": "On the Problem of Treatement Confounder Feedback",
+    "title": "On the Problem of Treatment Confounder Feedback",
     "section": "Confounding by Over-Conditioning",
     "text": "Confounding by Over-Conditioning\nSuppose \\(L_{t+1}\\) is an effect of \\(A_{t}\\). To condition on the common effect will induce a spurious association between \\(A_t\\) and \\(Y_{t+1}\\) through the unmeasured confounder \\(U\\) (red path). We may avoid this problem by excluding \\(L_{t+1}\\) from our regression model. To know whether exclusion is warranted requires indexing the relative occurrences of \\(A\\) and \\(L\\). However, without time-series data, we cannot generally know whether \\(L\\) is a cause of \\(A\\) or its effect. Figures 1 and 2 illustrate the importance of collecting time-series data to infer causality. Although psychological scientists are familiar with adjustment by regression to address confounding by common cause, we are less familiar with the hazards of over-conditioning. Generally, confounding control in any observational science requires time series data.\n\n\nreveal code\n\\begin{tikzpicture}[squarednode/.style={rectangle, draw=red!60, fill=red!5}, scale = 4]\n\\tikzset{>=latex}\n\\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]\n\\tikzstyle{DoubleArrow} = [-, dotted, preaction = {decorate}]\n\\node[] (0) {$U$};\n\\node[ below =of 0] (1) {$A_t$};\n\\node[squarednode, right =of 1] (2) {$L_{t+1}$};\n\\node[right =of 2] (3) {$Y_{t+1}$};\n\\draw[Arrow,bend left=25, red] (0) to (3);\n\\draw[Arrow] (0) to (2);\n\\draw[Arrow] (1) to (2);\n\\draw[DoubleArrow, bend right=20, red] (0) to (1);"
   },
   {
     "objectID": "posts/confounder-treatment-feedback/conf-out-feedback.html#confounding-control-for-treatment-confounder-feedback-damned-if-you-condition-damned-if-you-do-not.",
     "href": "posts/confounder-treatment-feedback/conf-out-feedback.html#confounding-control-for-treatment-confounder-feedback-damned-if-you-condition-damned-if-you-do-not.",
-    "title": "On the Problem of Treatement Confounder Feedback",
+    "title": "On the Problem of Treatment Confounder Feedback",
     "section": "Confounding control for Treatment-Confounder Feedback: Damned if you condition damned if you do not.",
     "text": "Confounding control for Treatment-Confounder Feedback: Damned if you condition damned if you do not.\nSuppose we collect time series data. Suppose further that conditioning on \\(L\\) blocks an unmeasured common cause \\(U\\) of future treatments \\(A\\) and future outcomes \\(Y\\). Suppose further, as in Figure 2, past states of \\(A\\) affect future states of \\(L\\). Notice, regression faces a damned-if-we-do-damned-if-we-don’t adjustment challenge. On the one hand, to avoid confounding by a common cause we must adjust for \\(L\\) at all time points. On the other hand, adjusting for \\(L_{t+1}\\) induces confounding by over-conditioning (paths in red). **Regression, including multi-level regression and structural equation models, must be abandoned.* There are alternatives to regression called G-methods that may address treatment-confounder feedback. One of these methods, the Marginal Structural Model, replaces \\(L\\) with inverse probability weights for the exposure. G-methods are described in Chapters 12 and 13 of Hernan and Robin’s[Hernan and Robins (2023)]2\n\nHernan, M. A., and J. M. Robins. 2023. Causal Inference. Chapman & Hall/CRC Monographs on Statistics & Applied Probab. Taylor & Francis. https://books.google.co.nz/books?id=\\_KnHIAAACAAJ.\n\n\nreveal code\n\\begin{tikzpicture}[squarednode/.style={rectangle, draw=red!60, fill=red!5}, scale = 4]\n\\tikzset{>=latex}\n\\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]\n\\tikzstyle{DoubleArrow} = [-, thick, dotted, preaction = {decorate}]\n\n\\node[draw=black, thick] (1) {L$_{t-1}$};\n\\node[right =of 1] (2) {A$_{t}$};\n\\node[right =of 2] (3) {Y$_{t+1}$};\n\\node[squarednode, right =of 3] (4) {L$_{t+1}$};\n\\node[right =of 4] (5) {A$_{t+1}$};\n\\node[right =of 5] (6) {Y$_{t+2}$};\n\\node[left =of 1] (7) {U};\n\\draw[Arrow] (1) -- (2);\n\\draw[Arrow] (4) -- (5);\n\\draw[Arrow] (7) to (1);\n\\draw[DoubleArrow, red, bend left=40] (2) to (6);\n\\draw[Arrow, bend right, red] (7) to (6);\n\\draw[Arrow, bend right, red] (7) to (4);\n\\draw[Arrow, bend right] (7) to (3);\n\\draw[Arrow, bend left, red] (2) to (4);"
   },
   {
     "objectID": "posts/confounder-treatment-feedback/conf-out-feedback.html#importance",
     "href": "posts/confounder-treatment-feedback/conf-out-feedback.html#importance",
-    "title": "On the Problem of Treatement Confounder Feedback",
+    "title": "On the Problem of Treatment Confounder Feedback",
     "section": "Importance",
     "text": "Importance\nI write this report to encourage psychological scientists to (1) collect time-series data and (2) address treatment-confounder feedback by employing G-methods. I do not write this report to cast stones. My published work offers ample illustrations of the problems that I describe here. On a positive note, a causal revolution in psychological science is upon us. Our best science remains ahead of us (VanderWeele 2015).\n\nVanderWeele, Tyler. 2015. Explanation in Causal Inference: Methods for Mediation and Interaction. Oxford University Press."
   },
   {
     "objectID": "posts/confounder-treatment-feedback/conf-out-feedback.html#references",
     "href": "posts/confounder-treatment-feedback/conf-out-feedback.html#references",
-    "title": "On the Problem of Treatement Confounder Feedback",
+    "title": "On the Problem of Treatment Confounder Feedback",
     "section": "References",
     "text": "References"
   },
@@ -158,7 +158,7 @@
     "href": "index.html",
     "title": "B-causal-Lab",
     "section": "",
-    "text": "On the Problem of Treatement Confounder Feedback\n\n\n\n\n\n\n\nCausal Inference\n\n\nDAG\n\n\nMethods\n\n\n\n\n\n\n\n\n\n\n\nNov 6, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nG-computation in NZAVS Studies\n\n\n\n\n\n\n\nCausal Inference\n\n\nNZAVS\n\n\nMethods\n\n\n\n\n\n\n\n\n\n\n\nNov 5, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nOutcome-wide Science in NZAVS Studies\n\n\n\n\n\n\n\nCausal Inference\n\n\nNZAVS\n\n\nOutcome-wide Science\n\n\nMethods\n\n\n\n\n\n\n\n\n\n\n\nNov 5, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nNZAVS Retention Graph\n\n\n\n\n\n\n\nBackground\n\n\nNZAVS\n\n\n\n\n\n\n\n\n\n\n\nNov 4, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nThe New Zealand Attitudes and Values Study\n\n\n\n\n\n\n\nBackground\n\n\nNZAVS\n\n\n\n\n\n\n\n\n\n\n\nNov 2, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nWelcome to the B-causal Lab\n\n\n\n\n\n\n\nBackground\n\n\nLab\n\n\n\n\n\n\n\n\n\n\n\nOct 30, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\nNo matching items\n\nReuseCC BY-NC-SA"
+    "text": "On the Problem of Treatment Confounder Feedback\n\n\n\n\n\n\n\nCausal Inference\n\n\nDAG\n\n\nMethods\n\n\n\n\n\n\n\n\n\n\n\nNov 6, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nG-computation in NZAVS Studies\n\n\n\n\n\n\n\nCausal Inference\n\n\nNZAVS\n\n\nMethods\n\n\n\n\n\n\n\n\n\n\n\nNov 5, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nOutcome-wide Science in NZAVS Studies\n\n\n\n\n\n\n\nCausal Inference\n\n\nNZAVS\n\n\nOutcome-wide Science\n\n\nMethods\n\n\n\n\n\n\n\n\n\n\n\nNov 5, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nNZAVS Retention Graph\n\n\n\n\n\n\n\nBackground\n\n\nNZAVS\n\n\n\n\n\n\n\n\n\n\n\nNov 4, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nThe New Zealand Attitudes and Values Study\n\n\n\n\n\n\n\nBackground\n\n\nNZAVS\n\n\n\n\n\n\n\n\n\n\n\nNov 2, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\n  \n\n\n\n\nWelcome to the B-causal Lab\n\n\n\n\n\n\n\nBackground\n\n\nLab\n\n\n\n\n\n\n\n\n\n\n\nOct 30, 2022\n\n\nJoseph Bulbulia\n\n\n\n\n\n\nNo matching items\n\nReuseCC BY-NC-SA"
   },
   {
     "objectID": "about.html",
