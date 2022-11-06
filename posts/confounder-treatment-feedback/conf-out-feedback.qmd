@@ -17,7 +17,7 @@ format:
     code-summary: "reveal code"
 categories: 
   - Causal Inference
-  - NZAVS
+  - DAG
   - Methods
 bibliography: references.bib
 citation-location: margin

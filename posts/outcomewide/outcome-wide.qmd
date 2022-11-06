@@ -1,0 +1,93 @@
+---
+title: "Outcome-wide Science in NZAVS Studies"
+format: html
+title-block-style: plain
+bibliography: references.bib
+date: 2022-11-05
+date-format: short
+image: "ow.png"
+citation:
+  url: https://go-bayes.github.io/b-causal-lab/
+execute:
+  echo: false
+  warning: false
+  message: false
+  error: false
+categories:
+  - Causal Inference
+  - NZAVS
+  - Outcome-wide Science
+  - Methods
+---
+```{r setup, include=FALSE}
+# see https://remlapmot.github.io/mrdags/
+# https://github.com/remlapmot/mrdags/blob/master/index.qmd
+knitr::opts_chunk$set(cache = TRUE,
+                      dev = "svg",
+                      fig.align = "center")
+# Using advice from Andrew Heiss blogpost to use SVGs in HTML from TikZ
+# https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/#connecting-dvisvgm-to-ghostscript-on-macos
+# For svg figures we require the latex package dvisvgm
+if (!tinytex::check_installed("dvisvgm")) tinytex::tlmgr_install("dvisvgm")
+# On macOS dvisvgm needs the ghostscript library dynamically linked to it via
+# either the LIBGS environment variable or the --libgs flag.
+# The libgs.dylib from Homebrew (brew install ghostscript) is sufficient.
+if (Sys.info()[["sysname"]] == "Darwin" && Sys.info()[["machine"]] == "arm64") {
+  #Sys.setenv(LIBGS = "/usr/local/lib/libgs.dylib")
+  Sys.setenv(LIBGS = "/opt/homebrew/Cellar/ghostscript/10.0.0/lib/libgs.dylib")
+}
+```
+
+```{r tnytx, eval=FALSE}
+#install.packages("tinytex")
+#tinytex::install_tinytex()
+```
+
+
+```{r, eval=FALSE}
+#tinytex::tlmgr_install("tikz-cd")
+```
+
+
+
+```{tikz fig-1, fig.cap="Confounding control using three waves of data & multiple imputation of responses lost-to-follow-up"}
+#| engine.opts=list(template = "tikz-template.tex",
+#|                  dvisvgm.opts = "--font-format=woff")
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {{\bf U}};
+\node[squarednode,right =of 0, align=left] (1) {{\bf L}$_{t-1}$\\
+Exposure$_{t-1}$\\ {\bf Y}$_{t-1}$};
+\node[right =of 1] (2) {Exposure ${t_0}$};
+\node[squarednode, right =of 2] (3) {Attrition Sample$_{t+1}$};
+\node[right =of 3] (4) {{\bf Y}$_{t+1}$};
+\node[below =of 2] (5){{\bf U}$_s$};
+\draw[Arrow] (0) to (1);
+\draw[Arrow, bend right=50, dotted, thick, red] (0) to (2);
+\draw[Arrow, bend left=50 , dotted, thick, red] (0) to (4);
+\draw[Arrow] (1) to (2);
+\draw[Arrow] (2) to (3);
+\draw[Arrow, bend left] (1) to (4);
+\draw[Arrow] (5) to (3);
+\draw[Arrow,  bend right=20] (5) to (4);
+\draw[DoubleArrow, dotted, bend right=20, blue, thick] (2) to (5);
+```
+    
+Confounding occurs when the statistical association between indicators in the data do not reflect a causal association between parameters in a target population. A causal graph is a qualitative tool that enables us to quickly inspect sources of confounding.
+
+We may represent our strategy for confounding control using the causal graph presented in @fig-1.
+
+We define an exposure or treatment by \$A\$. We define $\boldsymbol{Y}$ as the set of all well-being outcomes contained in the NZAVS. Our interest is in consistently estimating the causal effect of congregation size on each of these outcomes. To consistently estimate the causal effect of an exposure $A=1$ on the vector of well-being outcomes $\boldsymbol{Y}$ we must ensure that we have included a set of confounders that will prevent any statistical association between $A$ and $Y$ in the absence of causation. A statistical association in the absence of a causal association may arise in one of three ways.: (1) $A$ and $Y$ share a common cause. (2) $A$ and $Y$ share a common effect. (3) There is confounding by descent, such that conditioning on a confounder introduces a statistical association between $A$ and $Y$ in the absence of a casual association (collider bias).
+
+To address challenge (1) we may condition or stratify on all measured common causes of $A$ and $Y$. To address challenges (2) and (3), we must not condition on any effect or desendent of an effect. Note however that by conditioning on a descent of a common cause we may at least partially address conditioning by a common cause. This is because conditioning on the effect of a common cause may itself partially block the effect of the that common cause.
+
+In NZAVS outcome-wide science studies we use a modified version of VanderWeele et al's approach for estimating outcome-wide causal effects [@vanderweele2020]. 
+
+**VanderWeele's approach utilises three waves of panel data collected within the same participants over time.**
+
+Call $t-1$ the baseline wave, $t_0$ the exposure wave, and $t+1$ the outcome measurement wave. First, we include at baseline indicators of all past outcomes $\boldsymbol{Y}_{t-1}$*. Second, we include at baseline an indicator for the past exposure* $A_{t-1}$. Third, we include a rich set of baseline confounders $\boldsymbol{L_{t-1}}$. Of course, we cannot ensure that this strategy is sufficient to ensure no unmeasured confounding. However, on On VanderWeele's strategy, for any unmeasured confounder to affect both the exposure/outcome association, it would need to do so independently of its effects on prior measurements of the exposure and (all) outcomes at baseline, in addition to all measured baseline confounders. Note also that by controlling for measured confounders the wave prior to exposure we avoid unwittingly conditioning on an effects of the exposure that subsequently affects the outcome -- mediator bias. Note furthermore that by measuring the outcome in the year following the exposure, $Y_{t+1}$, we ensure that the exposure temporally precedes the outcome, and is not, for example, an effect of the outcome. Finally, loss-to-follow-up or attrition, as well as survey non-response may introduce selection bias (represented by the boxed $S_{t+1}$). There are several ways in which uch selection bias may introduce confounding. In Figure 1, we note the prospect in which a novel common cause of $A$ and $Y$ called $U_s$ may lead to a spurious association between $A$ and $Y$ if $S$ is a collider of $A$ and $U_s$. To avoid selection bias we multiply impute the missing responses.
+
+

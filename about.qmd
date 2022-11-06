@@ -7,9 +7,9 @@ about:
     - icon: CV
       text: CV
       href: https://josephbulbulia.netlify.app
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com
+    - icon: mastodon
+      text: mastodon
+      href: https://fosstodon.org/@b_causal
     - icon: linkedin
       text: LinkedIn
       href: https://linkedin.com
