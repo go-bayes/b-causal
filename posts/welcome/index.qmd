@@ -2,7 +2,9 @@
 title: "Welcome to the B-causal Lab"
 author: "Joseph Bulbulia"
 date: "2022-10-30"
-categories: [background]
+categories:
+  - Background
+  - Lab
 ---
 
 

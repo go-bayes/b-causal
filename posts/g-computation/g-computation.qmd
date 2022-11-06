@@ -1,0 +1,102 @@
+---
+title: "G-computation in three-wave outcome-wide NZAVS studies"
+execute:
+  warning: false
+  echo: false
+draft: false
+citation:
+  url: https://go-bayes.github.io/b-causal/
+date: 2022-11-05
+image: "gc.png"
+date-format: short
+bibliography: references.bib
+categories: 
+  - Causal Inference
+  - NZAVS
+  - Methods
+---
+
+```{r}
+library(katex)
+```
+
+## Causal inference
+
+Suppose we want to learn whether a dichotomous exposure has a causal effect. We must answer three questions:
+
+1.  What would happen with exposure?
+2.  What would happen with no exposure?
+3.  Do these potential outcomes differ?
+
+Consider a binary exposure $A$ with two levels, $A = 0$ and $A=1$ and a continuous outcome $Y$.  Estimating the causal effect of $A$ on outcome $Y$ requires contrasting two states of the world.  The state of the the world $Y^{a=1}$ when, perhaps contrary to fact, $A$ is set to $1$ and the state of the world $Y^{a=0}$ when, perhaps contrary to fact, $A$ is set to $0$. We say that $A$ affects $Y$  when the quantities$Y^{a=1} - Y^{a=0} \neq 0$.  
+
+### The fundamental problem of causal inference.
+
+Note that, at any given time, at most only one level of the exposure $A$ may be realised for any individual. That is, $Y^{a=1}$ and $Y^{a=0}$ are never simultaneously observed in any individual.  As such, individual-level causal effects are not typically identifiable from data. This is called the funamental problem of causal inference [@rubin1976; @gelman2020a]. It is for this reason that we refer to the $Y^{a=1}$ and $Y^{a=0}$ -- the quantities of interest -- as "potential" or "counterfactual" outcomes.
+
+Although we cannot generally obtain counterfactual contrasts for individuals, when certain assumptions are satisfied, we may identify the average or marginal causal effects at the level of groups of individuals who are experience different levels of exposure.  We say there is an average or marginal causal effect if the difference of the averages of the population who are exposed and unexposed does not equal zero:  $E(Y^{a=1}) - E(Y^{a=0})\neq 0$ . Likewise, because the difference of the means is equivalent to the mean of the differences, if $E(Y^{a=1} - Y^{a=0})\neq 0$ [@hernan2023].  This contrast in the expected average of the *counterfactual* outcomes is the marginal effect. Here, our example uses a binary exposure but we may contrast the counterfactual outcomes for two levels of a continuous exposure. To do this we must state the levels of exposure at which we seek comparisons. 
+
+Critically, to ensure valid inference, we need to ensure that the potential outcomes are independent of the exposures received, namely: 
+
+$$Y^a  \perp\!\!\!\perp A|L$$
+
+**Or equivalently:**
+
+$$A \perp\!\!\!\perp Y^a |L$$
+
+If we have have only observational data, we cannot generally ensure that the exposures are independent of the counterfactual outcomes. For this reason, we use sensitivity analyis such at the calculating an *E-value* to assess the robustness of any result to unmeasured confounding [@vanderweele2020]
+
+## G-computation (or standardisation)
+
+To consistently estimate a causal association from the statistical association evident in the data, we must infer the average outcomes for the entire population was it subject to different levels of the exposure variable $A = a, A=a*$. 
+
+**If we  are interested in obtaining an average causal effect for the population.**
+
+$$ATE = E[Y^{a*}] - E[Y^a] = $$
+
+$$\sum_l E[Y|A=a*, L=l]\Pr[L=l] - \sum_c E[Y|A=a, L=l]\Pr[L=l]$$
+
+We need not estimate $\Pr(L = l)$. Rather we may obtain the weighted mean for the distribution of the counfounders in the data by taking the double expectation: [@hernan2023, p.166].
+
+\
+
+$$ATE = E[E(Y|A = a, \boldsymbol{L}) - E(Y|A = a*, \boldsymbol{L})]$$
+
+To obtain marginal contrasts for the expected outcomes for the entire population solitary worship to different levels of  congregations size  used the stdReg package in R [@sjölander2016] 
+
+## The steps for G-computation
+
+1.  First we fit a regression for each outcome on the exposure $A\_{t0}$ and baseline covariates$\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)$. To avoid implausible assumptions of linearity we model the relationship between the exposure each of the potential outcomes of interest using a cubic spline.  We include in the set of baseline confounders $\boldsymbol{L}$ the baseline measure of the exposure as well as the baseline response (or responses):
+
+$$\{A\_{t-1}, \boldsymbol{Y_{t-1}} = (Y_{1, t-1}, Y_{2, t-1}, Y_{3, t-1}\dots Y_{n, t-1})\} \subset \boldsymbol{L}$$  
+
+This gives us
+
+$$E(Y|A, \boldsymbol{L})$$
+
+2.  Second, we use the model in (1) to predict the values of a potential outcome $Y^{a}$ by setting the exposure to the value $A = a$.
+
+This gives us
+
+$$\hat{E}(Y|A = a, \boldsymbol{L})$$
+
+3.  Third, we use the model in (1) to predict the values of a different potential outcome $Y^{a*}$by setting the exposure to a different value of $A =a^{\star}$.
+
+This gives us 
+
+$$\hat{E}(Y|A = a*,\boldsymbol{L})$$
+
+4.  Forth we obtain the focal contrast as the expected difference in the expected average outcomes when exposure at levels $a*$ and $a$. Where outcomes are continuous we calculate both mean of $Y^a$ and the mean of  $Y^{a*}$ and then obtain their difference.  This gives us: 
+
+$$\hat{ATE} = \hat{E}[\hat{E}(Y|A = a, \boldsymbol{L}) - \hat{E}(Y|A = a*, \boldsymbol{L})]$$
+
+5.  Where outcomes are binary, we calculate the causal risk ratio in moving between the different levels of A. Where binary outcomes are more common than 10% we use a log-normal model to calculate a causal rate ratio [@vanderweele2020]. 
+
+6.  The stdReg package in R calculates standard errors using the Delta method from which we construct confidence intervals under asymptotic assumptions[@sjölander2016]. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin's Rules. 
+
+### Acknowledgements
+
+We are grateful to Arvid Sjölander for his help in modifying his stdReg package in R to enable G-computation with multiply-imputed datasets.
+
+For a simple visual guide to G-computation see Kat Hoffman's blog: https://www.khstats.com/art/illustrations_viz.html
+

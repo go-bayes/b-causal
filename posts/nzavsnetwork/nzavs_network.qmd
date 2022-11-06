@@ -11,7 +11,9 @@ citation:
   url: https://go-bayes.github.io/b-causal/
 date: 2022-11-04
 date-format: short
-categories: [background]
+categories:
+  - Background
+  - NZAVS
 execute:
   warning: false
 draft: false

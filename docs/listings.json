@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/confounder-treatment-feedback/conf-out-feedback.html",
+      "/posts/g-computation/g-computation.html",
       "/posts/nzavsnetwork/nzavs_network.html",
       "/posts/nzavs/index.html",
       "/posts/welcome/index.html"

@@ -2,7 +2,9 @@
 title: "The New Zealand Attitudes and Values Study"
 author: "Joseph Bulbulia"
 date: "2022-11-02"
-categories: [background]
+categories: 
+  - Background
+  - NZAVS
 image: "timeline-1.png"
 
 execute:
