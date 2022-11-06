@@ -26,12 +26,12 @@ format:
 
 The purpose of this site is to convey B-causal Lab research to a broader public. 
 
+
 ## Contact 
 
 My name is Joseph Bulbulia (Joe). I am a professor of psychology at Victoria of University, and head of the B-Causal Lab.
-My email address for contact is: joseph.bulbulia@vuw.ac.nz
+My email address is: joseph.bulbulia@vuw.ac.nz
 
-<a rel="me" href="https://fosstodon.org/@b_causal">Mastodon</a>
 
 
 
