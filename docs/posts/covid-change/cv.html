@@ -241,9 +241,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>We investigate change in attitudes to COVID-19 from the Time 12 and Time 13 of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Prof.&nbsp;Chris G. Sibley in 2009. See: <a href="https://go-bayes.github.io/b-causal/posts/nzavs/">Link on this site</a></p>
-<p><a href="https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html">NZAVS homepage</a></p>
-<p>The sample consists of all those participants who responded in Time 12 (N = 38,551). The sample in Time 13 was (n = 28,642). Such attrition, or loss to follow-up, results in bias.</p>
+<p>We investigate change in attitudes to COVID-19 from the Time 12 and Time 13 of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Prof.&nbsp;Chris G. Sibley in 2009. See: <a href="https://go-bayes.github.io/b-causal/posts/nzavs/">Link</a> and <a href="https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html">NZAVS homepage</a></p>
+<p>The sample consists of all those participants who responded in Time 12 (N = 38,551). The sample in Time 13 was (n = 28,642).</p>
 </section>
 <section id="covid-questions" class="level2">
 <h2 class="anchored" data-anchor-id="covid-questions">Covid Questions</h2>
@@ -275,8 +274,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make graph </span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cov_values <span class="ot">&lt;-</span> dt_long <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">Target =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(Target, <span class="fu">desc</span>(Values))) <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(Target, Values, <span class="at">fill =</span> Target)) <span class="sc">+</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">Target =</span> forcats<span class="sc">::</span><span class="fu">fct_reorder</span>(Attitudes, <span class="fu">desc</span>(Values))) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(Target, Values, <span class="at">fill =</span> Attitudes)) <span class="sc">+</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Covid Attitudes NZ 2020/21 to 2021/22 (N = 38,551)"</span>) <span class="sc">+</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">size =</span> .<span class="dv">05</span>, <span class="at">notch =</span> T) <span class="sc">+</span>  <span class="fu">scale_fill_viridis_d</span>() <span class="sc">+</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span> (. <span class="sc">~</span> Wave, <span class="at">scales =</span> <span class="st">"free_x"</span>, <span class="at">space =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
@@ -309,7 +308,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-boxplot" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="cv_files/figure-html/fig-boxplot-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: <strong>?(caption)</strong></figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Boxplot for attitudes: NZAVS Time 12 &amp; NZAVS Time 13</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -321,15 +320,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell column-page-right" data-hash="cv_cache/html/models_04c5780aea1c1c83a13b3caab4d30fe4">
 
 </div>
-<div class="cell page-columns page-full" data-hash="cv_cache/html/tables_54b790d93033b0137107ced4c0d0e423">
+<div class="cell page-columns page-full" data-hash="cv_cache/html/tab-tables_36d75d38983011772ac9dc8d0d2a8862">
 <div class="cell-output-display column-page-right">
 
-<div id="xfbczobzhe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wnzmlrtrzv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#xfbczobzhe) .gt_table {
+:where(#wnzmlrtrzv) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -354,7 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_heading {
+:where(#wnzmlrtrzv) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -366,7 +365,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_title {
+:where(#wnzmlrtrzv) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -378,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-:where(#xfbczobzhe) .gt_subtitle {
+:where(#wnzmlrtrzv) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -390,13 +389,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-:where(#xfbczobzhe) .gt_bottom_border {
+:where(#wnzmlrtrzv) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_col_headings {
+:where(#wnzmlrtrzv) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -411,7 +410,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_col_heading {
+:where(#wnzmlrtrzv) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -431,7 +430,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#xfbczobzhe) .gt_column_spanner_outer {
+:where(#wnzmlrtrzv) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -443,15 +442,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-:where(#xfbczobzhe) .gt_column_spanner_outer:first-child {
+:where(#wnzmlrtrzv) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#xfbczobzhe) .gt_column_spanner_outer:last-child {
+:where(#wnzmlrtrzv) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#xfbczobzhe) .gt_column_spanner {
+:where(#wnzmlrtrzv) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -463,7 +462,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-:where(#xfbczobzhe) .gt_group_heading {
+:where(#wnzmlrtrzv) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -488,7 +487,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#xfbczobzhe) .gt_empty_group_heading {
+:where(#wnzmlrtrzv) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -503,15 +502,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#xfbczobzhe) .gt_from_md > :first-child {
+:where(#wnzmlrtrzv) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#xfbczobzhe) .gt_from_md > :last-child {
+:where(#wnzmlrtrzv) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#xfbczobzhe) .gt_row {
+:where(#wnzmlrtrzv) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -530,7 +529,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#xfbczobzhe) .gt_stub {
+:where(#wnzmlrtrzv) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -543,7 +542,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#xfbczobzhe) .gt_stub_row_group {
+:where(#wnzmlrtrzv) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -557,11 +556,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-:where(#xfbczobzhe) .gt_row_group_first td {
+:where(#wnzmlrtrzv) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#xfbczobzhe) .gt_summary_row {
+:where(#wnzmlrtrzv) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -571,16 +570,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#xfbczobzhe) .gt_first_summary_row {
+:where(#wnzmlrtrzv) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_first_summary_row.thick {
+:where(#wnzmlrtrzv) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#xfbczobzhe) .gt_last_summary_row {
+:where(#wnzmlrtrzv) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -590,7 +589,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_grand_summary_row {
+:where(#wnzmlrtrzv) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -600,7 +599,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#xfbczobzhe) .gt_first_grand_summary_row {
+:where(#wnzmlrtrzv) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -610,11 +609,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_striped {
+:where(#wnzmlrtrzv) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#xfbczobzhe) .gt_table_body {
+:where(#wnzmlrtrzv) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -623,7 +622,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_footnotes {
+:where(#wnzmlrtrzv) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -637,7 +636,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_footnote {
+:where(#wnzmlrtrzv) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -646,7 +645,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#xfbczobzhe) .gt_sourcenotes {
+:where(#wnzmlrtrzv) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -660,7 +659,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#xfbczobzhe) .gt_sourcenote {
+:where(#wnzmlrtrzv) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -668,64 +667,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#xfbczobzhe) .gt_left {
+:where(#wnzmlrtrzv) .gt_left {
   text-align: left;
 }
 
-:where(#xfbczobzhe) .gt_center {
+:where(#wnzmlrtrzv) .gt_center {
   text-align: center;
 }
 
-:where(#xfbczobzhe) .gt_right {
+:where(#wnzmlrtrzv) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#xfbczobzhe) .gt_font_normal {
+:where(#wnzmlrtrzv) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#xfbczobzhe) .gt_font_bold {
+:where(#wnzmlrtrzv) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#xfbczobzhe) .gt_font_italic {
+:where(#wnzmlrtrzv) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#xfbczobzhe) .gt_super {
+:where(#wnzmlrtrzv) .gt_super {
   font-size: 65%;
 }
 
-:where(#xfbczobzhe) .gt_footnote_marks {
+:where(#wnzmlrtrzv) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#xfbczobzhe) .gt_asterisk {
+:where(#wnzmlrtrzv) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#xfbczobzhe) .gt_indent_1 {
+:where(#wnzmlrtrzv) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#xfbczobzhe) .gt_indent_2 {
+:where(#wnzmlrtrzv) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#xfbczobzhe) .gt_indent_3 {
+:where(#wnzmlrtrzv) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#xfbczobzhe) .gt_indent_4 {
+:where(#wnzmlrtrzv) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#xfbczobzhe) .gt_indent_5 {
+:where(#wnzmlrtrzv) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -744,13 +743,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr><td class="gt_row gt_left">(Intercept)</td>
 <td class="gt_row gt_center">2.10 (2.08, 2.11)</td>
 <td class="gt_row gt_center">2.98 (2.96, 3.00)</td>
-<td class="gt_row gt_center">7.99 (7.96, 8.01)</td>
+<td class="gt_row gt_center">7.99 (7.96, 8.02)</td>
 <td class="gt_row gt_center">5.65 (5.63, 5.66)</td></tr>
     <tr><td class="gt_row gt_left">Wave (2021)</td>
 <td class="gt_row gt_center">0.58 (0.56, 0.60)</td>
-<td class="gt_row gt_center">0.50 (0.48, 0.52)</td>
-<td class="gt_row gt_center">-1.55 (-1.57, -1.52)</td>
-<td class="gt_row gt_center">-0.90 (-0.92, -0.88)</td></tr>
+<td class="gt_row gt_center">0.50 (0.49, 0.52)</td>
+<td class="gt_row gt_center">-1.54 (-1.57, -1.52)</td>
+<td class="gt_row gt_center">-0.90 (-0.91, -0.88)</td></tr>
     <tr><td class="gt_row gt_left"></td>
 <td class="gt_row gt_center"></td>
 <td class="gt_row gt_center"></td>
@@ -770,6 +769,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
 </table>
 </div>
+<p>Model results</p>
 </div>
 </div>
 <div class="cell page-columns page-full">
@@ -777,7 +777,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="fig-graphs" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="cv_files/figure-html/fig-graphs-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: <strong>?(caption)</strong></figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Predicted responses from models of attitude change.</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -785,24 +785,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="summary-of-findings" class="level2">
 <h2 class="anchored" data-anchor-id="summary-of-findings">Summary of findings</h2>
-<p>Overall, the New Zealanders do not perceive the risks of COVID-19 to be exaggerated, however there is increasing perception of exaggeration.</p>
-<p>There is increasing belief that COVID-19 was manufactured in a lab.</p>
-<p>Overall, New Zealanders have high levels of trust in the Government response to COVID-19, but these levels are somewhat declining.</p>
-<p>Similarly, New Zealanders are satisfied with the Government response to COVID-19, but levels of trust are somewhat declining.</p>
-<p>Importantly, these models do not adjust from bias from sample attrition. To the extent that institutional mistrust has declined during the past two years, we expect that changes in trust and satisfaction in the Government response to COVID-19 will have been somewhat steeper than presented here.</p>
-<p>In future work, we shall account for bias from sample attrition using multiple imputation. We will report our results here. Please stay tuned.</p>
+<p>Overall, New Zealanders do not perceive the risks of COVID-19 to be exaggerated, however there is somewhat greater perception of exaggeration this year compared to last year.</p>
+<p>There is an increasing belief that COVID-19 was manufactured in a laboratory.</p>
+<p>Overall, New Zealanders express high levels of trust in the New Zealand Government response to COVID-19, but levels have declined somewhat during the past year.</p>
+<p>Similarly, New Zealanders are generally satisfied with the New Zealand Government response to COVID-19, but levels of trust have declined somewhat during the past year.</p>
+<p>Importantly, these models do not adjust for bias from NZAVS sample attrition. The NZAVS is independent of government. However, to the extent that institutional mistrust of the government has extended to scientific institutions, lower trust and satisfaction with the government response to COVID-19 will have been somewhat greater than reported in the retained NZAVS sample.</p>
+<p>In future work, we shall account for the bias from sample attrition using multiple imputation. We will report our results here. Please stay tuned.</p>
 </section>
 <section id="appendix-descriptive-information" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-descriptive-information">Appendix: Descriptive information</h2>
-<div class="cell" data-hash="cv_cache/html/unnamed-chunk-7_6b31fa08e17f6eed4a2a8c9e32ae2057">
+<div class="cell" data-hash="cv_cache/html/tab-descriptive_970abb1b886dc0f575da61d230a30a06">
 <div class="cell-output-display">
 
-<div id="vmcjpucucz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="orzuzwbnnf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#vmcjpucucz) .gt_table {
+:where(#orzuzwbnnf) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -827,7 +827,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_heading {
+:where(#orzuzwbnnf) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -839,7 +839,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_title {
+:where(#orzuzwbnnf) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -851,7 +851,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-:where(#vmcjpucucz) .gt_subtitle {
+:where(#orzuzwbnnf) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -863,13 +863,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-:where(#vmcjpucucz) .gt_bottom_border {
+:where(#orzuzwbnnf) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_col_headings {
+:where(#orzuzwbnnf) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -884,7 +884,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_col_heading {
+:where(#orzuzwbnnf) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -904,7 +904,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#vmcjpucucz) .gt_column_spanner_outer {
+:where(#orzuzwbnnf) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -916,15 +916,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-:where(#vmcjpucucz) .gt_column_spanner_outer:first-child {
+:where(#orzuzwbnnf) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#vmcjpucucz) .gt_column_spanner_outer:last-child {
+:where(#orzuzwbnnf) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#vmcjpucucz) .gt_column_spanner {
+:where(#orzuzwbnnf) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -936,7 +936,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-:where(#vmcjpucucz) .gt_group_heading {
+:where(#orzuzwbnnf) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -961,7 +961,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#vmcjpucucz) .gt_empty_group_heading {
+:where(#orzuzwbnnf) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -976,15 +976,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#vmcjpucucz) .gt_from_md > :first-child {
+:where(#orzuzwbnnf) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#vmcjpucucz) .gt_from_md > :last-child {
+:where(#orzuzwbnnf) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#vmcjpucucz) .gt_row {
+:where(#orzuzwbnnf) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1003,7 +1003,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#vmcjpucucz) .gt_stub {
+:where(#orzuzwbnnf) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1016,7 +1016,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vmcjpucucz) .gt_stub_row_group {
+:where(#orzuzwbnnf) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1030,11 +1030,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-:where(#vmcjpucucz) .gt_row_group_first td {
+:where(#orzuzwbnnf) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#vmcjpucucz) .gt_summary_row {
+:where(#orzuzwbnnf) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1044,16 +1044,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vmcjpucucz) .gt_first_summary_row {
+:where(#orzuzwbnnf) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_first_summary_row.thick {
+:where(#orzuzwbnnf) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#vmcjpucucz) .gt_last_summary_row {
+:where(#orzuzwbnnf) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1063,7 +1063,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_grand_summary_row {
+:where(#orzuzwbnnf) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1073,7 +1073,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vmcjpucucz) .gt_first_grand_summary_row {
+:where(#orzuzwbnnf) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1083,11 +1083,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_striped {
+:where(#orzuzwbnnf) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#vmcjpucucz) .gt_table_body {
+:where(#orzuzwbnnf) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1096,7 +1096,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_footnotes {
+:where(#orzuzwbnnf) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1110,7 +1110,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_footnote {
+:where(#orzuzwbnnf) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1119,7 +1119,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vmcjpucucz) .gt_sourcenotes {
+:where(#orzuzwbnnf) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1133,7 +1133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#vmcjpucucz) .gt_sourcenote {
+:where(#orzuzwbnnf) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1141,64 +1141,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#vmcjpucucz) .gt_left {
+:where(#orzuzwbnnf) .gt_left {
   text-align: left;
 }
 
-:where(#vmcjpucucz) .gt_center {
+:where(#orzuzwbnnf) .gt_center {
   text-align: center;
 }
 
-:where(#vmcjpucucz) .gt_right {
+:where(#orzuzwbnnf) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#vmcjpucucz) .gt_font_normal {
+:where(#orzuzwbnnf) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#vmcjpucucz) .gt_font_bold {
+:where(#orzuzwbnnf) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#vmcjpucucz) .gt_font_italic {
+:where(#orzuzwbnnf) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#vmcjpucucz) .gt_super {
+:where(#orzuzwbnnf) .gt_super {
   font-size: 65%;
 }
 
-:where(#vmcjpucucz) .gt_footnote_marks {
+:where(#orzuzwbnnf) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#vmcjpucucz) .gt_asterisk {
+:where(#orzuzwbnnf) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#vmcjpucucz) .gt_indent_1 {
+:where(#orzuzwbnnf) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#vmcjpucucz) .gt_indent_2 {
+:where(#orzuzwbnnf) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#vmcjpucucz) .gt_indent_3 {
+:where(#orzuzwbnnf) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#vmcjpucucz) .gt_indent_4 {
+:where(#orzuzwbnnf) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#vmcjpucucz) .gt_indent_5 {
+:where(#orzuzwbnnf) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1207,8 +1207,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <thead class="gt_col_headings">
     <tr>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col"><strong>Characteristic</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col"><strong>2020</strong>, N = 38,551<sup class="gt_footnote_marks">1</sup></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col"><strong>2021</strong>, N = 28,642<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col"><strong>Time12</strong>, N = 38,551<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col"><strong>Time13</strong>, N = 28,642<sup class="gt_footnote_marks">1</sup></th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -1266,12 +1266,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr><td class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
 <td class="gt_row gt_center">1,267</td>
 <td class="gt_row gt_center">878</td></tr>
-    <tr><td class="gt_row gt_left">COVID.SatGovtResponse</td>
-<td class="gt_row gt_center">7.99 (2.35)</td>
-<td class="gt_row gt_center">6.49 (3.08)</td></tr>
-    <tr><td class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
-<td class="gt_row gt_center">252</td>
-<td class="gt_row gt_center">125</td></tr>
     <tr><td class="gt_row gt_left">COVID.TrustGovtResponse</td>
 <td class="gt_row gt_center"></td>
 <td class="gt_row gt_center"></td></tr>
@@ -1299,6 +1293,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr><td class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
 <td class="gt_row gt_center">428</td>
 <td class="gt_row gt_center">1,326</td></tr>
+    <tr><td class="gt_row gt_left">COVID.SatGovtResponse</td>
+<td class="gt_row gt_center">7.99 (2.35)</td>
+<td class="gt_row gt_center">6.49 (3.08)</td></tr>
+    <tr><td class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
+<td class="gt_row gt_center">252</td>
+<td class="gt_row gt_center">125</td></tr>
   </tbody>
   
   <tfoot class="gt_footnotes">
@@ -1308,6 +1308,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </tfoot>
 </table>
 </div>
+<p>Descriptive table</p>
 </div>
 </div>
 </section>
@@ -1405,60 +1406,60 @@ loaded via a namespace (and not attached):
   [7] knitr_1.40           dygraphs_1.1.1.6     multcomp_1.4-20     
  [10] data.table_1.14.4    inline_0.3.19        generics_0.1.3      
  [13] callr_3.7.2          TH.data_1.1-1        future_1.29.0       
- [16] EValue_4.1.3         tzdb_0.3.0           webshot_0.5.4       
- [19] xml2_1.3.3           httpuv_1.6.6         assertthat_0.2.1    
- [22] gargle_1.2.1         xfun_0.34            hms_1.1.2           
- [25] bayesplot_1.9.0      evaluate_0.18        promises_1.2.0.1    
- [28] fansi_1.0.3          dbplyr_2.2.1         readxl_1.4.1        
- [31] igraph_1.3.5         DBI_1.1.3            htmlwidgets_1.5.4   
- [34] tensorA_0.36.2       googledrive_2.0.0    stats4_4.2.0        
- [37] ellipsis_0.3.2       crosstalk_1.2.0      backports_1.4.1     
- [40] V8_4.2.1             survey_4.1-1         insight_0.18.6      
- [43] markdown_1.3         RcppParallel_5.1.5   vctrs_0.5.0         
- [46] sjlabelled_1.2.0     abind_1.4-5          cachem_1.0.6        
- [49] withr_2.5.0          drgee_1.1.10         checkmate_2.1.0     
- [52] emmeans_1.8.2        xts_0.12.2           prettyunits_1.1.1   
- [55] svglite_2.1.0        crayon_1.5.2         labeling_0.4.2      
- [58] SuppDists_1.1-9.7    pkgconfig_2.0.3      nlme_3.1-158        
- [61] pkgload_1.3.1        nnet_7.3-18          globals_0.16.1      
- [64] rlang_1.0.6          lifecycle_1.0.3      miniUI_0.1.1.1      
- [67] nleqslv_3.3.3        colourpicker_1.2.0   sandwich_3.0-2      
- [70] mathjaxr_1.6-0       modelr_0.1.9         cellranger_1.1.0    
- [73] distributional_0.3.1 rprojroot_2.0.3      matrixStats_0.62.0  
- [76] datawizard_0.6.3     loo_2.5.1            carData_3.0-5       
- [79] boot_1.3-28          zoo_1.8-11           reprex_2.0.2        
- [82] base64enc_0.1-3      gamm4_0.2-6          ggridges_0.5.4      
- [85] processx_3.8.0       googlesheets4_1.0.1  viridisLite_0.4.1   
- [88] parallelly_1.32.1    shinystan_2.6.0      rstatix_0.7.0       
- [91] ggsignif_0.6.4       scales_1.2.1         memoise_2.0.1       
- [94] magrittr_2.0.3       plyr_1.8.7           threejs_0.3.3       
- [97] compiler_4.2.0       rstantools_2.2.0     snakecase_0.11.0    
-[100] cli_3.4.1            urlchecker_1.0.1     listenv_0.8.0       
-[103] ps_1.7.2             Brobdingnag_1.2-9    Formula_1.2-4       
-[106] MASS_7.3-58.1        mgcv_1.8-40          tidyselect_1.2.0    
-[109] stringi_1.7.8        textshaping_0.3.6    projpred_2.2.1      
-[112] mitools_2.4          yaml_2.3.6           bridgesampling_1.1-2
-[115] grid_4.2.0           ggdag_0.2.7          tools_4.2.0         
-[118] parallel_4.2.0       rstudioapi_0.14      foreign_0.8-83      
-[121] medflex_0.6-7        gridExtra_2.3        posterior_1.3.1     
-[124] farver_2.1.1         digest_0.6.30        simex_1.8           
-[127] shiny_1.7.3          operator.tools_1.6.3 car_3.1-1           
-[130] broom_1.0.1          metafor_3.8-1        later_1.3.0         
-[133] httr_1.4.4           MetaUtility_2.1.2    colorspace_2.0-3    
-[136] rvest_1.0.3          fs_1.5.2             expm_0.999-6        
-[139] renv_0.16.0          shinythemes_1.2.0    sessioninfo_1.2.2   
-[142] systemfonts_1.0.4    xtable_1.8-4         jsonlite_1.8.3      
-[145] nloptr_2.0.3         tidygraph_1.2.2      R6_2.5.1            
-[148] broom.mixed_0.2.9.4  profvis_0.3.7        pillar_1.8.1        
-[151] htmltools_0.5.3      mime_0.12            glue_1.6.2          
-[154] fastmap_1.1.0        minqa_1.2.5          DT_0.26             
-[157] codetools_0.2-18     furrr_0.3.1          pkgbuild_1.3.1      
-[160] mvtnorm_1.1-3        utf8_1.2.2           lattice_0.20-45     
-[163] numDeriv_2016.8-1.1  curl_4.3.3           gtools_3.9.3        
-[166] shinyjs_2.1.0        survival_3.4-0       rmarkdown_2.17      
-[169] repr_1.1.4           munsell_0.5.0        broom.helpers_1.9.0 
-[172] haven_2.5.1          reshape2_1.4.4       gtable_0.3.1        
-[175] bayestestR_0.13.0   </code></pre>
+ [16] commonmark_1.8.1     EValue_4.1.3         tzdb_0.3.0          
+ [19] webshot_0.5.4        xml2_1.3.3           httpuv_1.6.6        
+ [22] assertthat_0.2.1     gargle_1.2.1         xfun_0.34           
+ [25] hms_1.1.2            bayesplot_1.9.0      evaluate_0.18       
+ [28] promises_1.2.0.1     fansi_1.0.3          dbplyr_2.2.1        
+ [31] readxl_1.4.1         igraph_1.3.5         DBI_1.1.3           
+ [34] htmlwidgets_1.5.4    tensorA_0.36.2       googledrive_2.0.0   
+ [37] stats4_4.2.0         ellipsis_0.3.2       crosstalk_1.2.0     
+ [40] backports_1.4.1      V8_4.2.1             survey_4.1-1        
+ [43] insight_0.18.6       markdown_1.3         RcppParallel_5.1.5  
+ [46] vctrs_0.5.0          sjlabelled_1.2.0     abind_1.4-5         
+ [49] cachem_1.0.6         withr_2.5.0          drgee_1.1.10        
+ [52] checkmate_2.1.0      emmeans_1.8.2        xts_0.12.2          
+ [55] prettyunits_1.1.1    svglite_2.1.0        crayon_1.5.2        
+ [58] labeling_0.4.2       SuppDists_1.1-9.7    pkgconfig_2.0.3     
+ [61] nlme_3.1-158         pkgload_1.3.1        nnet_7.3-18         
+ [64] globals_0.16.1       rlang_1.0.6          lifecycle_1.0.3     
+ [67] miniUI_0.1.1.1       nleqslv_3.3.3        colourpicker_1.2.0  
+ [70] sandwich_3.0-2       mathjaxr_1.6-0       modelr_0.1.9        
+ [73] cellranger_1.1.0     distributional_0.3.1 rprojroot_2.0.3     
+ [76] matrixStats_0.62.0   datawizard_0.6.3     loo_2.5.1           
+ [79] carData_3.0-5        boot_1.3-28          zoo_1.8-11          
+ [82] reprex_2.0.2         base64enc_0.1-3      gamm4_0.2-6         
+ [85] ggridges_0.5.4       processx_3.8.0       googlesheets4_1.0.1 
+ [88] viridisLite_0.4.1    parallelly_1.32.1    shinystan_2.6.0     
+ [91] rstatix_0.7.0        ggsignif_0.6.4       scales_1.2.1        
+ [94] memoise_2.0.1        magrittr_2.0.3       plyr_1.8.7          
+ [97] threejs_0.3.3        compiler_4.2.0       rstantools_2.2.0    
+[100] snakecase_0.11.0     cli_3.4.1            urlchecker_1.0.1    
+[103] listenv_0.8.0        ps_1.7.2             Brobdingnag_1.2-9   
+[106] Formula_1.2-4        MASS_7.3-58.1        mgcv_1.8-40         
+[109] tidyselect_1.2.0     stringi_1.7.8        textshaping_0.3.6   
+[112] projpred_2.2.1       mitools_2.4          yaml_2.3.6          
+[115] bridgesampling_1.1-2 grid_4.2.0           sass_0.4.2          
+[118] ggdag_0.2.7          tools_4.2.0          parallel_4.2.0      
+[121] rstudioapi_0.14      foreign_0.8-83       medflex_0.6-7       
+[124] gridExtra_2.3        posterior_1.3.1      farver_2.1.1        
+[127] digest_0.6.30        simex_1.8            shiny_1.7.3         
+[130] operator.tools_1.6.3 car_3.1-1            broom_1.0.1         
+[133] metafor_3.8-1        later_1.3.0          httr_1.4.4          
+[136] MetaUtility_2.1.2    colorspace_2.0-3     rvest_1.0.3         
+[139] fs_1.5.2             expm_0.999-6         renv_0.16.0         
+[142] shinythemes_1.2.0    sessioninfo_1.2.2    systemfonts_1.0.4   
+[145] xtable_1.8-4         jsonlite_1.8.3       nloptr_2.0.3        
+[148] tidygraph_1.2.2      R6_2.5.1             broom.mixed_0.2.9.4 
+[151] profvis_0.3.7        pillar_1.8.1         htmltools_0.5.3     
+[154] mime_0.12            glue_1.6.2           fastmap_1.1.0       
+[157] minqa_1.2.5          DT_0.26              codetools_0.2-18    
+[160] furrr_0.3.1          pkgbuild_1.3.1       mvtnorm_1.1-3       
+[163] utf8_1.2.2           lattice_0.20-45      numDeriv_2016.8-1.1 
+[166] curl_4.3.3           gtools_3.9.3         shinyjs_2.1.0       
+[169] survival_3.4-0       rmarkdown_2.17       repr_1.1.4          
+[172] munsell_0.5.0        broom.helpers_1.9.0  haven_2.5.1         
+[175] reshape2_1.4.4       gtable_0.3.1         bayestestR_0.13.0   </code></pre>
 </div>
 </div>
 

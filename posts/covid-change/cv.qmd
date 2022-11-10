@@ -143,6 +143,9 @@ dplyr::filter(YearMeasured  != -1) %>% # remove people who passed away
   mutate(wave = as.numeric(Wave)-1) |> 
   arrange(Id, Wave)
 
+levels(dt$Wave) <-c("Time12","Time13")
+
+
 N <- length(unique(dt$Id))
 
 # below not run
@@ -191,11 +194,9 @@ cvd_vars = c(
 ## Purpose
 
 We investigate change in attitudes to COVID-19 from the Time 12 and Time 13 of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Prof. Chris G. Sibley in 2009. 
-See: [Link on this site](https://go-bayes.github.io/b-causal/posts/nzavs/)
+See: [Link](https://go-bayes.github.io/b-causal/posts/nzavs/) and [NZAVS homepage](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html)
 
-[NZAVS homepage](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html)
-
-The sample consists of all those participants who responded in Time 12 (N = 38,551). The sample in Time 13 was (n = 28,642). Such attrition, or loss to follow-up, results in bias.  
+The sample consists of all those participants who responded in Time 12 (N = 38,551). The sample in Time 13 was (n = 28,642). 
 
 
 ## Covid Questions
@@ -245,7 +246,7 @@ dt_long <- pivot_longer(
   cols = -c("Wave"),
   names_prefix = "COVID.",
   values_to = "Values",
-  names_to = "Target"
+  names_to = "Attitudes"
 ) |>
   drop_na()
 
@@ -266,11 +267,12 @@ dt_model <- dt |> select(
 #| echo: true
 #| column: page-right
 #| label: fig-boxplot
+#| fig-cap: "Boxplot for attitudes: NZAVS Time 12 & NZAVS Time 13"
 
 # make graph 
 cov_values <- dt_long |>
-  dplyr::mutate(Target = forcats::fct_reorder(Target, desc(Values))) |>
-  ggplot2::ggplot(aes(Target, Values, fill = Target)) +
+  dplyr::mutate(Target = forcats::fct_reorder(Attitudes, desc(Values))) |>
+  ggplot2::ggplot(aes(Target, Values, fill = Attitudes)) +
   labs(title = "Covid Attitudes NZ 2020/21 to 2021/22 (N = 38,551)") +
   geom_boxplot(size = .05, notch = T) +  scale_fill_viridis_d() +
   facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
@@ -329,7 +331,8 @@ m4 <- lmer(COVID.SatGovtResponse ~  Wave + (1|Id), data = dt_model)
 
 
 ```{r, cache = TRUE}
-#| label: tables
+#| label: tab-tables
+#| fig-cap: "Model results"
 #| column: page-right
 t1 <- model_parameters(
   m1,
@@ -387,8 +390,9 @@ compare_parameters(
 
 ```{r}
 #| label: fig-graphs 
+#| fig-cap: "Predicted responses from models of attitude change."
 #| column: page-right
-  
+
 library(ggeffects)
 library(patchwork)
 
@@ -426,24 +430,26 @@ gg4 <- plot(ggpredict(m4, terms = "Wave"),
 
 ## Summary of findings
 
-Overall, the New Zealanders do not perceive the risks of COVID-19 to be exaggerated, however there is increasing perception of exaggeration.  
+Overall, New Zealanders do not perceive the risks of COVID-19 to be exaggerated, however there is somewhat greater perception of exaggeration this year compared to last year.  
 
-There is increasing belief that COVID-19 was manufactured in a lab.
+There is an increasing belief that COVID-19 was manufactured in a laboratory.
 
-Overall, New Zealanders have high levels of trust in the Government response to COVID-19, but these levels are somewhat declining. 
+Overall, New Zealanders express high levels of trust in the New Zealand Government response to COVID-19, but levels have declined somewhat during the past year. 
 
-Similarly,  New Zealanders are satisfied with the Government response to COVID-19, but levels of trust are somewhat declining. 
+Similarly, New Zealanders are generally satisfied with the New Zealand Government response to COVID-19, but levels of trust have  declined somewhat during the past year. 
 
-Importantly, these models do not adjust from bias from sample attrition. To the extent that institutional mistrust has declined during the past two years, we expect that changes in trust and satisfaction in the Government response to COVID-19 will have been somewhat steeper than presented here. 
+Importantly, these models do not adjust for bias from NZAVS sample attrition. The NZAVS is independent of government. However, to the extent that institutional mistrust of the government has extended to scientific institutions, lower trust and satisfaction with the government response to COVID-19 will have been somewhat greater than reported in the retained NZAVS sample. 
 
-In future work, we shall account for bias from sample attrition using multiple imputation. We will report our results here. Please stay tuned.
+In future work, we shall account for the bias from sample attrition using multiple imputation. We will report our results here. Please stay tuned.
 
 
 
 ## Appendix: Descriptive information
 
 ```{r, cache = TRUE}
-# standard table
+#| label: tab-descriptive
+#| fig-cap: "Descriptive table"
+
 table_x <- tbl_summary(
   dt_temp,
   by = "Wave",
