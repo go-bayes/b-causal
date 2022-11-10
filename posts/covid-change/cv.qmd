@@ -1,0 +1,490 @@
+---
+title: "Change in Covid Attitudes in New Zealand from 2021 - 2022"
+execute:
+  warning: false
+  echo: false
+draft: false
+image: "covid-change.png"
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
+  - name: Chris G Sibley
+    orcid: 0000-0002-4064-8800
+    affiliation: University of Auckland,  New Zealand
+citation:
+  url: https://go-bayes.github.io/b-causal/
+date: 2022-11-11
+date-format: short
+categories: 
+  - NZAVS
+  - Covid
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+---
+
+```{r, include = FALSE}
+# covid omnibus
+# joseph bulbulia  1 NOV 2022
+
+# options(future.globals.maxSize = 8000 * 1024 ^ 2)  # needed
+# set science digits
+options(scipen = 999)
+
+# function for installing dependencies
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg))
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+# usage
+packages <- c("tidyverse",
+              "remotes",
+              "devtools",
+              "janitor",
+              "here",
+              "purrr",
+              "ggplot2",
+              "stdReg",
+              "mice",
+              "miceadds",
+              "Amelia",
+              "conflicted",
+              "naniar",
+              "skimr",
+              "marginaleffects",
+              "splines",
+             # "CMAverse",
+              "gghighlight",
+              "formula.tools",
+              "ggpubr",
+              "lme4",
+              "rstan",
+              "cmdstanr",
+              "geepack",
+              "brms",
+              "ggokabeito",
+              "table1",
+              "kableExtra",
+              "parameters",
+              "lubridate",
+              "patchwork",
+              "katex",
+               "ggeffects",
+               "gt",
+              "tidyr")
+ipak(packages)
+
+
+# next install rethinking
+# if (!require(rethinking)) {
+#   devtools::install_github("rmcelreath/rethinking")
+# }
+
+if (!require(CMAverse)) {
+  devtools::install_github("BS1125/CMAverse")
+}
+
+if (!require(equatiomatic)) {
+remotes::install_github("datalorax/equatiomatic")
+  }
+
+if (!require(gtsummary)) {
+  remotes::install_github("ddsjoberg/gtsummary")
+}
+
+
+# install.packages("remotes")
+
+if (!require(cmdstanr)) {
+ remotes::install_github("stan-dev/cmdstanr")
+ install_cmdstan() 
+}
+
+# # libraries and functions
+# # read libraries
+# source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs.R")
+
+# read functions
+# source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")
+
+# for saving models  # ONLY FOR JOSEPH BULUBLIA -- SET TO YOUR PREFERRED FOLDERS
+push_mods <-
+  fs::path_expand("~/The\ Virtues\ Project\ Dropbox/outcomewide/mods")
+push_figs <-
+  fs::path_expand("~/Users/joseph/The\ Virtues\ Project\ Dropbox/outcomewide/figs")
+
+# read data # ONLY FOR JOSEPH BULUBLIA
+pull_path <-
+  fs::path_expand(
+    "~/The\ Virtues\ Project\ Dropbox/Joseph\ Bulbulia/00Bulbulia\ Pubs/2021/DATA/ldf.5"
+  )
+
+# read data
+dt <- readRDS(pull_path)
+
+# select data
+dt <- dt |>
+  dplyr::filter((Wave == "2020" & YearMeasured == 1) |
+                  (Wave == "2021"  & YearMeasured == 1)  )|>
+dplyr::filter(YearMeasured  != -1) %>% # remove people who passed away
+  group_by(Id) |>  # only those who were in 2020
+  dplyr::mutate(org2020 =  ifelse(Wave == 2020 &
+                                    YearMeasured == 1, 1, 0)) %>%  # creating an indicator for the first wave
+  dplyr::mutate(hold20 = mean(org2020, na.rm = TRUE)) %>%  # Hack
+  dplyr::filter(hold20 > 0) %>% # hack to enable repeat of baseline
+  ungroup() %>%
+  droplevels() %>%
+  mutate(wave = as.numeric(Wave)-1) |> 
+  arrange(Id, Wave)
+
+N <- length(unique(dt$Id))
+
+# below not run
+
+# inspect 
+cvd_vars = c(
+  "COVID19.Timeline",
+  "COVID.RiskCatching",
+  "COVID.Rumination",
+  "COVID.ConfidentRecovery",
+  "COVID.RisksExaggerated",
+  "COVID.CreatedLab",
+  "COVID.InfoSourceGovt",
+  "COVID.InfoSourceNewsMedia",
+  "COVID.InfoSourceSocialMedia",
+  "COVID.SatGovtResponse",
+  "COVID.TrustGovtResponse",
+  "COVID.ComplianceTesting",
+  "COVID.ComplianceVaccinate",
+  "COVID.ComplianceMask",
+  "COVID.ComplianceIsolateHome",
+  "COVID.ComplianceContactTrace",
+  "COVID.ComplianceAllMoHGuidelines",
+  "COVID.BeenTested",
+  "COVID.RequestTest",
+  "COVID.DeclineReq",
+  "COVID.Vaccinated",
+  "COVID.VaccinatedIntend",
+  "COVID.VaccinationSafe",
+  "COVID.VaccinatedRefusal"
+)
+# cvd_vars
+# out2 <- paste0(cvd_vars,
+#                collapse = "+")
+# out2 <- noquote(out2)
+
+# table1::table1(
+# ~ COVID.RisksExaggerated + COVID.CreatedLab + COVID.SatGovtResponse + COVID.TrustGovtResponse +
+#   COVID.Vaccinated + COVID.VaccinatedIntend + COVID.VaccinationSafe |
+#   Wave,
+# data = dt2,
+# overall = FALSE
+# )
+```
+
+## Purpose
+
+We investigate change in attitudes to COVID-19 from the Time 12 and Time 13 of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Prof. Chris G. Sibley in 2009. 
+See: [Link on this site](https://go-bayes.github.io/b-causal/posts/nzavs/)
+
+[NZAVS homepage](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html)
+
+The sample consists of all those participants who responded in Time 12 (N = 38,551). The sample in Time 13 was (n = 28,642). Such attrition, or loss to follow-up, results in bias.  
+
+
+## Covid Questions
+
+The NZAVS recorded the following four attitudes to COVID-19 in both Time 12 and Time 13: 
+
+
+
+**Covid risks are exaggerated**
+
+* "I think that health risks associated with COVID-19 have been wildly exaggerated." (1-7)
+
+**Covid created in a lab**
+
+* "I think it is quite likely that COVID-19 was created in a laboratory." (1-7)
+
+**COVID-19 Trust Government response**
+
+* "I trust the Government to make sensible decisions about how to best manage COVID-19 in New Zealand." (1-7)
+
+**COVID-19 Satisfied with Government response**
+
+* "The New Zealand government response to COVID-19." (0-10)
+
+
+##  Boxplot reveals considerable change in COVID attitudes
+
+
+```{r}
+#| echo: false
+#| label: prepare-data
+
+
+# prepare data frames 
+# filter just the variables we need
+dt_temp <- dt |> select(
+  Wave,
+  COVID.RisksExaggerated,
+  COVID.CreatedLab,
+  COVID.TrustGovtResponse,
+  COVID.SatGovtResponse
+)
+
+# boxplot dataframe
+dt_long <- pivot_longer(
+  dt_temp,
+  cols = -c("Wave"),
+  names_prefix = "COVID.",
+  values_to = "Values",
+  names_to = "Target"
+) |>
+  drop_na()
+
+
+# model data frame
+dt_model <- dt |> select(
+  Id,
+  Wave,
+  wave,
+  COVID.RisksExaggerated,
+  COVID.CreatedLab,
+  COVID.TrustGovtResponse,
+  COVID.SatGovtResponse
+) |>
+  arrange(Id, Wave)
+```
+```{r}
+#| echo: true
+#| column: page-right
+#| label: fig-boxplot
+
+# make graph 
+cov_values <- dt_long |>
+  dplyr::mutate(Target = forcats::fct_reorder(Target, desc(Values))) |>
+  ggplot2::ggplot(aes(Target, Values, fill = Target)) +
+  labs(title = "Covid Attitudes NZ 2020/21 to 2021/22 (N = 38,551)") +
+  geom_boxplot(size = .05, notch = T) +  scale_fill_viridis_d() +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+#  coord_flip() +
+  theme(legend.position = "none") + 
+  theme_classic()
+
+cov_values <- cov_values + 
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank() 
+        ) + 
+  theme(legend.position = "top")
+
+# print graph 
+cov_values
+# save graph 
+ggsave(
+  cov_values,
+  path = here::here(here::here("posts", "covid-change")),
+  width = 9,
+  height = 9,
+  units = "in",
+  filename = "covid-change.png",
+  device = 'png',
+  limitsize = FALSE,
+  dpi = 100
+)
+```
+
+## Model
+
+
+We formally model this change using a multi-level model.
+
+```{r, cache = TRUE}
+#| label: models
+#| column: page-right
+# Models
+
+library(lme4)
+library(parameters)
+
+m1 <- lmer(COVID.RisksExaggerated ~  Wave + (1|Id), data = dt_model)
+
+m2 <- lmer(COVID.CreatedLab ~  Wave + (1|Id), data = dt_model)
+
+m3 <- lmer(COVID.TrustGovtResponse ~  Wave + (1|Id), data = dt_model)
+
+m4 <- lmer(COVID.SatGovtResponse ~  Wave + (1|Id), data = dt_model)
+
+
+
+
+```
+
+
+
+```{r, cache = TRUE}
+#| label: tables
+#| column: page-right
+t1 <- model_parameters(
+  m1,
+  digits = 2,
+  ci = 0.95,
+  bootstrap = TRUE,
+  iterations = 100
+)
+
+
+t2 <- model_parameters(
+  m2,
+  digits = 2,
+  ci = 0.95,
+  bootstrap = TRUE,
+  iterations = 100
+) 
+
+
+t3 <- model_parameters(
+  m3,
+  digits = 2,
+  ci = 0.95,
+  bootstrap = TRUE,
+  iterations = 100
+) 
+
+t4 <- model_parameters(
+  m4,
+  digits = 2,
+  ci = 0.95,
+  bootstrap = TRUE,
+  iterations = 100
+) 
+
+# combined table
+compare_parameters(
+  t1,
+  t2,
+  t4,
+  t3,
+  column_names = c(
+    "Risks Exaggerated",
+    "Created Lab",
+    "Trust Govt Response",
+    "Sat Govt Response"
+  )
+) |>
+  print_html()
+
+```
+
+
+
+
+```{r}
+#| label: fig-graphs 
+#| column: page-right
+  
+library(ggeffects)
+library(patchwork)
+
+gg1 <- plot(ggpredict(m1, terms = "Wave"),
+            add.data = TRUE,
+            dot.alpha = .005) +
+  scale_y_continuous(limits = c(1, 7)) +
+  labs(title = "Risks Exaggerated")
+
+
+gg2 <- plot(ggpredict(m2, terms = "Wave"),
+            add.data = TRUE,
+            dot.alpha = .005) +
+  scale_y_continuous(limits = c(1, 7)) +
+  labs(title =  "CPVID Created Lab")
+
+gg3 <- plot(ggpredict(m3, terms = "Wave"),
+            add.data = TRUE,
+            dot.alpha = .005) +
+  scale_y_continuous(limits = c(1, 7)) +
+  labs(title =  "Trust Govt Response")
+
+gg4 <- plot(ggpredict(m4, terms = "Wave"),
+            add.data = TRUE,
+            dot.alpha = .005) +
+  scale_y_continuous(limits = c(0, 10)) +
+  labs(title =  "Satisfied Govt Response")
+
+
+(gg1 + gg2 + gg3) / gg4  +
+  plot_annotation(title = "Change in Covid Attitudes: 2021-2022", subtitle = "Source: New Zealand Attitudes and Values Study, N = 38,551")
+  
+```
+
+
+## Summary of findings
+
+Overall, the New Zealanders do not perceive the risks of COVID-19 to be exaggerated, however there is increasing perception of exaggeration.  
+
+There is increasing belief that COVID-19 was manufactured in a lab.
+
+Overall, New Zealanders have high levels of trust in the Government response to COVID-19, but these levels are somewhat declining. 
+
+Similarly,  New Zealanders are satisfied with the Government response to COVID-19, but levels of trust are somewhat declining. 
+
+Importantly, these models do not adjust from bias from sample attrition. To the extent that institutional mistrust has declined during the past two years, we expect that changes in trust and satisfaction in the Government response to COVID-19 will have been somewhat steeper than presented here. 
+
+In future work, we shall account for bias from sample attrition using multiple imputation. We will report our results here. Please stay tuned.
+
+
+
+## Appendix: Descriptive information
+
+```{r, cache = TRUE}
+# standard table
+table_x <- tbl_summary(
+  dt_temp,
+  by = "Wave",
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} / {N} ({p}%)"
+  ))
+
+# show
+table_x
+```
+
+## Appendix B: Model equations
+
+**Model 1**
+```{r}
+equatiomatic::extract_eq(m1)
+```
+
+
+**Model 2**
+```{r}
+equatiomatic::extract_eq(m2)
+```
+
+**Model 3**
+```{r}
+equatiomatic::extract_eq(m3)
+```
+
+**Model 4**
+```{r}
+equatiomatic::extract_eq(m4)
+```
+
+
+## Appendix 3
+
+We are grateful to the maintainers of the following packages, which we use in our work.
+
+```{r}
+sessionInfo()
+```
+

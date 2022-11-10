@@ -2,6 +2,15 @@
 title: "NZAVS Retention Graph"
 date: 2022-11-04
 date-format: short
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
+  - name: Chris G Sibley
+    orcid: 0000-0002-4064-8800
+    affiliation: University of Auckland,  New Zealand
 categories:
   - Background
   - NZAVS

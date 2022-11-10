@@ -1,6 +1,11 @@
 ---
 title: "The New Zealand Attitudes and Values Study"
-author: "Joseph Bulbulia"
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
 date: "2022-11-02"
 categories: 
   - Background
