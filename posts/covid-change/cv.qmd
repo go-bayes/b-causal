@@ -1,6 +1,6 @@
 ---
-title: "Perceived Risks of COVID in New Zealand & Attitudes to NZ Government COVID: 2021 - 2022"
-subtitle: "New Zealand Attitudes and Values Study, N = 38,551" 
+title: "Changes in Perceived Risks and Government Attitudes to COVID-19 in New Zealand: years 2021 - 2022"
+subtitle: "New Zealand Attitudes and Values Study (Panel), N = 38,551" 
 execute:
   warning: false
   echo: false
@@ -22,6 +22,7 @@ date-format: short
 categories: 
   - NZAVS
   - Covid
+  - Descriptive
 format:
   html:
     code-fold: true
@@ -194,7 +195,7 @@ cvd_vars = c(
 
 ## Purpose
 
-We investigate change in attitudes to COVID-19 from the Time 12 and Time 13 of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Prof. Chris G. Sibley in 2009. 
+We investigate change in attitudes to COVID-19 from the Time 12 and Time 13 of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Chris G. Sibley in 2009. 
 See: [Link](https://go-bayes.github.io/b-causal/posts/nzavs/) and [NZAVS homepage](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html)
 
 The sample consists of all those participants who responded in Time 12 (N = 38,551). The sample in Time 13 was (n = 28,642). 
@@ -222,7 +223,7 @@ The NZAVS recorded the following four attitudes to COVID-19 in both Time 12 and 
 * "The New Zealand government response to COVID-19." (0-10)
 
 
-##  Boxplot reveals decline in both perceived risks of COVID & Satisfaction with Government Response 
+##  Boxplot indicates decline in both perceived risks of COVID & Satisfaction with Government Response 
 
 
 ```{r}
@@ -442,8 +443,6 @@ Importantly, these models do not adjust for bias from NZAVS sample attrition. Th
 
 In future work, we shall account for the bias from sample attrition using multiple imputation. 
 
-We will also test psychological theories for why attitudes changed. 
-
 We will report our results here. 
 
 
@@ -466,7 +465,8 @@ table_x <- tbl_summary(
 table_x
 ```
 
-## Appendix B: Model equations
+## Appendix B: Model equations (Descriptive)
+
 
 **Model 1**
 ```{r}

@@ -41,7 +41,7 @@ packages <- c("tidyverse",
              # "rstan",
             #  "cmdstanr",
               "geepack",
-              #"brms",
+              "brms",
               "ggokabeito",
               "table1",
               "kableExtra",
@@ -60,6 +60,10 @@ ipak(packages)
 #   devtools::install_github("rmcelreath/rethinking")
 # }
 
+if (!require(devtools)) {
+  install.packages("devtools")
+}
+
 if (!require(CMAverse)) {
   devtools::install_github("BS1125/CMAverse")
 }
@@ -70,6 +74,16 @@ if (!require(cmdstanr)) {
  remotes::install_github("stan-dev/cmdstanr")
  install_cmdstan()
 }
+
+if (!require(brms)) {
+  devtools::install_github("paul-buerkner/brms", build_vignettes = FALSE)
+
+}
+
+
+# rstan options
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores ())
 
 ```
 
@@ -95,9 +109,8 @@ pull_path <-
 dat <- readRDS(pull_path)
 ```
 
-```{r, include = FALSE}
-
-dt <- dat |> 
+```{r, eval = TRUE}
+dt <- dat |>
   dplyr::mutate(Gender3 = as.factor(ifelse(
     GendAll == 0,
     "Female",
@@ -109,14 +122,78 @@ dt <- dat |>
     Age,
     Gender3,
     EthCat,
+    CONSCIENTIOUSNESS,
+    OPENNESS,
+    HONESTY_HUMILITY,
+    EXTRAVERSION,
+    NEUROTICISM,
+    AGREEABLENESS,
+    BornNZ,
+    Employed,
+    #  Urban,
+    Edu,
+    Pol.Orient,
+    SDO,
+    RWA,
+    NZSEI13,
+    NZDep.2018,
+    Religious,
+    Partner,
+    Parent,
+    YearMeasured,
+    COVID.RisksExaggerated,
+    COVID.CreatedLab,
+    COVID.TrustGovtResponse,
+    COVID.SatGovtResponse
+  ) |>
+  dplyr::mutate(Employed = as.numeric(Employed)) |>
+  dplyr::filter((Wave ==  2020 & YearMeasured != -1) |
+                  (Wave ==  2021 & YearMeasured != -1)) |>
+  droplevels() |>
+  dplyr::mutate(org2020 =  ifelse(Wave == 2020 &
+                                    YearMeasured == 1, 1, 0)) %>%
+  group_by(Id) %>%
+  dplyr::mutate(hold = mean(org2020, na.rm = TRUE)) %>%  # Hack
+  filter(hold > 0) |>
+  ungroup() |>
+  dplyr::mutate(Edu = as.numeric(Edu)) |>
+  dplyr::mutate(across(!c(Id, Wave), ~ as.numeric(.x))) %>% # make factors numeric for easy of processing
+  dplyr::mutate(
+    Gender3 = as.factor(Gender3),
+    EthCat = as.factor(EthCat),
+    wave = as.numeric(Wave) - 1
+  ) |>
+  select(-c(hold, org2020, YearMeasured)) |>
+  arrange(Id, Wave) |>  data.frame()
+  levels(dt$Wave) <- c("Time12", "Time13")
+```
+
+
+```{r, eval = FALSE}
+
+dt <- dat |>
+  dplyr::mutate(Male = if_else(GendAll == 1,1,0),
+    Euro = if_else(EthCat == 1, 1, 0))|>
+  dplyr::select(
+    Id,
+    Wave,
+    Age,
+    Male,
+    Euro,
+    CONSCIENTIOUSNESS,
+    OPENNESS,
+    HONESTY_HUMILITY,
+    EXTRAVERSION,
+    NEUROTICISM,
+    AGREEABLENESS,
     BornNZ,
     Employed,
     Urban,
     Edu,
     Pol.Orient,
-    SDO, 
+    SDO,
     RWA,
-    NZSEI18,
+    NZSEI13,
     NZDep.2018,
     Religious,
     Partner,
@@ -127,26 +204,37 @@ dt <- dat |>
     COVID.CreatedLab,
     COVID.TrustGovtResponse,
     COVID.SatGovtResponse
-  )|> 
+  ) |>
   dplyr::mutate(Employed = as.numeric(Employed)) |>
-  dplyr::filter(
-      (Wave ==  2020 & YearMeasured != -1) |
-      (Wave ==  2021 & YearMeasured != -1)
-  ) |> 
+  dplyr::filter((Wave ==  2020 & YearMeasured != -1) |
+                  (Wave ==  2021 & YearMeasured != -1)) |>
   droplevels() |>
-  dplyr::mutate(org2020 =  ifelse(Wave == 2020 & YearMeasured == 1, 1, 0)) %>%
+  dplyr::mutate(org2020 =  ifelse(Wave == 2020 &
+                                    YearMeasured == 1, 1, 0)) %>%
   group_by(Id) %>%
   dplyr::mutate(hold = mean(org2020, na.rm = TRUE)) %>%  # Hack
   filter(hold > 0) |>
   dplyr::mutate(Edu = as.numeric(Edu)) |>
-  arrange(Id, Wave) |> 
+  arrange(Id, Wave) |>
   group_by(Id) |>
   dplyr::mutate(Age_c = if_else(Wave == "2020", (Age), NA_real_)) %>%
   fill(Age_c) %>%
-  dplyr::mutate(Gender3_c = if_else(Wave == "2020", as.numeric(Gender3), NA_real_)) %>%
-  fill(Gender3_c) %>%
-  dplyr::mutate(EthCat_c = if_else(Wave == "2020", as.numeric(EthCat), NA_real_)) %>%
-  fill(EthCat_c) %>%
+  dplyr::mutate(Male_c = if_else(Wave == "2020", as.numeric(Male), NA_real_)) %>%
+  fill(Male_c) %>%
+  dplyr::mutate(Euro_c = if_else(Wave == "2020", as.numeric(Euro), NA_real_)) %>%
+  fill(Euro_c) %>%
+  dplyr::mutate(CONSCIENTIOUSNESS_c = if_else(Wave == "2020", as.numeric(CONSCIENTIOUSNESS), NA_real_)) %>%
+  fill(CONSCIENTIOUSNESS_c) %>%
+  dplyr::mutate(OPENNESS_c = if_else(Wave == "2020", as.numeric(OPENNESS), NA_real_)) %>%
+  fill(OPENNESS_c) %>%
+  dplyr::mutate(HONESTY_HUMILITY_c = if_else(Wave == "2020", as.numeric(HONESTY_HUMILITY), NA_real_)) %>%
+  fill(HONESTY_HUMILITY_c) %>%
+  dplyr::mutate(EXTRAVERSION_c = if_else(Wave == "2020", as.numeric(EXTRAVERSION), NA_real_)) %>%
+  fill(EXTRAVERSION_c) %>%
+  dplyr::mutate(NEUROTICISM_c = if_else(Wave == "2020", as.numeric(NEUROTICISM), NA_real_)) %>%
+  fill(NEUROTICISM_c) %>%
+  dplyr::mutate(AGREEABLENESS_c = if_else(Wave == "2020", as.numeric(AGREEABLENESS), NA_real_)) %>%
+  fill(AGREEABLENESS_c) %>%
   dplyr::mutate(BornNZ_c = if_else(Wave == "2020", as.numeric(BornNZ), NA_real_)) %>%
   fill(BornNZ_c) %>%
   dplyr::mutate(Pol.Orient_c = if_else(Wave == "2020", (Pol.Orient), NA_real_)) %>%
@@ -159,8 +247,8 @@ dt <- dat |>
   fill(Parent_c) %>%
   dplyr::mutate(NZDep.2018_c = if_else(Wave == "2020", (NZDep.2018), NA_real_)) %>%
   fill(NZDep.2018_c) %>%
-  dplyr::mutate(Gender3_c = if_else(Wave == "2020", (as.numeric(Gender3)) / 2, NA_real_)) %>%
-  fill(Gender3_c) %>%
+  dplyr::mutate(Male_c = if_else(Wave == "2020", (as.numeric(Male)) / 2, NA_real_)) %>%
+  fill(Male_c) %>%
   dplyr::mutate(Employed_c = if_else(Wave == "2020", (as.numeric(Employed)), NA_real_)) %>%
   fill(Employed_c) %>%
   dplyr::mutate(Edu_c = if_else(Wave == "2020", (Edu), NA_real_)) %>%
@@ -171,18 +259,24 @@ dt <- dat |>
   fill(SDO_c) %>%
   dplyr::mutate(RWA_c = if_else(Wave == "2020", (as.numeric(RWA)), NA_real_)) %>%
   fill(RWA_c) %>%
-  dplyr::mutate(NZSEI18_c = if_else(Wave == "2020", (as.numeric(NZSEI18)), NA_real_)) %>%
-  fill(NZSEI18_c) %>%
+  dplyr::mutate(NZSEI13_c = if_else(Wave == "2020", (as.numeric(NZSEI13)), NA_real_)) %>%
+  fill(NZSEI13_c) %>%
   ungroup() %>%
   select(
     -c(
+      CONSCIENTIOUSNESS,
+      OPENNESS,
+      HONESTY_HUMILITY,
+      EXTRAVERSION,
+      NEUROTICISM,
+      AGREEABLENESS,
       Employed,
       Urban,
       Edu,
       Pol.Orient,
       SDO,
       RWA,
-      NZSEI18,
+      NZSEI13,
       NZDep.2018,
       Age,
       Religious,
@@ -190,23 +284,29 @@ dt <- dat |>
       Parent,
       hold,
       Age,
-      Gender3,
-      EthCat,
+      Male,
+      Euro,
       BornNZ,
       TSCORE,
       org2020,
+      hold,
       YearMeasured
     )
   ) |>
-  dplyr::mutate(Gender3_c = as.factor(Gender3_c),
-                EthCat_c = as.factor(EthCat_c)) |>
+  dplyr::mutate(wave = as.numeric(Wave) - 1) |>
   dplyr::filter(
+    !is.na(CONSCIENTIOUSNESS_c),
+    !is.na(OPENNESS_c),
+    !is.na(HONESTY_HUMILITY_c),
+    !is.na(EXTRAVERSION_c),
+    !is.na(NEUROTICISM_c),
+    !is.na(AGREEABLENESS_c),
     !is.na(Age_c),
     !is.na(BornNZ_c),
-    !is.na(Gender3_c),
+    !is.na(Male_c),
     !is.na(Edu_c),
     !is.na(Employed_c),
-    !is.na(EthCat_c),
+    !is.na(Euro_c),
     !is.na(Parent_c),
     !is.na(Partner_c),
     !is.na(Religious_c),
@@ -215,18 +315,66 @@ dt <- dat |>
     !is.na(SDO_c),
     !is.na(RWA_c),
     !is.na(NZDep.2018_c),
-    !is.na(NZSEI18_c)
+    !is.na(NZSEI13_c)
   ) |>
+  dplyr::mutate(across(!c(Id, Wave), ~ as.numeric(.x))) %>% # make factors numeric for easy of processing
+  dplyr::mutate(across(
+    !c(
+      Id,
+      Wave,
+      wave,
+      COVID.RisksExaggerated,
+      COVID.CreatedLab,
+      COVID.TrustGovtResponse,
+      COVID.SatGovtResponse
+    ),
+    ~ scale(.x)
+  )) %>%  
+    mutate(across(where(is.double), as.numeric)) %>% 
   arrange(Id, Wave)
 
 levels(dt$Wave) <-
   c("Time12", "Time13")
 
+length(unique(dt$Id))
+head(dt)
 naniar::gg_miss_var(dt)
 ```
 
 
 
+
+
+
+
+
+```{r}
+# library(Amelia)
+# # impute missing responses
+# imputed0 <- amelia(
+#   set.seed = 1234,
+#   dt,
+#   cs = c("Id"),
+#   ts = c("wave"),
+#   m = 10,
+#   # number of imputations
+#   noms = c("Male_c", "Euro_c"),
+#   idvars = c("Wave")
+# )
+# length(unique(imputed0$imputations$imp1$Id))
+
+
+# inspect
+table1::table1(~ COVID.SatGovtResponse |
+                 Wave,
+               data =imputed0$imputations$imp1,
+               overall = FALSE)
+```
+
+
+
+
+ 
 ```{r}
 #| echo: false
 # to assess positivity
@@ -234,4 +382,119 @@ msm::statetable.msm(round(COVID.RisksExaggerated, 0), Id, data = dt) |>
   kbl() |> 
   kable_paper(full_width = F)
 ```
+
+
+
+Model for COVID.RisksExaggerated
+
+
+```{r, eval=FALSE}
+#COVID.RisksExaggerated
+  bform_COVID.RisksExaggerated <- bf(
+    COVID.RisksExaggerated | mi()  ~ Wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+
+m_0 <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.RisksExaggerated,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods,"COVID.RisksExaggerated_2020_2021.rds")
+)
+
+summary(m_0)
+
+```
+
+Model for COVID.TrustGovtResponse,
+
+```{r, eval=FALSE}
+#COVID.TrustGovtResponse
+bform_COVID.TrustGovtResponse <-
+  bf(
+    COVID.TrustGovtResponse | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+
+m_1 <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.TrustGovtResponse,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods,"COVID.TrustGovtResponse_2020_2021.rds")
+)
+
+```
+
+Model for 
+```{r, eval=TRUE}
+# COVID.SatGovtResponse
+bform_COVID.SatGovtResponse <-
+  bf(
+   COVID.SatGovtResponse | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+
+m_2 <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.SatGovtResponse,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods,"COVID.SatGovtResponse_2020_2021.rds")
+)
+```
+
+
+```{r, eval=FALSE}
+#COVID.CreatedLab
+
+
+bform_COVID.CreatedLab <-
+  bf(
+  COVID.CreatedLab | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+
+m_3 <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.CreatedLab,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods,"COVID.CreatedLab_2020_2021.rds")
+)
+```
+
+
+
+```{r}
+#COVID.RisksExaggerated
+  bform_COVID.RisksExaggerated <- bf(
+    COVID.RisksExaggerated | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+
+m_0w <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.RisksExaggerated,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods,"COVID.RisksExaggerated_2020_2021_wave.rds")
+)
+
+summary(m_0w)
+
+```
+
+
 
