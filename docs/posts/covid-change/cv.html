@@ -10,7 +10,7 @@
 <meta name="author" content="Chris G Sibley">
 <meta name="dcterms.date" content="2022-11-11">
 
-<title>b-causal.org - Change in Covid Attitudes in New Zealand from 2021 - 2022</title>
+<title>b-causal.org - Perceived Risks of COVID in New Zealand &amp; Attitudes to NZ Government COVID: 2021 - 2022</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -170,7 +170,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Change in Covid Attitudes in New Zealand from 2021 - 2022</h1>
+      <h1 class="title">Perceived Risks of COVID in New Zealand &amp; Attitudes to NZ Government COVID: 2021 - 2022</h1>
+            <p class="subtitle lead">New Zealand Attitudes and Values Study, N = 38,551</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">NZAVS</div>
                 <div class="quarto-category">Covid</div>
@@ -224,7 +225,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
   <li><a href="#covid-questions" id="toc-covid-questions" class="nav-link" data-scroll-target="#covid-questions">Covid Questions</a></li>
-  <li><a href="#boxplot-reveals-considerable-change-in-covid-attitudes" id="toc-boxplot-reveals-considerable-change-in-covid-attitudes" class="nav-link" data-scroll-target="#boxplot-reveals-considerable-change-in-covid-attitudes">Boxplot reveals considerable change in COVID attitudes</a></li>
+  <li><a href="#boxplot-reveals-decline-in-both-perceived-risks-of-covid-satisfaction-with-government-response" id="toc-boxplot-reveals-decline-in-both-perceived-risks-of-covid-satisfaction-with-government-response" class="nav-link" data-scroll-target="#boxplot-reveals-decline-in-both-perceived-risks-of-covid-satisfaction-with-government-response">Boxplot reveals decline in both perceived risks of COVID &amp; Satisfaction with Government Response</a></li>
   <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a></li>
   <li><a href="#summary-of-findings" id="toc-summary-of-findings" class="nav-link" data-scroll-target="#summary-of-findings">Summary of findings</a></li>
   <li><a href="#appendix-descriptive-information" id="toc-appendix-descriptive-information" class="nav-link" data-scroll-target="#appendix-descriptive-information">Appendix: Descriptive information</a></li>
@@ -264,8 +265,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>“The New Zealand government response to COVID-19.” (0-10)</li>
 </ul>
 </section>
-<section id="boxplot-reveals-considerable-change-in-covid-attitudes" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="boxplot-reveals-considerable-change-in-covid-attitudes">Boxplot reveals considerable change in COVID attitudes</h2>
+<section id="boxplot-reveals-decline-in-both-perceived-risks-of-covid-satisfaction-with-government-response" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="boxplot-reveals-decline-in-both-perceived-risks-of-covid-satisfaction-with-government-response">Boxplot reveals decline in both perceived risks of COVID &amp; Satisfaction with Government Response</h2>
 <div class="cell">
 
 </div>
@@ -317,7 +318,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="model" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="model">Model</h2>
 <p>We formally model this change using a multi-level model.</p>
-<div class="cell column-page-right" data-hash="cv_cache/html/models_04c5780aea1c1c83a13b3caab4d30fe4">
+<div class="cell column-page-right" data-hash="cv_cache/html/models_a2ea01dd487304a1561a98f24003dc59">
 
 </div>
 <div class="cell page-columns page-full" data-hash="cv_cache/html/tab-tables_36d75d38983011772ac9dc8d0d2a8862">
@@ -790,7 +791,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Overall, New Zealanders express high levels of trust in the New Zealand Government response to COVID-19, but levels have declined somewhat during the past year.</p>
 <p>Similarly, New Zealanders are generally satisfied with the New Zealand Government response to COVID-19, but levels of trust have declined somewhat during the past year.</p>
 <p>Importantly, these models do not adjust for bias from NZAVS sample attrition. The NZAVS is independent of government. However, to the extent that institutional mistrust of the government has extended to scientific institutions, lower trust and satisfaction with the government response to COVID-19 will have been somewhat greater than reported in the retained NZAVS sample.</p>
-<p>In future work, we shall account for the bias from sample attrition using multiple imputation. We will report our results here. Please stay tuned.</p>
+<p>In future work, we shall account for the bias from sample attrition using multiple imputation.</p>
+<p>We will also test psychological theories for why attitudes changed.</p>
+<p>We will report our results here.</p>
 </section>
 <section id="appendix-descriptive-information" class="level2">
 <h2 class="anchored" data-anchor-id="appendix-descriptive-information">Appendix: Descriptive information</h2>
@@ -1319,7 +1322,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><span class="math display">\[
 \begin{aligned}
-  \operatorname{COVID.RisksExaggerated}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{Wave}_{\operatorname{2021}}), \sigma^2 \right) \\
+  \operatorname{COVID.RisksExaggerated}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{wave}), \sigma^2 \right) \\
     \alpha_{j}  &amp;\sim N \left(\mu_{\alpha_{j}}, \sigma^2_{\alpha_{j}} \right)
     \text{, for Id j = 1,} \dots \text{,J}
 \end{aligned}
@@ -1331,7 +1334,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><span class="math display">\[
 \begin{aligned}
-  \operatorname{COVID.CreatedLab}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{Wave}_{\operatorname{2021}}), \sigma^2 \right) \\
+  \operatorname{COVID.CreatedLab}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{wave}), \sigma^2 \right) \\
     \alpha_{j}  &amp;\sim N \left(\mu_{\alpha_{j}}, \sigma^2_{\alpha_{j}} \right)
     \text{, for Id j = 1,} \dots \text{,J}
 \end{aligned}
@@ -1343,7 +1346,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><span class="math display">\[
 \begin{aligned}
-  \operatorname{COVID.TrustGovtResponse}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{Wave}_{\operatorname{2021}}), \sigma^2 \right) \\
+  \operatorname{COVID.TrustGovtResponse}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{wave}), \sigma^2 \right) \\
     \alpha_{j}  &amp;\sim N \left(\mu_{\alpha_{j}}, \sigma^2_{\alpha_{j}} \right)
     \text{, for Id j = 1,} \dots \text{,J}
 \end{aligned}
@@ -1355,7 +1358,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><span class="math display">\[
 \begin{aligned}
-  \operatorname{COVID.SatGovtResponse}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{Wave}_{\operatorname{2021}}), \sigma^2 \right) \\
+  \operatorname{COVID.SatGovtResponse}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1}(\operatorname{wave}), \sigma^2 \right) \\
     \alpha_{j}  &amp;\sim N \left(\mu_{\alpha_{j}}, \sigma^2_{\alpha_{j}} \right)
     \text{, for Id j = 1,} \dots \text{,J}
 \end{aligned}
@@ -1406,60 +1409,60 @@ loaded via a namespace (and not attached):
   [7] knitr_1.40           dygraphs_1.1.1.6     multcomp_1.4-20     
  [10] data.table_1.14.4    inline_0.3.19        generics_0.1.3      
  [13] callr_3.7.2          TH.data_1.1-1        future_1.29.0       
- [16] commonmark_1.8.1     EValue_4.1.3         tzdb_0.3.0          
- [19] webshot_0.5.4        xml2_1.3.3           httpuv_1.6.6        
- [22] assertthat_0.2.1     gargle_1.2.1         xfun_0.34           
- [25] hms_1.1.2            bayesplot_1.9.0      evaluate_0.18       
- [28] promises_1.2.0.1     fansi_1.0.3          dbplyr_2.2.1        
- [31] readxl_1.4.1         igraph_1.3.5         DBI_1.1.3           
- [34] htmlwidgets_1.5.4    tensorA_0.36.2       googledrive_2.0.0   
- [37] stats4_4.2.0         ellipsis_0.3.2       crosstalk_1.2.0     
- [40] backports_1.4.1      V8_4.2.1             survey_4.1-1        
- [43] insight_0.18.6       markdown_1.3         RcppParallel_5.1.5  
- [46] vctrs_0.5.0          sjlabelled_1.2.0     abind_1.4-5         
- [49] cachem_1.0.6         withr_2.5.0          drgee_1.1.10        
- [52] checkmate_2.1.0      emmeans_1.8.2        xts_0.12.2          
- [55] prettyunits_1.1.1    svglite_2.1.0        crayon_1.5.2        
- [58] labeling_0.4.2       SuppDists_1.1-9.7    pkgconfig_2.0.3     
- [61] nlme_3.1-158         pkgload_1.3.1        nnet_7.3-18         
- [64] globals_0.16.1       rlang_1.0.6          lifecycle_1.0.3     
- [67] miniUI_0.1.1.1       nleqslv_3.3.3        colourpicker_1.2.0  
- [70] sandwich_3.0-2       mathjaxr_1.6-0       modelr_0.1.9        
- [73] cellranger_1.1.0     distributional_0.3.1 rprojroot_2.0.3     
- [76] matrixStats_0.62.0   datawizard_0.6.3     loo_2.5.1           
- [79] carData_3.0-5        boot_1.3-28          zoo_1.8-11          
- [82] reprex_2.0.2         base64enc_0.1-3      gamm4_0.2-6         
- [85] ggridges_0.5.4       processx_3.8.0       googlesheets4_1.0.1 
- [88] viridisLite_0.4.1    parallelly_1.32.1    shinystan_2.6.0     
- [91] rstatix_0.7.0        ggsignif_0.6.4       scales_1.2.1        
- [94] memoise_2.0.1        magrittr_2.0.3       plyr_1.8.7          
- [97] threejs_0.3.3        compiler_4.2.0       rstantools_2.2.0    
-[100] snakecase_0.11.0     cli_3.4.1            urlchecker_1.0.1    
-[103] listenv_0.8.0        ps_1.7.2             Brobdingnag_1.2-9   
-[106] Formula_1.2-4        MASS_7.3-58.1        mgcv_1.8-40         
-[109] tidyselect_1.2.0     stringi_1.7.8        textshaping_0.3.6   
-[112] projpred_2.2.1       mitools_2.4          yaml_2.3.6          
-[115] bridgesampling_1.1-2 grid_4.2.0           sass_0.4.2          
-[118] ggdag_0.2.7          tools_4.2.0          parallel_4.2.0      
-[121] rstudioapi_0.14      foreign_0.8-83       medflex_0.6-7       
-[124] gridExtra_2.3        posterior_1.3.1      farver_2.1.1        
-[127] digest_0.6.30        simex_1.8            shiny_1.7.3         
-[130] operator.tools_1.6.3 car_3.1-1            broom_1.0.1         
-[133] metafor_3.8-1        later_1.3.0          httr_1.4.4          
-[136] MetaUtility_2.1.2    colorspace_2.0-3     rvest_1.0.3         
-[139] fs_1.5.2             expm_0.999-6         renv_0.16.0         
-[142] shinythemes_1.2.0    sessioninfo_1.2.2    systemfonts_1.0.4   
-[145] xtable_1.8-4         jsonlite_1.8.3       nloptr_2.0.3        
-[148] tidygraph_1.2.2      R6_2.5.1             broom.mixed_0.2.9.4 
-[151] profvis_0.3.7        pillar_1.8.1         htmltools_0.5.3     
-[154] mime_0.12            glue_1.6.2           fastmap_1.1.0       
-[157] minqa_1.2.5          DT_0.26              codetools_0.2-18    
-[160] furrr_0.3.1          pkgbuild_1.3.1       mvtnorm_1.1-3       
-[163] utf8_1.2.2           lattice_0.20-45      numDeriv_2016.8-1.1 
-[166] curl_4.3.3           gtools_3.9.3         shinyjs_2.1.0       
-[169] survival_3.4-0       rmarkdown_2.17       repr_1.1.4          
-[172] munsell_0.5.0        broom.helpers_1.9.0  haven_2.5.1         
-[175] reshape2_1.4.4       gtable_0.3.1         bayestestR_0.13.0   </code></pre>
+ [16] EValue_4.1.3         tzdb_0.3.0           webshot_0.5.4       
+ [19] xml2_1.3.3           httpuv_1.6.6         assertthat_0.2.1    
+ [22] gargle_1.2.1         xfun_0.34            hms_1.1.2           
+ [25] bayesplot_1.9.0      evaluate_0.18        promises_1.2.0.1    
+ [28] fansi_1.0.3          dbplyr_2.2.1         readxl_1.4.1        
+ [31] igraph_1.3.5         DBI_1.1.3            htmlwidgets_1.5.4   
+ [34] tensorA_0.36.2       googledrive_2.0.0    stats4_4.2.0        
+ [37] ellipsis_0.3.2       crosstalk_1.2.0      backports_1.4.1     
+ [40] V8_4.2.1             survey_4.1-1         insight_0.18.6      
+ [43] markdown_1.3         RcppParallel_5.1.5   vctrs_0.5.0         
+ [46] sjlabelled_1.2.0     abind_1.4-5          cachem_1.0.6        
+ [49] withr_2.5.0          drgee_1.1.10         checkmate_2.1.0     
+ [52] emmeans_1.8.2        xts_0.12.2           prettyunits_1.1.1   
+ [55] svglite_2.1.0        crayon_1.5.2         labeling_0.4.2      
+ [58] SuppDists_1.1-9.7    pkgconfig_2.0.3      nlme_3.1-158        
+ [61] pkgload_1.3.1        nnet_7.3-18          globals_0.16.1      
+ [64] rlang_1.0.6          lifecycle_1.0.3      miniUI_0.1.1.1      
+ [67] nleqslv_3.3.3        colourpicker_1.2.0   sandwich_3.0-2      
+ [70] mathjaxr_1.6-0       modelr_0.1.9         cellranger_1.1.0    
+ [73] distributional_0.3.1 rprojroot_2.0.3      matrixStats_0.62.0  
+ [76] datawizard_0.6.3     loo_2.5.1            carData_3.0-5       
+ [79] boot_1.3-28          zoo_1.8-11           reprex_2.0.2        
+ [82] base64enc_0.1-3      gamm4_0.2-6          ggridges_0.5.4      
+ [85] processx_3.8.0       googlesheets4_1.0.1  viridisLite_0.4.1   
+ [88] parallelly_1.32.1    shinystan_2.6.0      rstatix_0.7.0       
+ [91] ggsignif_0.6.4       scales_1.2.1         memoise_2.0.1       
+ [94] magrittr_2.0.3       plyr_1.8.7           threejs_0.3.3       
+ [97] compiler_4.2.0       rstantools_2.2.0     snakecase_0.11.0    
+[100] cli_3.4.1            urlchecker_1.0.1     listenv_0.8.0       
+[103] ps_1.7.2             Brobdingnag_1.2-9    Formula_1.2-4       
+[106] MASS_7.3-58.1        mgcv_1.8-40          tidyselect_1.2.0    
+[109] stringi_1.7.8        textshaping_0.3.6    projpred_2.2.1      
+[112] mitools_2.4          yaml_2.3.6           bridgesampling_1.1-2
+[115] grid_4.2.0           ggdag_0.2.7          tools_4.2.0         
+[118] parallel_4.2.0       rstudioapi_0.14      foreign_0.8-83      
+[121] medflex_0.6-7        gridExtra_2.3        posterior_1.3.1     
+[124] farver_2.1.1         digest_0.6.30        simex_1.8           
+[127] shiny_1.7.3          operator.tools_1.6.3 car_3.1-1           
+[130] broom_1.0.1          metafor_3.8-1        later_1.3.0         
+[133] httr_1.4.4           MetaUtility_2.1.2    colorspace_2.0-3    
+[136] rvest_1.0.3          fs_1.5.2             expm_0.999-6        
+[139] renv_0.16.0          shinythemes_1.2.0    sessioninfo_1.2.2   
+[142] systemfonts_1.0.4    xtable_1.8-4         jsonlite_1.8.3      
+[145] nloptr_2.0.3         tidygraph_1.2.2      R6_2.5.1            
+[148] broom.mixed_0.2.9.4  profvis_0.3.7        pillar_1.8.1        
+[151] htmltools_0.5.3      mime_0.12            glue_1.6.2          
+[154] fastmap_1.1.0        minqa_1.2.5          DT_0.26             
+[157] codetools_0.2-18     furrr_0.3.1          pkgbuild_1.3.1      
+[160] mvtnorm_1.1-3        utf8_1.2.2           lattice_0.20-45     
+[163] numDeriv_2016.8-1.1  curl_4.3.3           gtools_3.9.3        
+[166] shinyjs_2.1.0        survival_3.4-0       rmarkdown_2.17      
+[169] repr_1.1.4           munsell_0.5.0        broom.helpers_1.9.0 
+[172] haven_2.5.1          reshape2_1.4.4       gtable_0.3.1        
+[175] bayestestR_0.13.0   </code></pre>
 </div>
 </div>
 
@@ -1468,15 +1471,16 @@ loaded via a namespace (and not attached):
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{bulbulia2022,
   author = {Joseph Bulbulia and Chris G Sibley},
-  title = {Change in {Covid} {Attitudes} in {New} {Zealand} from 2021 -
-    2022},
+  title = {Perceived {Risks} of {COVID} in {New} {Zealand} \&amp;
+    {Attitudes} to {NZ} {Government} {COVID:} 2021 - 2022},
   date = {2022-11-11},
   url = {https://go-bayes.github.io/b-causal/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-bulbulia2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Joseph Bulbulia, and Chris G Sibley. 2022. <span>“Change in Covid
-Attitudes in New Zealand from 2021 - 2022.”</span> November 11, 2022. <a href="https://go-bayes.github.io/b-causal/">https://go-bayes.github.io/b-causal/</a>.
+Joseph Bulbulia, and Chris G Sibley. 2022. <span>“Perceived Risks of
+COVID in New Zealand &amp; Attitudes to NZ Government COVID: 2021 -
+2022.”</span> November 11, 2022. <a href="https://go-bayes.github.io/b-causal/">https://go-bayes.github.io/b-causal/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

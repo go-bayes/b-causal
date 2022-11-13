@@ -1,0 +1,237 @@
+---
+title: "Draft"
+editor: visual
+draft: true
+---
+
+```{r}
+#| label: load-packages
+#| include: false
+options(scipen = 999)
+# function for installing dependencies
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg))
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+# usage
+packages <- c("tidyverse",
+              "remotes",
+              "devtools",
+              "janitor",
+              "here",
+              "purrr",
+              "ggplot2",
+              "stdReg",
+              "mice",
+              "miceadds",
+              "Amelia",
+              "conflicted",
+              "naniar",
+              "skimr",
+              "marginaleffects",
+              "splines",
+              "msm",
+             # "CMAverse",
+             # "gghighlight",
+              "formula.tools",
+              "ggpubr",
+              "lme4",
+             # "rstan",
+            #  "cmdstanr",
+              "geepack",
+              #"brms",
+              "ggokabeito",
+              "table1",
+              "kableExtra",
+              "parameters",
+              "lubridate",
+              "patchwork",
+              "lubridate",
+              "tidyr",
+              "msm",
+              "ggeffects")
+ipak(packages)
+
+
+# next install rethinking
+# if (!require(rethinking)) {
+#   devtools::install_github("rmcelreath/rethinking")
+# }
+
+if (!require(CMAverse)) {
+  devtools::install_github("BS1125/CMAverse")
+}
+
+# install.packages("remotes")
+
+if (!require(cmdstanr)) {
+ remotes::install_github("stan-dev/cmdstanr")
+ install_cmdstan()
+}
+
+```
+
+```{r, include = FALSE}
+# libraries and functions
+# read libraries
+source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
+
+# read functions
+source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")
+
+# for saving models  # ONLY FOR JOSEPH BULUBLIA -- SET TO YOUR PREFERRED FOLDERS
+push_mods <-
+  fs::path_expand("~/The\ Virtues\ Project\ Dropbox/outcomewide/mods")
+push_figs <-
+  fs::path_expand("~/Users/joseph/The\ Virtues\ Project\ Dropbox/outcomewide/figs")
+
+# read data # ONLY FOR JOSEPH BULUBLIA
+pull_path <-
+  fs::path_expand(
+    "~/The\ Virtues\ Project\ Dropbox/Joseph\ Bulbulia/00Bulbulia\ Pubs/2021/DATA/ldf.5"
+  )
+dat <- readRDS(pull_path)
+```
+
+```{r, include = FALSE}
+
+dt <- dat |> 
+  dplyr::mutate(Gender3 = as.factor(ifelse(
+    GendAll == 0,
+    "Female",
+    if_else(GendAll == 1, "Male", "GenderDiverse")
+  )))  |>
+  dplyr::select(
+    Id,
+    Wave,
+    Age,
+    Gender3,
+    EthCat,
+    BornNZ,
+    Employed,
+    Urban,
+    Edu,
+    Pol.Orient,
+    SDO, 
+    RWA,
+    NZSEI18,
+    NZDep.2018,
+    Religious,
+    Partner,
+    Parent,
+    TSCORE,
+    YearMeasured,
+    COVID.RisksExaggerated,
+    COVID.CreatedLab,
+    COVID.TrustGovtResponse,
+    COVID.SatGovtResponse
+  )|> 
+  dplyr::mutate(Employed = as.numeric(Employed)) |>
+  dplyr::filter(
+      (Wave ==  2020 & YearMeasured != -1) |
+      (Wave ==  2021 & YearMeasured != -1)
+  ) |> 
+  droplevels() |>
+  dplyr::mutate(org2020 =  ifelse(Wave == 2020 & YearMeasured == 1, 1, 0)) %>%
+  group_by(Id) %>%
+  dplyr::mutate(hold = mean(org2020, na.rm = TRUE)) %>%  # Hack
+  filter(hold > 0) |>
+  dplyr::mutate(Edu = as.numeric(Edu)) |>
+  arrange(Id, Wave) |> 
+  group_by(Id) |>
+  dplyr::mutate(Age_c = if_else(Wave == "2020", (Age), NA_real_)) %>%
+  fill(Age_c) %>%
+  dplyr::mutate(Gender3_c = if_else(Wave == "2020", as.numeric(Gender3), NA_real_)) %>%
+  fill(Gender3_c) %>%
+  dplyr::mutate(EthCat_c = if_else(Wave == "2020", as.numeric(EthCat), NA_real_)) %>%
+  fill(EthCat_c) %>%
+  dplyr::mutate(BornNZ_c = if_else(Wave == "2020", as.numeric(BornNZ), NA_real_)) %>%
+  fill(BornNZ_c) %>%
+  dplyr::mutate(Pol.Orient_c = if_else(Wave == "2020", (Pol.Orient), NA_real_)) %>%
+  fill(Pol.Orient_c) %>%
+  dplyr::mutate(Religious_c = if_else(Wave == "2020", as.numeric(Religious), NA_real_)) %>%
+  fill(Religious_c) %>%
+  dplyr::mutate(Partner_c = if_else(Wave == "2020", (as.numeric(Partner)), NA_real_)) %>%
+  fill(Partner_c) %>%
+  dplyr::mutate(Parent_c = if_else(Wave == "2020", (as.numeric(Parent)), NA_real_)) %>%
+  fill(Parent_c) %>%
+  dplyr::mutate(NZDep.2018_c = if_else(Wave == "2020", (NZDep.2018), NA_real_)) %>%
+  fill(NZDep.2018_c) %>%
+  dplyr::mutate(Gender3_c = if_else(Wave == "2020", (as.numeric(Gender3)) / 2, NA_real_)) %>%
+  fill(Gender3_c) %>%
+  dplyr::mutate(Employed_c = if_else(Wave == "2020", (as.numeric(Employed)), NA_real_)) %>%
+  fill(Employed_c) %>%
+  dplyr::mutate(Edu_c = if_else(Wave == "2020", (Edu), NA_real_)) %>%
+  fill(Edu_c) %>%
+  dplyr::mutate(Urban_c = if_else(Wave == "2020", (as.numeric(Urban)), NA_real_)) %>%
+  fill(Urban_c) %>%
+  dplyr::mutate(SDO_c = if_else(Wave == "2020", (as.numeric(SDO)), NA_real_)) %>%
+  fill(SDO_c) %>%
+  dplyr::mutate(RWA_c = if_else(Wave == "2020", (as.numeric(RWA)), NA_real_)) %>%
+  fill(RWA_c) %>%
+  dplyr::mutate(NZSEI18_c = if_else(Wave == "2020", (as.numeric(NZSEI18)), NA_real_)) %>%
+  fill(NZSEI18_c) %>%
+  ungroup() %>%
+  select(
+    -c(
+      Employed,
+      Urban,
+      Edu,
+      Pol.Orient,
+      SDO,
+      RWA,
+      NZSEI18,
+      NZDep.2018,
+      Age,
+      Religious,
+      Partner,
+      Parent,
+      hold,
+      Age,
+      Gender3,
+      EthCat,
+      BornNZ,
+      TSCORE,
+      org2020,
+      YearMeasured
+    )
+  ) |>
+  dplyr::mutate(Gender3_c = as.factor(Gender3_c),
+                EthCat_c = as.factor(EthCat_c)) |>
+  dplyr::filter(
+    !is.na(Age_c),
+    !is.na(BornNZ_c),
+    !is.na(Gender3_c),
+    !is.na(Edu_c),
+    !is.na(Employed_c),
+    !is.na(EthCat_c),
+    !is.na(Parent_c),
+    !is.na(Partner_c),
+    !is.na(Religious_c),
+    !is.na(Pol.Orient_c),
+    !is.na(Urban_c),
+    !is.na(SDO_c),
+    !is.na(RWA_c),
+    !is.na(NZDep.2018_c),
+    !is.na(NZSEI18_c)
+  ) |>
+  arrange(Id, Wave)
+
+levels(dt$Wave) <-
+  c("Time12", "Time13")
+
+naniar::gg_miss_var(dt)
+```
+
+
+
+```{r}
+#| echo: false
+# to assess positivity
+msm::statetable.msm(round(COVID.RisksExaggerated, 0), Id, data = dt) |>
+  kbl() |> 
+  kable_paper(full_width = F)
+```
+

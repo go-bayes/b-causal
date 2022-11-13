@@ -1,0 +1,20 @@
+{
+  "hash": "744145c8560fba78ff6c3a6b6418d599",
+  "result": {
+    "markdown": "---\ntitle: \"Draft\"\neditor: visual\ndraft: true\n---\n\n\n\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n`````{=html}\n<table class=\" lightable-paper\" style='font-family: \"Arial Narrow\", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'>\n <thead>\n  <tr>\n   <th style=\"text-align:right;\"> 1 </th>\n   <th style=\"text-align:right;\"> 2 </th>\n   <th style=\"text-align:right;\"> 3 </th>\n   <th style=\"text-align:right;\"> 4 </th>\n   <th style=\"text-align:right;\"> 5 </th>\n   <th style=\"text-align:right;\"> 6 </th>\n   <th style=\"text-align:right;\"> 7 </th>\n  </tr>\n </thead>\n<tbody>\n  <tr>\n   <td style=\"text-align:right;\"> 6340 </td>\n   <td style=\"text-align:right;\"> 1814 </td>\n   <td style=\"text-align:right;\"> 483 </td>\n   <td style=\"text-align:right;\"> 364 </td>\n   <td style=\"text-align:right;\"> 296 </td>\n   <td style=\"text-align:right;\"> 312 </td>\n   <td style=\"text-align:right;\"> 291 </td>\n  </tr>\n  <tr>\n   <td style=\"text-align:right;\"> 1029 </td>\n   <td style=\"text-align:right;\"> 1505 </td>\n   <td style=\"text-align:right;\"> 631 </td>\n   <td style=\"text-align:right;\"> 371 </td>\n   <td style=\"text-align:right;\"> 355 </td>\n   <td style=\"text-align:right;\"> 219 </td>\n   <td style=\"text-align:right;\"> 129 </td>\n  </tr>\n  <tr>\n   <td style=\"text-align:right;\"> 126 </td>\n   <td style=\"text-align:right;\"> 326 </td>\n   <td style=\"text-align:right;\"> 298 </td>\n   <td style=\"text-align:right;\"> 235 </td>\n   <td style=\"text-align:right;\"> 240 </td>\n   <td style=\"text-align:right;\"> 121 </td>\n   <td style=\"text-align:right;\"> 75 </td>\n  </tr>\n  <tr>\n   <td style=\"text-align:right;\"> 80 </td>\n   <td style=\"text-align:right;\"> 146 </td>\n   <td style=\"text-align:right;\"> 126 </td>\n   <td style=\"text-align:right;\"> 228 </td>\n   <td style=\"text-align:right;\"> 214 </td>\n   <td style=\"text-align:right;\"> 147 </td>\n   <td style=\"text-align:right;\"> 89 </td>\n  </tr>\n  <tr>\n   <td style=\"text-align:right;\"> 51 </td>\n   <td style=\"text-align:right;\"> 70 </td>\n   <td style=\"text-align:right;\"> 61 </td>\n   <td style=\"text-align:right;\"> 85 </td>\n   <td style=\"text-align:right;\"> 219 </td>\n   <td style=\"text-align:right;\"> 200 </td>\n   <td style=\"text-align:right;\"> 130 </td>\n  </tr>\n  <tr>\n   <td style=\"text-align:right;\"> 33 </td>\n   <td style=\"text-align:right;\"> 39 </td>\n   <td style=\"text-align:right;\"> 23 </td>\n   <td style=\"text-align:right;\"> 37 </td>\n   <td style=\"text-align:right;\"> 81 </td>\n   <td style=\"text-align:right;\"> 138 </td>\n   <td style=\"text-align:right;\"> 145 </td>\n  </tr>\n  <tr>\n   <td style=\"text-align:right;\"> 57 </td>\n   <td style=\"text-align:right;\"> 24 </td>\n   <td style=\"text-align:right;\"> 9 </td>\n   <td style=\"text-align:right;\"> 16 </td>\n   <td style=\"text-align:right;\"> 16 </td>\n   <td style=\"text-align:right;\"> 54 </td>\n   <td style=\"text-align:right;\"> 236 </td>\n  </tr>\n</tbody>\n</table>\n\n`````\n:::\n:::\n",
+    "supporting": [
+      "mi-cv_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-in-header": [
+        "<script src=\"../../site_libs/kePrint-0.0.1/kePrint.js\"></script>\n<link href=\"../../site_libs/lightable-0.0.1/lightable.css\" rel=\"stylesheet\" />\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

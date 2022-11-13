@@ -1,5 +1,6 @@
 ---
-title: "Change in Covid Attitudes in New Zealand from 2021 - 2022"
+title: "Perceived Risks of COVID in New Zealand & Attitudes to NZ Government COVID: 2021 - 2022"
+subtitle: "New Zealand Attitudes and Values Study, N = 38,551" 
 execute:
   warning: false
   echo: false
@@ -204,7 +205,6 @@ The sample consists of all those participants who responded in Time 12 (N = 38,5
 The NZAVS recorded the following four attitudes to COVID-19 in both Time 12 and Time 13: 
 
 
-
 **Covid risks are exaggerated**
 
 * "I think that health risks associated with COVID-19 have been wildly exaggerated." (1-7)
@@ -222,7 +222,7 @@ The NZAVS recorded the following four attitudes to COVID-19 in both Time 12 and 
 * "The New Zealand government response to COVID-19." (0-10)
 
 
-##  Boxplot reveals considerable change in COVID attitudes
+##  Boxplot reveals decline in both perceived risks of COVID & Satisfaction with Government Response 
 
 
 ```{r}
@@ -315,13 +315,13 @@ We formally model this change using a multi-level model.
 library(lme4)
 library(parameters)
 
-m1 <- lmer(COVID.RisksExaggerated ~  Wave + (1|Id), data = dt_model)
+m1 <- lmer(COVID.RisksExaggerated ~  wave + (1|Id), data = dt_model)
 
-m2 <- lmer(COVID.CreatedLab ~  Wave + (1|Id), data = dt_model)
+m2 <- lmer(COVID.CreatedLab ~  wave + (1|Id), data = dt_model)
 
-m3 <- lmer(COVID.TrustGovtResponse ~  Wave + (1|Id), data = dt_model)
+m3 <- lmer(COVID.TrustGovtResponse ~  wave + (1|Id), data = dt_model)
 
-m4 <- lmer(COVID.SatGovtResponse ~  Wave + (1|Id), data = dt_model)
+m4 <- lmer(COVID.SatGovtResponse ~  wave + (1|Id), data = dt_model)
 
 
 
@@ -396,30 +396,30 @@ compare_parameters(
 library(ggeffects)
 library(patchwork)
 
-gg1 <- plot(ggpredict(m1, terms = "Wave"),
+gg1 <- plot(ggpredict(m1, terms = "wave"),
             add.data = TRUE,
-            dot.alpha = .005) +
+            dot.alpha = .003) +
   scale_y_continuous(limits = c(1, 7)) +
   labs(title = "Risks Exaggerated")
 
 
-gg2 <- plot(ggpredict(m2, terms = "Wave"),
+gg2 <- plot(ggpredict(m2, terms = "wave"),
             add.data = TRUE,
-            dot.alpha = .005) +
+            dot.alpha = .003) +
   scale_y_continuous(limits = c(1, 7)) +
-  labs(title =  "CPVID Created Lab")
+  labs(title =  "COVID Created Lab")
 
-gg3 <- plot(ggpredict(m3, terms = "Wave"),
+gg3 <- plot(ggpredict(m3, terms = "wave"),
             add.data = TRUE,
-            dot.alpha = .005) +
+            dot.alpha = .003) +
   scale_y_continuous(limits = c(1, 7)) +
-  labs(title =  "Trust Govt Response")
+  labs(title =  "Trust Gov't Response")
 
-gg4 <- plot(ggpredict(m4, terms = "Wave"),
+gg4 <- plot(ggpredict(m4, terms = "wave"),
             add.data = TRUE,
-            dot.alpha = .005) +
+            dot.alpha = .003) +
   scale_y_continuous(limits = c(0, 10)) +
-  labs(title =  "Satisfied Govt Response")
+  labs(title =  "Satisfied Gov't Response")
 
 
 (gg1 + gg2 + gg3) / gg4  +
@@ -440,7 +440,11 @@ Similarly, New Zealanders are generally satisfied with the New Zealand Governmen
 
 Importantly, these models do not adjust for bias from NZAVS sample attrition. The NZAVS is independent of government. However, to the extent that institutional mistrust of the government has extended to scientific institutions, lower trust and satisfaction with the government response to COVID-19 will have been somewhat greater than reported in the retained NZAVS sample. 
 
-In future work, we shall account for the bias from sample attrition using multiple imputation. We will report our results here. Please stay tuned.
+In future work, we shall account for the bias from sample attrition using multiple imputation. 
+
+We will also test psychological theories for why attitudes changed. 
+
+We will report our results here. 
 
 
 

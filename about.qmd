@@ -9,7 +9,7 @@ about:
       href: https://josephbulbulia.netlify.app
     - icon: mastodon
       text: mastodon
-      href: https://fosstodon.org/@b_causal
+      href: https://mathstodon.xyz/web/@joseph_bulbulia
     - icon: linkedin
       text: LinkedIn
       href: https://linkedin.com
