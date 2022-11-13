@@ -348,7 +348,7 @@ naniar::gg_miss_var(dt)
 
 
 
-```{r}
+```{r, eval =FALSE}
 # library(Amelia)
 # # impute missing responses
 # imputed0 <- amelia(
@@ -432,7 +432,7 @@ m_1 <- brm(
 ```
 
 Model for 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 # COVID.SatGovtResponse
 bform_COVID.SatGovtResponse <-
   bf(
@@ -475,7 +475,7 @@ m_3 <- brm(
 
 
 
-```{r}
+```{r, eval = FALSE}
 #COVID.RisksExaggerated
   bform_COVID.RisksExaggerated <- bf(
     COVID.RisksExaggerated | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
