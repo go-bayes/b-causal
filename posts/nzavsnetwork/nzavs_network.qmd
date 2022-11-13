@@ -1,0 +1,455 @@
+---
+title: "NZAVS Retention Graph"
+date: 2022-11-04
+date-format: short
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
+  - name: Chris G Sibley
+    orcid: 0000-0002-4064-8800
+    affiliation: University of Auckland,  New Zealand
+categories:
+  - Background
+  - NZAVS
+execute:
+  warning: false
+draft: false
+image: "a_plot.png"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+---
+
+## Alluvial graph: NZAVS sample retention by wave and sample frame
+
+The fundamental challenge of longitudinal research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). @fig-alluvial presents the sample frames within a single graph.
+
+
+For more information about the NZAVS see: [here](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html) and [here](https://go-bayes.github.io/reports/posts/nzavs/)
+
+
+```{r setup}
+#| include: false
+
+# packages
+library("tidyverse") # data wrangling 
+library("haven")
+library("here") # setting directories
+library("ggplot2") # graph 
+library("ggthemes") # themes
+library("table1") # tables
+library("ggalluvial") # alluvial graphs
+```
+
+```{r dataordering}
+# First we import the data, and create an indicator for measured/lost/withdrawn.
+library("ggalluvial") # alluvial graphs
+
+# data sent by Chris Sibley Aug 2021
+
+sampling_data <-
+  haven::read_sav(here::here("data", "GraphData2.sav"))
+
+# remove SPSS labels
+sampling_data <- haven::zap_formats(sampling_data)
+sampling_data <- haven::zap_label(sampling_data)
+sampling_data <- haven::zap_widths(sampling_data)
+sampling_data <- haven::zap_labels(sampling_data)
+
+# rename Id variable
+sampling_data <- sampling_data %>%
+  rename(Id = Questionnaire.Num)
+
+## transform data into long form, required for ggalluvial, and rename the waves
+inner_join(
+  sampling_data  %>%
+    dplyr::select(c(
+      Id,
+      c(
+        'T01',
+        "T02",
+        'T03',
+        "T035",
+        "T04",
+        'T05',
+        "T06",
+        'T07',
+        "T08",
+        "T09",
+        "T10",
+        "T11",
+        "T12"
+      )
+    )) %>%      #~~~~ Left side = date component ~~~~~~~~
+    gather(Wave, YearMeasured, -Id) %>%  #~ long form = 1 row per prod per seq   ~
+    mutate(
+      Wave = recode_factor(
+        Wave,
+        T01 = "2009",
+        T02 = "2010",
+        T03 = "2011",
+        T035 = "2011.5",
+        T04  = "2012",
+        T05 = "2013",
+        T06 = "2014",
+        T07 = "2015",
+        T08 = "2016",
+        T09 = "2017",
+        T10 = "2018",
+        T11 = "2019",
+        T12 = "2020"
+      )
+    ) %>%
+    arrange(Id),
+  sampling_data %>%
+    dplyr::select(c(Id, starts_with('SampleOriginYear'))) %>%
+    arrange(Id),
+) -> sdf
+
+# define sample origin year
+sdf <- sdf %>%
+  mutate(SampleOriginYear = SampleOriginYear + 2008)
+
+#  Make sample frame into a factor
+sdf$SampleOriginYear <- as.factor(sdf$SampleOriginYear)
+
+# Created levels for "missing", "not yet measured" and "deceased"
+# then filter "not yet measured"
+
+sdf.0 <- sdf %>%
+  mutate(Wave = as.numeric(as.character(Wave))) %>%
+  arrange(Wave, Id) %>%
+  group_by(Id) %>%
+  mutate(first = {
+    YearMeasured == 1
+  } %>% {
+    . * !duplicated(.)
+  }) %>%
+  mutate(
+    value_tmp = if_else(first == 1, Wave, NA_real_),
+    firstwave  = mean(value_tmp, na.rm = TRUE) # this is a hack, but works
+  ) %>%
+  mutate(state  = ifelse(
+    YearMeasured == -1,
+    "deceased",
+    ifelse(
+      YearMeasured == 0 & Wave < firstwave,
+      "notyetmeasured",
+      ifelse(YearMeasured == 0 &
+               Wave > firstwave, "missing",
+             "measured")
+    )
+  )) %>%
+  dplyr::mutate(Wave = as.factor(Wave)) %>% # return Wave to a factor
+  dplyr::select(Wave, Id, state, YearMeasured, SampleOriginYear) %>%
+  dplyr::filter(state != "notyetmeasured") %>%
+  droplevels() %>%
+  arrange(Id, Wave)
+
+# This is to create a "recovered" state. Not used but could be useful for modelling recovery:
+sdf.01 <- sdf.0 %>%
+  group_by(Id) %>%
+  mutate(lag_state = dplyr::lag(state, n = 1, default = "init"))
+
+sdf.1 <- sdf.01 %>%
+  group_by(Id, Wave) %>%
+  mutate(recovered = ifelse(lag_state == "missing" &
+                              state == "measured", "recovered", state))
+
+
+# We need to back fill the missing values for our alluvial graph.
+# This is OK because a participants original sampling frame does not change.
+
+ssdf0 <- sdf.1 %>%  # Fill missing values for Sample.Frame
+  arrange(Id) %>%
+  group_by(Id) %>%
+  fill(SampleOriginYear)  %>%
+  ungroup()
+
+# now we create the "state_frame" variable
+tf <- ssdf0 %>%
+  mutate(SampleOriginYear = as.character(SampleOriginYear))
+
+ssdf <- tf %>%
+  mutate(state_frame = ifelse(
+    state == "missing",
+    "missing",
+    ifelse(state == "deceased", "deceased",
+           SampleOriginYear)
+  ))
+ssdf.0 <- ssdf %>%
+  mutate(state_frame = factor(state_frame))
+
+# next we order the levels of the factor to create a pretty graph
+ssdf.01 <- ssdf.0 %>%
+  mutate(state_frame = forcats::fct_relevel(
+    state_frame,
+    c(
+      "2009",
+      "2010",
+      "2011",
+      "2011.5",
+      "2012",
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "missing",
+      "deceased"
+    )
+  )) %>%
+  rename(Recovered = recovered) # for pretty table
+
+```
+
+
+## Alluvial graph: NZAVS sample retention by wave, faceted by sample frame
+
+```{r graphalluvial}
+#| label: fig-alluvial
+#| column: screen-inset-right
+#| fig.cap: "NZAVS alluvial retention graph: waves 2009-2020."
+# prepare data for graph 
+datsSF <- ssdf.01 %>%
+  group_by(Wave, state_frame, Id) %>%
+  summarise(n = n())
+
+# Graph
+
+p <- ggplot(
+  datsSF,
+  aes(
+    x = Wave,
+    stratum = state_frame,
+    alluvium = Id,
+    y = n,
+    fill = state_frame,
+    label = state_frame
+  )
+) +
+  geom_flow() +
+  geom_stratum(alpha = .5) +
+  geom_text(stat = "stratum", size = 2) +
+  guides(color = guide_legend(override.aes = list(size = 20))) +
+  scale_x_discrete(position = 'top', expand = c(0, 0)) +
+  scale_y_reverse(
+    expand = c(0.001, 0.001),
+    minor_breaks = seq(0, 70000, by = 1000),
+    breaks = seq(0, 70000, by = 5000)
+  ) +
+  scale_fill_viridis_d(option = "turbo") +
+  ggtitle("NZAVS alluvial retention graph: waves 2009-2020")  +
+  theme_bw() +   
+  theme(legend.justification = "top") +
+  theme(legend.title = element_blank())  # remove legend title
+
+# to save file in your directory at correct resolution, uncomment below
+# file <- here("figs", paste("alluvial_highres_turbo_BW", ".png", sep = ""))
+
+#print image
+p
+
+# ggsave(
+#   p,
+#   path = here::here(here::here("posts", "nzavsnetwork" )),
+#   width = 8,
+#   height = 4.5,
+#   units = "in",
+#   filename = "a_plot.png",
+#   device = "png",
+#   scale = 1,
+#   dpi = 100,
+#   limitsize = TRUE
+# )
+```
+
+
+```{r graphfacet}
+#| eval: false
+#| label: fig-facet
+#| column: screen
+#| fig.cap: "NZAVS alluvial retention graph: facets are sample frames."
+# prepare data
+datsSS <- ssdf.01 %>%
+  group_by(Wave, state, SampleOriginYear, Id) %>%
+  summarise(n = n())
+
+
+# Graph
+ggplot(datsSS,
+       aes(
+         x = Wave,
+         stratum = state,
+         alluvium = Id,
+         y = n,
+         fill = state,
+         label = state
+       )) +
+  scale_x_discrete(expand = c(.1, .1)) +
+  geom_flow() +
+  geom_stratum(alpha = .5) +
+  geom_text(stat = "stratum", size = 2) +
+  theme(legend.position = "none") +
+  scale_x_discrete(position = 'top') +
+  scale_y_reverse(
+    expand = c(0.001, 0.001),
+    minor_breaks = seq(0, 70000, by = 1000),
+    breaks = seq(0, 70000, by = 1000)
+  ) +
+  facet_grid(SampleOriginYear ~ ., scales = "free", space = "free") +
+  theme(strip.text.y = element_text(angle = 0)) +
+  scale_fill_viridis_d(option = "viridis") +
+  # scale_fill_viridis_d(option="turbo") + # another option
+  ggtitle("NZAVS alluvial retention graph: waves 2009-2020",
+          subtitle  = "Facets are sample frames")  +
+  theme_bw() +
+  theme(legend.title = element_blank())  # remove legend title
+
+```
+
+
+
+
+
+```{r extra}
+#| include: false
+#| eval: false
+
+
+# Install packages
+# library("brms")
+# library("rstanarm")
+# library("bayesplot")
+# library("easystats")
+# library("kableExtra")
+# library("broom")
+# library("tidybayes")
+# library("bmlm")
+# if (!require(tidyLPA)) {
+#   install.packages("tidyLPA")
+# }
+# # rstan options
+# rstan_options(auto_write = TRUE)
+# options(mc.cores = parallel::detectCores ())
+# theme_set(theme_classic())
+
+library(msm)
+# view data
+str(ssdf.01)
+
+# create a year measure. Should really be TSCORE but for now:
+str(ssdf.01$Recovered)
+ssdf.01
+dat <- ssdf.01 %>%
+#  filter(Wave = 20)
+  mutate(Id = factor(Id)) %>%
+#  dplyr::group_by(Id) %>% filter(n() > 2) %>%
+# dplyr::ungroup(Id)  %>%
+  mutate(State = as.factor(state)) %>%
+  mutate(Recovered = as.factor(Recovered)) %>%
+  mutate(State = forcats::fct_relevel(State,
+                                      c("measured",
+                                        "missing",
+                                        # "recovered",
+                                        "deceased"))) %>%
+  mutate(Recovered = forcats::fct_relevel(Recovered,
+                                          c(
+                                            "measured",
+                                            "missing",
+                                            "recovered",
+                                            "deceased"
+                                          ))) %>%
+  # filter(Wave != 2009) %>% # No recovered here
+  # filter(Recovered != "deceased") %>%
+  mutate(year = as.numeric(Wave) - 1,
+         state = as.numeric(as.factor(State)),
+         recovered = as.numeric(as.factor(Recovered)))  # 1 = measured, 2 = missing, 3 = recovered, 4 = desceased
+
+str(dat$state)
+table(dat$recovered)
+length(unique(dat$Id))
+glimpse(dat)
+
+# # Model -- will take too long -- do later
+# m1 <- brm(
+#   bf(recovered  ~
+#        year + 
+#        (1|Id) + # do later, will take too long
+#        (1|Wave)),
+#   family = cumulative(link = "logit"),
+#   data = dat,
+#   file = here::here("models", "ordinal_recovered"),
+#   silent = FALSE
+# )
+# 
+# par_m1 <- parameters::model_parameters(m1)
+# par_m1
+
+library("msm")
+# transitions
+
+statetable.msm(State, Id, data=dat)
+statetable.msm(Recovered, Id, data = dat)
+# allow all transitions
+Q0  <- rbind(c(.1, .1, .1),
+             c(.1, .1, .1),
+             c(.1, .1, .1))
+# Model
+
+crude_mod <- crudeinits.msm(state ~ year, subject=Id, qmatrix = Q0, data = dat)
+crude_mod
+
+
+
+
+#  control = list ( trace = 2, REPORT = 1 )  
+
+mod_1 <- msm(state ~ year, subject=Id, qmatrix = crude_mod, data = dat, deathexact = 3,
+            control=list(fnscale=4000) )
+mod_1
+
+pmatrix.msm(mod_1)
+pmatrix.msm(mod_1, t=3)
+sojourn.msm(mod_1)
+test_msm
+# model 
+
+
+# recovery model
+Q1  <- rbind(c(.1, .1, 0, .1),
+             c(0, .1, .1, .1),
+             c(.1, .1, .1, .1),
+             c(0, 0, 0, 0))
+crude_modR <- crudeinits.msm(recovered ~ year, subject=Id, qmatrix = Q1, data = dat)
+crude_modR
+))
+# Model
+
+r_mod <- msm(recovered ~ year, subject=Id, qmatrix = crude_modR, data = dat, deathexact = 4,
+            control=list(fnscale=4000) )
+r_mod
+
+pmatrix.msm(r_mod, t=2)
+sojourn.msm(r_mod)
+
+
+# expected vs fitted values
+library("msmtools")
+
+prev <- prevalence.msm( r_mod, ci = 'normal')
+
+prevplot(w_mod, prev, ci = 'normal', mintimeexact = TRUE )
+
+survplot(r_mod, km = TRUE, ci = 'none',
+          verbose = FALSE )
+```
+
+

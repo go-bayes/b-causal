@@ -1,9 +1,17 @@
 ---
 title: "The New Zealand Attitudes and Values Study"
-author: "Joseph Bulbulia"
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
 date: "2022-11-02"
-categories: [background]
+categories: 
+  - Background
+  - NZAVS
 image: "timeline-1.png"
+
 execute:
   warning: false
 format:
@@ -11,7 +19,6 @@ format:
     code-fold: true
     code-summary: "Show the code"
 ---
-  
 
 ```{r, include = FALSE}
 options(scipen = 999)
@@ -98,8 +105,9 @@ pull_path <-
 ```
 
 ```{r}
-# https://quarto-dev.github.io/quarto-gallery/page-layout/tufte.html
-# fig.width=12, fig.height=10, fig.cap="Sampling from the electoral rol combines with repeated measures within the same people across New Zealand's social diversity to enable robust inference about stability and change in attitudes and values across New Zealand over time.", layout = "l-body-outset", cache = TRUE
+#| label: fig-nzavs
+#| column: page-right
+#| fig.cap: "NZAVS responses by days 2009-2022."
 
 # read data
 dat <- readRDS(pull_path)
@@ -182,7 +190,7 @@ cuts <-
     stringsAsFactors = FALSE
   )
 
-ggplot2::ggplot(datrep, aes(day, n)) +
+pl_1 <- ggplot2::ggplot(datrep, aes(day, n)) +
   geom_col(aes(fill = Year)) + scale_x_date(date_labels = "%b/%Y")  +
   geom_vline(
     mapping = aes(xintercept = vals,
@@ -191,35 +199,50 @@ ggplot2::ggplot(datrep, aes(day, n)) +
     linetype = "dashed",
     show.legend = TRUE
   )  +
-labs(title = "New Zealand Attitudes and Values Study Daily Response Counts\n Years 2009-2020; N = 61,535",
+labs(title = "New Zealand Attitudes and Values Study Daily Response Counts\n Years 2009-2020; N = 69,021",
      x = "NZAVS daily counts", y = "Count of Responses") + theme_classic()  +  scale_fill_viridis_d() + theme(legend.position = "top")
 
+#plot
+pl_1 
+
+ggsave(
+  pl_1,
+  path = here::here(here::here("posts", "nzavs" )),
+  width = 8,
+  height = 4.5,
+  units = "in",
+  filename = "timeline-1.png",
+  device = "png",
+  scale = 1,
+  dpi = 100,
+  limitsize = TRUE
+)
+
+
 ```
-  
 
+# What is the NZAVS?
 
+The New Zealand Attitudes and Values Study (NZAVS) is a national panel study that Professor Chris G Sibley started in 2009. The study has surveyed 69,021 New Zealanders. The NZAVS lab is based at the University of Auckland, and is led by Chris. @fig-nzavs shows the daily counts of surveys processed at the NZAVS lab. The NZAVS team has grown to over 40 collaborators all over the world.
 
-# What is the NZAVS? 
+## What makes the NZAVS different?
 
-The New Zealand Attitudes and Values Study (NZAVS) is a national panel study that Professor Chris G Sibley started in 2009. The team has since grown to over 40 collaborators.
+The NZAVS is a panel study. A panel study is a longitudinal study that follows the same individuals over time. A panel study is different from a census, which samples the population as a whole over time, without tracking individuals.
 
-A panel study is a longitudinal study that follows the same individuals over time. A panel study is different from a census, which samples the population as a whole over time, without tracking individuals. 
+Time-series data within the same individuals across a diverse population are powerful because they enable a systematic understanding of the causal interplay between human social and psychological processes that occur within people as they respond to consequential events in our lives ("natural experiments").
 
-The NZAVS  maintains an up-to-date contact list as participants move house, change names, change telephone accounts, and change email addresses. The study's personalised telephone campaigns, holiday cards, and participant prize draws have enabled the NZAVS to maintain a remarkably high annual sample retention rate of 80%. (Many longitudinal studies achieve only 20% retention.)
+The NZAVS maintains an up-to-date contact list as participants move house, change names, change telephone accounts, and change email addresses. The study's personalised telephone campaigns, holiday cards, and participant prize draws have enabled the NZAVS to maintain a remarkably high annual sample retention rate of 70-80%. (Many longitudinal studies achieve only 20% retention.)
 
-Each year, the NZAVS surveys health, personality, relationships, employment, values, beliefs, and habits within the same people. The study has received responses from 61,535 New Zealanders. Its most recent wave (2019/20) received longitudinal responses from 36,524 New Zealanders. This is about 1\% of New Zealand's adult population. The NZAVS is distinct from other national panel studies for the breadth of its survey questions with broad coverage in political and social psychology, health, and religion/spirituality and for its temporal scale, which encompasses 12 longitudinal waves. Time-series data within the same individuals across a diverse population are powerful because they enable a systematic understanding of the complex interplay between human social and psychological processes that occur within people as they respond to consequential events in our lives ("natural experiments") [@nzavs2021]. 
+Each year, the NZAVS surveys health, personality, relationships, employment, values, beliefs, and habits within the same people. The study has received responses from 69,021 New Zealanders. Its most recent wave (2021/22) received longitudinal responses from over 33,000 New Zealanders. This is about 1% of New Zealand's adult population. The NZAVS is distinct from other national panel studies for the breadth of its survey questions with broad coverage in political and social psychology, health, and religion/spirituality and for its temporal scale, which encompasses 13 longitudinal waves.
 
 <!-- The NZAVS is distinct from other panel studies for the breadth of its survey questions that were purposely crafted to investigate what makes life good, and what imperils these goods, -->
-  
-  
-  
-## Where can I go for futher information? 
 
-The NZAVS website is maintained by Prof Chris Sibley.[Link](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html)
+## Where can I go for futher information?
+
+The NZAVS website is maintained by Prof Chris Sibley: [Link](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html)
+
 ## Link to data dictionary and questions
-  
-  [Link to full data dictionary](https://dl.dropboxusercontent.com/s/but0pz9h4jdpy6f/NZAVS-Technical-Documents-e02-Data-Dictionary.xlsx?dl=0)
+
+[Link to full data dictionary](https://dl.dropboxusercontent.com/s/but0pz9h4jdpy6f/NZAVS-Technical-Documents-e02-Data-Dictionary.xlsx?dl=0)
 
 [Link to questions only](https://dl.dropboxusercontent.com/s/cv256sbjal4ucvo/nzavs-data-dictionary.htm?dl=0)
-
-

@@ -2,6 +2,11 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/covid-change/cv.html",
+      "/posts/confounder-treatment-feedback/conf-out-feedback.html",
+      "/posts/g-computation/g-computation.html",
+      "/posts/outcomewide/outcome-wide.html",
+      "/posts/nzavsnetwork/nzavs_network.html",
       "/posts/nzavs/index.html",
       "/posts/welcome/index.html"
     ]

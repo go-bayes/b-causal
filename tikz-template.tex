@@ -1,0 +1,26 @@
+% \usepackage[utf8]{inputenc}
+% template for DAGS using LaTeX & Tikz
+% joseph@b-causal.org
+% 2022-NOV-6
+% license: The MIT License: https://opensource.org/licenses/MIT
+
+\documentclass[border=5pt]{standalone}
+\usepackage[usenames,dvispnames,svgnames,table]{xcolor}
+\usepackage{helvet} % nice san serif typeface
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, calc, shapes.geometric,
+  shapes.multipart, shapes, arrows.meta, arrows, decorations.markings,
+  external, trees}
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+%% TIKZ_CODE %%
+\end{tikzpicture}
+
+\end{document}

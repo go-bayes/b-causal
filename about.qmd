@@ -2,27 +2,37 @@
 title: "About"
 image: dg.jpg
 about:
-  template: jolla
+  template: trestles
   links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com
+    - icon: CV
+      text: CV
+      href: https://josephbulbulia.netlify.app
+    - icon: mastodon
+      text: mastodon
+      href: https://mathstodon.xyz/web/@joseph_bulbulia
     - icon: linkedin
       text: LinkedIn
       href: https://linkedin.com
     - icon: github
       text: Github
       href: https://github.com
-
+format:
+  html:
+    embed-resources: false
 ---
-
-
 
 
 ## Purpose
 
-The purpose of this site is to convey research to a broader public. 
+The purpose of this site is to convey B-causal Lab research to a broader public. 
+
 
 ## Contact 
 
-My email address for contact is: joseph.bulbulia@vuw.ac.nz
+My name is Joseph Bulbulia (Joe). I am a professor of psychology at Victoria of University, and head of the B-Causal Lab.
+My email address is: joseph.bulbulia@vuw.ac.nz
+
+
+
+
+

@@ -1,0 +1,44 @@
+% \usepackage[utf8]{inputenc}
+% template for DAGS using LaTeX & Tikz
+% joseph@b-causal.org
+% 2022-NOV-6
+% license: The MIT License: https://opensource.org/licenses/MIT
+
+\documentclass[border=5pt]{standalone}
+\usepackage[usenames,dvispnames,svgnames,table]{xcolor}
+\usepackage{helvet} % nice san serif typeface
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, calc, shapes.geometric,
+  shapes.multipart, shapes, arrows.meta, arrows, decorations.markings,
+  external, trees}
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+%% TIKZ HERE
+%% EXAMPLE
+%    \node[] (0) {{\bf U}};
+%    \node[squarednode,right =of 0, align=left] (1) {{\bf L}$_{t-1}$\\
+%    Exposure$_{t-1}$\\ {\bf Y}$_{t-1}$};
+%    \node[right =of 1] (2) {Exposure ${t_0}$};
+%    \node[squarednode, right =of 2] (3) {Attrition Sample$_{t+1}$};
+%    \node[right =of 3] (4) {{\bf Y}$_{t+1}$};
+%    \node[below =of 2] (5){{\bf U}$_s$};
+%    \draw[Arrow] (0) to (1);
+%    \draw[Arrow, bend right=50, dotted, thick, red] (0) to (2);
+%    \draw[Arrow, bend left=50 , dotted, thick, red] (0) to (4);
+%    \draw[Arrow] (1) to (2);
+%    \draw[Arrow] (2) to (3);
+%    \draw[Arrow, bend left] (1) to (4);
+%    \draw[Arrow] (5) to (3);
+%    \draw[Arrow,  bend right=20] (5) to (4);
+%    \draw[DoubleArrow, dotted, bend right=20, blue, thick] (2) to (5);
+
+\end{tikzpicture}
+
+\end{document}
