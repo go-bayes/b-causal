@@ -406,12 +406,36 @@ m_0 <- brm(
 )
 
 summary(m_0)
+m0_p  <- plot(
+  conditional_effects(
+    m_0,
+    "Wave",
+    points = TRUE,
+    alpha = .03,
+    jitter_width	= .1,
+  #  spaghetti = TRUE,
+    ndraws =100,
+    plot = F))[[1]]
+
+m0_p + labs(subtitle = "COVID Risks Exaggerated",
+       y = "COVID Risks Exaggerated(1-7) ",
+       x = "Years: 2018-2020/21; N = 19814") +
+  scale_colour_okabe_ito(alpha =1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(1, 7))
 
 ```
 
 Model for COVID.TrustGovtResponse,
 
-```{r, eval=FALSE}
+
+
+
+
+
+
+
+```{r, eval=TRUE}
 #COVID.TrustGovtResponse
 bform_COVID.TrustGovtResponse <-
   bf(
@@ -432,7 +456,7 @@ m_1 <- brm(
 ```
 
 Model for 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 # COVID.SatGovtResponse
 bform_COVID.SatGovtResponse <-
   bf(
@@ -452,7 +476,7 @@ m_2 <- brm(
 ```
 
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 #COVID.CreatedLab
 
 
@@ -475,7 +499,7 @@ m_3 <- brm(
 
 
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 #COVID.RisksExaggerated
   bform_COVID.RisksExaggerated <- bf(
     COVID.RisksExaggerated | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
