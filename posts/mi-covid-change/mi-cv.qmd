@@ -2,6 +2,8 @@
 title: "Draft"
 editor: visual
 draft: true
+execute: 
+  warning: false
 ---
 
 ```{r}
@@ -38,8 +40,8 @@ packages <- c("tidyverse",
               "formula.tools",
               "ggpubr",
               "lme4",
-             # "rstan",
-            #  "cmdstanr",
+               "rstan",
+               "cmdstanr",
               "geepack",
               "brms",
               "ggokabeito",
@@ -82,10 +84,12 @@ if (!require(brms)) {
 
 
 # rstan options
-rstan_options(auto_write = TRUE)
+rstan::rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores ())
-
 ```
+
+
+
 
 ```{r, include = FALSE}
 # libraries and functions
@@ -381,6 +385,14 @@ table1::table1(~ COVID.SatGovtResponse |
 msm::statetable.msm(round(COVID.RisksExaggerated, 0), Id, data = dt) |>
   kbl() |> 
   kable_paper(full_width = F)
+
+msm::statetable.msm(round(NZSEI13, 0), Id, data = dt) |>
+  kbl() |> 
+  kable_paper(full_width = F)
+
+dt$NZSEI13
+
+
 ```
 
 
@@ -452,6 +464,28 @@ m_1 <- brm(
   init = 0,
   file = here::here(push_mods,"COVID.TrustGovtResponse_2020_2021.rds")
 )
+
+summary(m_1)
+m1_p  <- plot(
+  conditional_effects(
+    m_1,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+   spaghetti = TRUE,
+    ndraws =100,
+    plot = F))[[1]]
+
+m1_p + labs(subtitle = "COVID Trust Govt Response",
+       y = "COVID Risks Exaggerated(1-7) ",
+       x = "Years: 2018-2020/21; N = 19814") +
+  scale_colour_okabe_ito(alpha =1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(1, 7))
+
+
+
 
 ```
 
