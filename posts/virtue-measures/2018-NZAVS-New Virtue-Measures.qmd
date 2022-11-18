@@ -1,5 +1,5 @@
 ---
-title: "NZAVS Virtue Measures introduced in 2018)"
+title: "NZAVS Virtue Measures introduced in 2018"
 format: html
 date: "2022-11-15"
 categories: 
@@ -9,8 +9,7 @@ categories:
 
 ## Background
 
-In 2018, we developed the following measures to investigate classical theories of virtue and Human Flourishing.
-
+In 2018, the New Zealand Attitudes and Values Study (NZAVS) developed the following measures to investigate classical theories of virtue and human flourishing.
 
 ## Gratitude-related measures (6 items included for project)
 
