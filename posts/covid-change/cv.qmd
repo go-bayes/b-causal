@@ -17,7 +17,7 @@ author:
     affiliation: University of Auckland,  New Zealand
 citation:
   url: https://go-bayes.github.io/b-causal/
-date: 2022-11-11
+date: 2022-11-18
 date-format: short
 categories: 
   - NZAVS

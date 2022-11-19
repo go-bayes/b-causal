@@ -12,6 +12,8 @@ title-block-banner: true
 ---
 
 
+
+
 ```{r, include = FALSE}
 library(here)
 # GitHub pages
@@ -20,3 +22,6 @@ file.create(here::here(".nojekyll"), showWarnings = FALSE)
 # Ensure directories exist
 dir.create("data", FALSE)
 ```
+
+
+<a rel="me" href="https://qoto.org/@joseph_bulbulia">Mastodon</a>
