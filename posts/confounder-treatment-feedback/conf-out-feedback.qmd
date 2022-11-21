@@ -7,6 +7,12 @@ citation:
   doi: "10.31234/osf.io/tjnvh"
 date: 2022-11-06
 date-format: short
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
 execute:
   warning: false
 draft: false
@@ -17,7 +23,6 @@ format:
     code-summary: "reveal code"
 categories: 
   - Causal Inference
-  - DAG
   - Methods
 bibliography: references.bib
 citation-location: margin

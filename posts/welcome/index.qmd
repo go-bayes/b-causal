@@ -1,5 +1,5 @@
 ---
-title: "Welcome to the B-causal Lab"
+title: "Welcome to the b-causal lab"
 author: "Joseph Bulbulia"
 date: "2022-10-30"
 categories:
@@ -12,13 +12,15 @@ categories:
 
 ## Me
 
-Hello. My name is Joseph Bulbulia. I am a Professor of Psychology at Victoria University of Wellington, a member of the New Zealand Attitudes and Values Senior Leadership Team, a research associate at the Max Plank Institute for the Science of Human History, and an adjunct professor in Psychology at the University of Canterbury.
+Hello. My name is Joseph Bulbulia (Joe). I am a Professor of Psychology at Victoria University of Wellington, a member of the New Zealand Attitudes and Values Senior Leadership Team, a research associate at the Max Plank Institute for the Science of Human History, and an adjunct professor in Psychology at the University of Canterbury. I'm also director for the Center for Applied Cross-Cultural Research at Victoria University.  That's a lot of hats. Fortunately, I like people and I love science! 
+
+I supervise post-graduate students in the areas of quantitative and longitudinal psychology. We work on religion, well-being, and climate psychology (a new interest).  Some experience with R is necessary.  You don't need any background in numbers. Your most important attribute will be curiosity, and a willingness to think.
 
 A CV with links to my publications can be found by clicking the "CV" button [here]( https://josephbulbulia.netlify.app)
 
 ## Purpose
 
-The purpose of this site is to convey brief research reports to the public. The reports relate to substantive research from the the New Zealand Attitudes and Values Study and to methods for causal inference using panel data. 
+The purpose of this site is to convey brief research reports to the public. The reports relate to substantive research from the the New Zealand Attitudes and Values Study with which I am involved as well as methods for causal inference in psychological science using panel data. 
 
 ## Contact 
 

@@ -14,6 +14,12 @@ execute:
   warning: false
   message: false
   error: false
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
 categories:
   - Causal Inference
   - NZAVS
