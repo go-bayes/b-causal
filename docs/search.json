@@ -410,7 +410,7 @@
     "href": "posts/m-bias/m-bias.html#uncontrollable-confounding",
     "title": "Confounding Control Using Three Waves of Panel Data",
     "section": "Uncontrollable confounding",
-    "text": "Uncontrollable confounding\nTypically, the data cannot tell us the true structure of causal relationships. What if, contrary to our previous assumptions, forgiveness were to cause perfectionism. Under this new assumption, presented in Figure 2, confounding cannot be controlled. If we do not adjust for forgiveness, there is an open path \\(perfectionism \\to forgiveness \\to childhood religion \\to humility\\). This is bad. However if we condition on forgiveness, the path described above is opened because forgiveness is a collider of childhood school and childhood religion. We have not measured childhood schooling. Nor have we measured childhood religion. Failing to adjust for forgiveness does not remove the bad. We are humbled!\n\n\n\n\n\nFigure 2: Uncontrollable confounding"
+    "text": "Uncontrollable confounding\nTypically, the data cannot tell us the true structure of causal relationships. What if, contrary to our previous assumptions, forgiveness were to cause perfectionism. Under this new assumption, presented in Figure 2, confounding cannot be controlled. If we do not adjust for forgiveness, there is an open path\n\\[perfectionism \\to forgiveness \\to childhood religion \\to humility\\].\nThis is bad. However if we condition on forgiveness, the path described above is opened because forgiveness is a collider of childhood school and childhood religion. We have not measured childhood schooling. Nor have we measured childhood religion. Failing to adjust for forgiveness does not remove the bad. We are humbled.\n\n\n\n\n\nFigure 2: Seemingly ncontrollable confounding"
   },
   {
     "objectID": "posts/m-bias/m-bias.html#the-modified-disjunctive-cause-criterion-to-the-rescue",
@@ -467,5 +467,26 @@
     "title": "Confounding Control Using Three Waves of Panel Data",
     "section": "A way out",
     "text": "A way out\nWe need not be humbled into submission."
+  },
+  {
+    "objectID": "posts/m-bias/m-bias.html#the-modified-disjunctive-cause-criterion-provides-a-way-out.",
+    "href": "posts/m-bias/m-bias.html#the-modified-disjunctive-cause-criterion-provides-a-way-out.",
+    "title": "Confounding Control Using Three Waves of Panel Data",
+    "section": "The modified disjunctive cause criterion provides a way out.",
+    "text": "The modified disjunctive cause criterion provides a way out.\nWe need not be humbled into submission.\n\n\n\n\n\nFigure 3: A way out"
+  },
+  {
+    "objectID": "posts/m-bias/m-bias.html#adjusting-for-the-exposure-and-the-outcome-at-baseline-clarifies-this-way-out.",
+    "href": "posts/m-bias/m-bias.html#adjusting-for-the-exposure-and-the-outcome-at-baseline-clarifies-this-way-out.",
+    "title": "Confounding Control Using Three Waves of Panel Data",
+    "section": "Adjusting for the exposure and the outcome at baseline clarifies this way out.",
+    "text": "Adjusting for the exposure and the outcome at baseline clarifies this way out.\n\n\n\n\n\nFigure 4: A way out"
+  },
+  {
+    "objectID": "posts/m-bias/m-bias.html#causal-crisis-in-psychology-requires-time-series-data",
+    "href": "posts/m-bias/m-bias.html#causal-crisis-in-psychology-requires-time-series-data",
+    "title": "Confounding Control Using Three Waves of Panel Data",
+    "section": "Causal Crisis in Psychology Requires Time Series Data",
+    "text": "Causal Crisis in Psychology Requires Time Series Data\nPsychological science faces a casual crisis(Bulbulia 2022). This crisis will not be saved by causal graphs. Needed are at least three waves of repeated measures time-series data."
   }
 ]

@@ -87,13 +87,15 @@ $$perfectionism \to childhood~chooling \to childhood~religion \to humility$$
 
 If we only we had not included forgiveness our regression estimate for perfectionism on humility would have been an unbiased causal estimate. Alas, adjustment for forgiveness has introduced bias. It would have been perfect to leave pefect alone. By including forgiveness we must ask for it!
 
-
 ## Uncontrollable confounding
 
-Typically, the data cannot tell us the true structure of causal relationships. What if, contrary to our previous assumptions, forgiveness were to cause perfectionism. Under this new assumption, presented in @fig-2, confounding cannot be controlled. If we do not adjust for forgiveness, there is an open path $perfectionism \to forgiveness \to childhood religion \to humility$. This is bad.  However if we condition on forgiveness, the path described above is opened because forgiveness is a collider of childhood school and childhood religion. We have not measured childhood schooling. Nor have we measured childhood religion. Failing to adjust for forgiveness does not remove the bad. We are humbled!
+Typically, the data cannot tell us the true structure of causal relationships. What if, contrary to our previous assumptions, forgiveness were to cause perfectionism. Under this new assumption, presented in @fig-2, confounding cannot be controlled. If we do not adjust for forgiveness, there is an open path
 
+$$perfectionism \to forgiveness \to childhood religion \to humility$$.
 
-```{tikz fig-2, fig.cap="Uncontrollable confounding"}
+This is bad. However if we condition on forgiveness, the path described above is opened because forgiveness is a collider of childhood school and childhood religion. We have not measured childhood schooling. Nor have we measured childhood religion. Failing to adjust for forgiveness does not remove the bad. We are humbled.
+
+```{tikz fig-2, fig.cap="Seemingly ncontrollable confounding"}
 #| engine.opts=list(template = "tikz-template.tex",
 #|                  dvisvgm.opts = "--font-format=woff")
 
@@ -118,14 +120,70 @@ Typically, the data cannot tell us the true structure of causal relationships. W
 
 ```
 
+## The modified disjunctive cause criterion provides a way out.
 
-## A way out
+We need not be humbled into submission.
 
+```{tikz fig-3, fig.cap="A way out"}
+#| engine.opts=list(template = "tikz-template.tex",
+#|                  dvisvgm.opts = "--font-format=woff")
 
-We need not be humbled into submission. 
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {~};
+\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
+\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
+\node[right =of 0, align=left] (3) {};
+\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
+\node[above =of 4, align=left] (5) {};
+\node[squarednode,right =of 4, align=left] (6) {{Perfectionism$_{t}$}};
+\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
+\node[squarednode,above =of 5, align=left] (8) {{L$^1_{t-1}$}};
+\node[below =of 4, align=left] (9) {};
+\node[squarednode,below =of 9, align=left] (10) {{L$^2_{t-1}$}};
+\draw[Arrow] (1) to (4.west);
+\draw[Arrow] (2) to (4.west);
+\draw[Arrow, bend left=20] (1) to (8);
+\draw[Arrow, bend right=20] (2) to (10);
+\draw[Arrow, bend left= 40, dotted] (8) to (6);
+\draw[Arrow, bend right=25, dotted] (10) to (7);
+\draw[Arrow] (4) to (6);
 
+```
 
+## Adjusting for the exposure and the outcome at baseline clarifies this way out.
 
+```{tikz fig-4, fig.cap="A way out"}
+#| engine.opts=list(template = "tikz-template.tex",
+#|                  dvisvgm.opts = "--font-format=woff")
 
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {~};
+\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
+\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
+\node[right =of 0, align=left] (3) {};
+\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
+\node[above =of 4, align=left] (5) {};
+\node[squarednode,right =of 4, align=left] (6) {{Perfectionism$_{t}$}};
+\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
+\node[squarednode,above =of 5, align=left] (8) {{Perfectionism$_{t-1}$}};
+\node[below =of 4, align=left] (9) {};
+\node[squarednode,below =of 9, align=left, dotted] (10) {{Humility$_{t-1}$}};
+\draw[Arrow] (1) to (4.west);
+\draw[Arrow] (2) to (4.west);
+\draw[Arrow, bend left=20] (1) to (8);
+\draw[Arrow, bend right=20] (2) to (10);
+\draw[Arrow, bend left= 40,  dotted] (8) to (6);
+\draw[Arrow, bend right=25, dotted] (10) to (7);
+\draw[Arrow] (4) to (6);
 
+```
 
+## Causal Crisis in Psychology Requires Time Series Data
+
+Psychological science faces a casual crisis[@bulbulia2022]. This crisis will not be saved by causal graphs. Needed are at least three waves of repeated measures time-series data.
