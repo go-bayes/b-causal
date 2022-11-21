@@ -154,7 +154,7 @@ Recall, we have not measured childhood schooling. Nor have we measured childhood
 
 ```
 
-@fig-3 presents clarifies this application of the modified disjunctive criterion. On this graph, $L^1_{t-1}$ fully mediates the path from childhood schooling to perfectionism. If $L^1_{t-1}$ were measured, including it in our model, along with indicators of forgiveness, would block a backdoor path from perfectionism to humility. Also on this this graph, $L^2_{t-1}$  fully mediates the path from childhood religion to humility. If $L^2_{t-1}$  were measured, including it would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of the reality is unknown. By including in the set of measured confounders any $\{l \in L^1_{t-1}\} \lor  \{l \in L^2_{t-1}\}$ we may reduce or even eradicate confounding. Of course, this approach assumes that set of measured confounders as a whole does not introduce novel opportunities for M-bias. Over-adjustment is remains a theoretical possibility. The modified disjunctive criterion cannot escape theory. It rather guides us in the application of theory for strategies of confounding control.
+@fig-3 presents clarifies this application of the modified disjunctive criterion. On this graph, $L^1_{t-1}$ fully mediates the path from childhood schooling to perfectionism. If $L^1_{t-1}$ were measured, including it in our model, along with indicators of forgiveness, would block a backdoor path from perfectionism to humility. Also on this this graph, $L^2_{t-1}$  fully mediates the path from childhood religion to humility. If $L^2_{t-1}$  were measured, including it would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of the reality is unknown. By including in the set of measured confounders any $\{l \in L^1_{t-1}\} \lor  \{l \in L^2_{t-1}\}$ we may reduce or even eradicate confounding. Of course, this approach assumes that set of measured confounders as a whole does not introduce new sources of M-bias. Over-adjustment is remains a theoretical possibility. The modified disjunctive criterion cannot escape theory. It rather guides us in the application of theory for strategies of confounding control.
 
 ## Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control. 
 
@@ -187,6 +187,27 @@ Recall, we have not measured childhood schooling. Nor have we measured childhood
 
 ```
 
-## Causal Crisis in Psychology Requires Time Series Data
 
-Psychological science faces a casual crisis[@bulbulia2022]. This crisis will not be saved by causal graphs. Needed are at least three waves of repeated measures time-series data.
+[Elsewhere](https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html) we described reasons for including indicators for both the exposure and outcome at baseline. Our discussion of M-bias reveals additional reasons. 
+
+We have assumed that (unmeasured) childhood schooling causes perfectionism, the exposure. By including measures of the exposure at baseline, the effect of childhood schooling on perfection would need to be orthogonal to its effect at baseline.  
+
+We have assumed that (unmeasured) childhood religions causes humility, the outcome By including measures of the outcome at baseline, the effect of childhood religion on humility would need to be orthogonal to its effect at baseline.  
+
+As indicated in @fig-4, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding because any such unmeasured confounding would need to be orthogonal to its effects at baseline.
+**Such a strategy requires collecting at least three-waves of panel data.**
+
+
+
+## Causal crisis in psychology cannot be fixed with graphs: needed are time series data
+
+Psychological science faces a casual crisis whose magnitude has yet to be fully appreciated [@bulbulia2022]. 
+
+This crisis will not be saved by causal graphs. Needed are at least three waves of repeated measures time-series data. 
+
+We strongly advise observational psychological scientists to collect repeated-measures data. 
+
+
+
+
+
