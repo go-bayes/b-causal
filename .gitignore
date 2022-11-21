@@ -49,10 +49,20 @@ data/*.rds
 #posts/**/*_files/
 *.Rproj
 
+*_cache/
+*models/
+posts/**/*.html
+posts/**/*.png
+posts/*.png
+
+posts/**/*_files/
+
+_freeze/posts/
+_freeze/posts/*.png
 
 #docs/templates/template_review_files/*
 #docs/templates/**/*.html
-#_posts/**/*_files/
+
 
 #posts/*.pdf
 #docs/posts/**/*.pdf

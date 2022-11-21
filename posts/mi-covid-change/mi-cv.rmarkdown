@@ -340,8 +340,30 @@ head(dt)
 naniar::gg_miss_var(dt)
 ```
 
+```{r, eval =FALSE}
+# library(Amelia)
+# # impute missing responses
+# imputed0 <- amelia(
+#   set.seed = 1234,
+#   dt,
+#   cs = c("Id"),
+#   ts = c("wave"),
+#   m = 10,
+#   # number of imputations
+#   noms = c("Male_c", "Euro_c"),
+#   idvars = c("Wave")
+# )
+# length(unique(imputed0$imputations$imp1$Id))
 
-```{r, eval = FALSE}
+
+# inspect
+table1::table1(~ COVID.SatGovtResponse |
+                 Wave,
+               data =imputed0$imputations$imp1,
+               overall = FALSE)
+```
+
+```{r}
 #| echo: false
 # to assess positivity
 msm::statetable.msm(round(COVID.RisksExaggerated, 0), Id, data = dt) |>
@@ -357,7 +379,11 @@ msm::statetable.msm(round(o_status, 0), Id, data = ds) |>
   kable_paper(full_width = F)
 ```
 
-```{r}
+
+Model for COVID.RisksExaggerated
+
+
+```{r, eval=FALSE}
 #COVID.RisksExaggerated
   bform_COVID.RisksExaggerated <- bf(
     COVID.RisksExaggerated | mi()  ~ Wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
@@ -393,9 +419,12 @@ m0_p + labs(subtitle = "COVID Risks Exaggerated",
   scale_colour_okabe_ito(alpha =1) +
   theme_classic()   +
   scale_y_continuous(limits = c(1, 7))
+
 ```
 
+
 Model for COVID.TrustGovtResponse
+
 
 ```{r, eval=TRUE}
 #COVID.TrustGovtResponse
@@ -435,7 +464,9 @@ m1_p + labs(subtitle = "COVID Trust Govt Response",
   scale_y_continuous(limits = c(1, 7))
 ```
 
+
 Model for Covid Satisifed with Government Response
+
 
 ```{r, eval=TRUE}
 # COVID.SatGovtResponse
@@ -478,6 +509,8 @@ m2_p + labs(subtitle = "COVID Satisfied with Govt Response",
 
 ```{r, eval=TRUE}
 #COVID.CreatedLab
+
+
 bform_COVID.CreatedLab <-
   bf(
   COVID.CreatedLab | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
@@ -552,3 +585,4 @@ m0w_p + labs(subtitle = "COVID Risks Exaggerated",
   theme_classic()   +
   scale_y_continuous(limits = c(1, 7))
 ```
+

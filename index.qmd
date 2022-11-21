@@ -24,4 +24,4 @@ dir.create("data", FALSE)
 ```
 
 
-<a rel="me" href="https://qoto.org/@joseph_bulbulia">Mastodon</a>
+<a rel="me" href="https://mathstodon.xyz/@joseph_bulbulia">Mastodon</a>
