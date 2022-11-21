@@ -1,0 +1,131 @@
+---
+title: "Confounding Control Using Three Waves of Panel Data"
+format: html
+title-block-style: plain
+bibliography: references.bib
+date: 2022-11-22
+date-format: short
+image: "m-bias.png"
+citation:
+  url: https://go-bayes.github.io/b-causal-lab/
+execute:
+  echo: false
+  warning: false
+  message: false
+  error: false
+categories:
+  - Causal Inference
+  - NZAVS
+  - Outcome-wide Science
+  - Methods
+---
+
+```{r setup, eval=TRUE}
+# see https://remlapmot.github.io/mrdags/
+# https://github.com/remlapmot/mrdags/blob/master/index.qmd
+knitr::opts_chunk$set(cache = TRUE,
+                      dev = "svg",
+                      fig.align = "center")
+# Using advice from Andrew Heiss blogpost to use SVGs in HTML from TikZ
+# https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/#connecting-dvisvgm-to-ghostscript-on-macos
+# For svg figures we require the latex package dvisvgm
+if (!tinytex::check_installed("dvisvgm")) tinytex::tlmgr_install("dvisvgm")
+# On macOS dvisvgm needs the ghostscript library dynamically linked to it via
+# either the LIBGS environment variable or the --libgs flag.
+# The libgs.dylib from Homebrew (brew install ghostscript) is sufficient.
+if (Sys.info()[["sysname"]] == "Darwin" && Sys.info()[["machine"]] == "arm64") {
+  #Sys.setenv(LIBGS = "/usr/local/lib/libgs.dylib")
+  Sys.setenv(LIBGS = "/opt/homebrew/Cellar/ghostscript/10.0.0/lib/libgs.dylib")
+}
+```
+
+```{r tnytx, eval=FALSE}
+#install.packages("tinytex")
+#tinytex::install_tinytex()
+```
+
+```{r, eval=FALSE}
+#tinytex::tlmgr_install("tikz-cd")
+```
+
+```{tikz fig-1, fig.cap="M-bias: an example of confounding that arises from over-adjustment"}
+#| engine.opts=list(template = "tikz-template.tex",
+#|                  dvisvgm.opts = "--font-format=woff")
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {~};
+\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
+\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
+\node[right =of 0, align=left] (3) {};
+\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
+\node[squarednode,right =of 4, align=left] (5) {{Perfectionism$_{t}$}};
+\node[squarednode,right =of 5, align=left] (6) {{Humility$_{t+1}$}};
+
+
+\draw[Arrow] (1) to (4);
+\draw[Arrow] (2) to (4);
+\draw[Arrow, bend right=70] (2) to (6);
+\draw[Arrow, bend left=70] (1) to (5);
+```
+
+[Elsewhere](https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html) we describe our strategy for using three waves of panel data to identify causal effects. In this design, we used a "modified disjunctive cause criterion" for confounder selection.
+
+Briefly in this approach for confounding adjustment we:
+
+> control for each covariate that is a cause of the exposure, or of the outcome, or of both; exclude from this set any variable known to be an instrumental variable; and include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome [@vanderweele2020 p.441; @vanderweele2019].
+
+Here we describe a potential threat from confounding by over-adjustment, and describe how our confounding-control strategy meets this threat. Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship. Perfectionism is not causally associated with humility. Put differently, if we were to intervene on someone's level of perfectionism this would not affect that person's humility. In @fig-1 we represent the absence of a causal association by omitting an arrow from perfectionism to humility. Were we to collect data and model the effect of perfectionism on humility without any further co-variate adjustment @fig-1 implies the coefficient for perfectionism would be zero.
+
+## M-bias
+
+In outcome-wide studies we include the indicators for the many outcomes of interest at time zero. Although this strategy prevents confounding by blocking the backdoor path between the exposure variable and an outcome variable the strategy risks bias from over adjustment. @fig-1 presents a threat over over-adjustment called M-Bias. We have supposed that perfectionism is not causally associated with humility. Suppose that we include in our regression model measures of forgiveness. Suppose further that childhood schooling, an unmeasured cause, affects both forgiveness and perfectionism. Next, suppose that childhood religion, which is also unmeasured, affects both forgiveness and humility. Finally we assume that forgiveness does not affect perfectionism. Notice that under these assumptions, which are presented in @fig-1, adjusting for forgiveness opens a back-door path from perfectionism to humility. This occurs because forgiveness is a collider confounder of childhood schooling and childhood religion. By including forgiveness, we open a path between these two unmeasured parameters, opening an association from perfectionism to humility along the path
+
+$$perfectionism \to childhood~chooling \to childhood~religion \to humility$$
+
+If we only we had not included forgiveness our regression estimate for perfectionism on humility would have been an unbiased causal estimate. Alas, adjustment for forgiveness has introduced bias. It would have been perfect to leave pefect alone. By including forgiveness we must ask for it!
+
+
+## Uncontrollable confounding
+
+Typically, the data cannot tell us the true structure of causal relationships. What if, contrary to our previous assumptions, forgiveness were to cause perfectionism. Under this new assumption, presented in @fig-2, confounding cannot be controlled. If we do not adjust for forgiveness, there is an open path $perfectionism \to forgiveness \to childhood religion \to humility$. This is bad.  However if we condition on forgiveness, the path described above is opened because forgiveness is a collider of childhood school and childhood religion. We have not measured childhood schooling. Nor have we measured childhood religion. Failing to adjust for forgiveness does not remove the bad. We are humbled!
+
+
+```{tikz fig-2, fig.cap="Uncontrollable confounding"}
+#| engine.opts=list(template = "tikz-template.tex",
+#|                  dvisvgm.opts = "--font-format=woff")
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {~};
+\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
+\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
+\node[right =of 0, align=left] (3) {};
+\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
+\node[squarednode,right =of 4, align=left] (5) {{Perfectionism$_{t}$}};
+\node[squarednode,right =of 5, align=left] (6) {{Humility$_{t+1}$}};
+
+
+\draw[Arrow] (1) to (4);
+\draw[Arrow] (2) to (4);
+\draw[Arrow, bend right=70] (2) to (6);
+\draw[Arrow, bend left=70] (1) to (5);
+\draw[Arrow] (4) to (5);
+
+```
+
+
+## A way out
+
+
+We need not be humbled into submission. 
+
+
+
+
+
+

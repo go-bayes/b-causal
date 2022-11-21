@@ -1,7 +1,8 @@
 ---
 title: "NZAVS Virtue Measures introduced in 2018"
 format: html
-date: "2022-11-15"
+date: 2022-11-15
+date-format: short
 categories: 
   - Background
   - NZAVS
@@ -21,10 +22,10 @@ McCullough, M. E., Emmons, R. A., & Tsang, J. A. (2002). The grateful dispositio
 
 Please indicate how strongly you disagree or agree with each statement. (1 strongly disagree -- 7 strongly agree)
 
--   [I have much in my life to be thankful for.]{style="color: green;"}
+-   $\color{green}{\text{I have much in my life to be thankful for.}}$
 -   Second If I had to list everything that I felt grateful for, it would be a long list.
--   [When I look at the world, I don't see much to be grateful for.]{style="color: green;"}
--   [I am grateful to a wide variety of people.]{style="color: green;"}
+-   $\color{green}{\text{When I look at the world, I don't see much to be grateful for.}}$
+-   $\color{green}{\text{I am grateful to a wide variety of people.}}$
 -   As I get older I find myself more able to appreciate the people, events, and situations that have been part of my life history.
 -   Long amounts of time can go by before I feel grateful to something or someone.
 
@@ -34,8 +35,8 @@ Steger, M. F., Frazier, P., Oishi, S., & Kaler, M. (2006). The Meaning in Life Q
 
 Please take a moment to think about what makes your life and existence feel important and significant to you, and indicate how strongly you disagree or agree with each statement. Please respond as truthfully and accurately as you can, and remember that these are very subjective questions and that there are no right or wrong answers. (1 strongly disagree -- 7 strongly agree)
 
--   [My life has a clear sense of purpose.]{style="color: green;"}
--   [I have a good sense of what makes my life meaningful.]{style="color: green;"}
+-    $\color{green}{\text{My life has a clear sense of purpose.$
+-    $\color{green}{\text{I have a good sense of what makes my life meaningful.$
 -   I understand my life's meaning.
 -   I have discovered a satisfying life purpose.
 -   My life has no clear purpose.
@@ -65,29 +66,29 @@ On the following pages you will find a series of statements about you. Please in
 
 -   Having a lot of money is not especially important to me.
 -   I would like to live in a very expensive, high-class neighborhood.
--   [I would like to be seen driving around in a very expensive car. -- ALREADY INCLUDED]{style="color: purple;"}
--   [I would get a lot of pleasure from owning expensive luxury goods. -- ALREADY INCLUDED]{style="color: purple;"}
+-  $\color{purple}{\text{I would like to be seen driving around in a very expensive car. -- ALREADY INCLUDED}}$
+-  $\color{purple}{\text{I would get a lot of pleasure from owning expensive luxury goods. -- ALREADY INCLUDED}}$ 
 
 #### Modesty
 
--   [I am an ordinary person who is no better than others.]{style="color: green;"}
--   [I wouldn't want people to treat me as though I were superior to them.]{style="color: green;"}
--   [I think that I am entitled to more respect than the average person is.]{style="color: green;"}
--   [I want people to know that I am an important person of high status. -- ROTATED BACK FROM 9 YEARS AGO]{style="color: green;"}
+-   $\color{green}{\text{I am an ordinary person who is no better than others.}}$
+-    $\color{green}{\text{I wouldn't want people to treat me as though I were superior to them.}}$
+-    $\color{green}{\text{I think that I am entitled to more respect than the average person is.}}$
+-    $\color{green}{\text{I want people to know that I am an important person of high status. -- ROTATED BACK}}$
 
 ### Tall Poppy Scale -- 3 items. (Related to Virtue of Humility)
 
 Feather, N. T. (1989). Attitudes towards the high achiever: The fall of the tall poppy. Australian Journal of Psychology, 41(3), 239-267. Please indicate how strongly you disagree or agree with each statement. (1 strongly disagree -- 7 strongly agree)
 
 -   People who are very successful deserve all the rewards they get for their achievements.
--   [It's good to see very successful people fail occasionally.]{style="color: green;"}
+-    $\color{green}{\text{It's good to see very successful people fail occasionally.}}$
 -   Very successful people often get too big for their boots.
 -   People who are successful in what they do are usually friendly and helpful to others. - At school it's probably better for students to be near the middle of the class than the very top student.
--   [People shouldn't criticise or knock the very successful.]{style="color: green;"}
+-    $\color{green}{\text{People shouldn't criticise or knock the very successful.}}$
 -   Very successful people who fall from the top usually deserve their fall from grace.
 -   Those who are very successful ought to come down off their pedestals and be like other people.
 -   The very successful person should receive public recognition for his/her accomplishments.
--   [People who are "tall poppies" should be cut down to size.]{style="color: green;"}
+-    $\color{green}{\text{People who are "tall poppies" should be cut down to size.}}$$
 -   One should always respect the person at the top.
 -   One ought to be sympathetic to very successful people when they experience failure and fall from their very high positions.
 -   Very successful people sometimes need to be brought down a peg or two, even if they have done nothing wrong.
@@ -110,12 +111,12 @@ Please indicate how strongly you disagree or agree the following statements refl
 -   If I were on the Titanic, I would deserve to be on the first lifeboat.
 -   I demand the best because I'm worth it.
 -   I do not necessarily deserve special treatment.
--   [I deserve more things in my life. -- ALREADY INCLUDED]{style="color: purple;"}
+-   $\color{purple}{\text{I deserve more things in my life. -- ALREADY INCLUDED}}$
 -   People like me deserve an extra break now and then.
 -   Things should go my way.
--   [I feel entitled to more of everything. -- ALREADY INCLUDED]{style="color: purple;"}
+-   $\color{purple}{\text{I feel entitled to more of everything. -- ALREADY INCLUDED}}$$
 
-### Power and Dependence -- 2 items\] Developed for NZAVS
+### Power and Dependence -- 2 items Developed for NZAVS
 
 -   [I do not have enough power or control over important things in my life.]{style="color: green;"}
 -   [Other people have too much power or control over important parts of my life.]{style="color: green;"}
@@ -124,9 +125,9 @@ Please indicate how strongly you disagree or agree the following statements refl
 
 ### Forgivingness versus Vengeful Rumination -- 3 items
 
--   [Sometimes I can't sleep because of thinking about past wrongs I have suffered. \[Adapted from Caprara\]]{style="color: green;"}
--   [I can usually forgive and forget when someone does me wrong. \[Adapted from Berry et al\]]{style="color: green;"}
--   [I find myself regularly thinking about past times that I have been wronged. \[New\]]{style="color: green;"}
+-   $\color{green}{\text{Sometimes I can't sleep because of thinking about past wrongs I have suffered. [Adapted from Caprara]{style="color: green;"}
+-   $\color{green}{\text{I can usually forgive and forget when someone does me wrong. (Adapted from Berry et al)}}$
+-   $\color{green}{\text{I find myself regularly thinking about past times that I have been wronged. }}$
 
 Caprara, G. V. (1986). Indicators of aggression: The dissipation-rumination scale. Personality and Individual Differences, 7(6), 763-769.
 
@@ -136,7 +137,7 @@ Berry, J. W., Worthington, E. L., O'Connor, L. E., Parrott, L., & Wade, N. G. (2
 -   I can forgive a friend for almost anything.
 -   If someone treats me badly, I treat him or her the same.
 -   I try to forgive others even when they don't feel guilty for what they did.
--   I can usually forgive and forget an insult. \[item above similar to this item\]
+-   I can usually forgive and forget an insult. [item above similar to this item]
 -   I feel bitter about many of my relationships.
 -   Even after I forgive someone, things often come back to me that I resent.
 -   There are some things for which I could never forgive even a loved one.
@@ -149,21 +150,21 @@ Rice, K. G., Richardson, C. M., & Tueller, S. (2014). The short form of the revi
 
 The following items are designed to measure certain attitudes people have toward themselves, their performance, and toward others. Please indicate how strongly you disagree or agree with each statement. It is important that your answers be true and accurate for you. • I have high expectations for myself.
 
--   [Doing my best never seems to be enough.]{style="color: green;"}
+-   $\color{green}{\text{Doing my best never seems to be enough.}}$
 -   I set very high standards for myself.
 -   I often feel disappointment after completing a task because I know I could have done better.
 -   I have a strong need to strive for excellence.
--   [My performance rarely measures up to my standards.]{style="color: green;"}
+-   $\color{green}{\text{My performance rarely measures up to my standards.}}$
 -   I expect the best from myself.
--   [I am hardly ever satisfied with my performance.]{style="color: green;"}
+-   $\color{green}{\text{I am hardly ever satisfied with my performance.}}$
 
 ## Focal covariates and predictors (12 items included for project)
 
 ### Emotion regulation (3 items)
 
--   [When I feel negative emotions, my emotions feel out of control.]{style="color: green;"}
--   [When I feel negative emotions, I supress or hide my emotions.]{style="color: green;"}
--   [When I feel negative emotions, I change the way I think to help me stay calm.]{style="color: green;"}
+-   $\color{green}{\text{When I feel negative emotions, my emotions feel out of control.}}$
+-   $\color{green}{\text{When I feel negative emotions, I supress or hide my emotions.}}$
+-   $\color{green}{\text{When I feel negative emotions, I change the way I think to help me stay calm.}}$
 
 Adapted from Difficulties with Emotion Regulation Scale (DERS) -- Item 1 Gratz, K. L., & Roemer, L. (2004). Multidimensional assessment of emotion regulation and dysregulation: Development, factor structure, and initial validation of the difficulties in emotion regulation scale. Journal of psychopathology and behavioral assessment, 26(1), 41-54. doi: 10.1023/B:JOBA.0000007455.08539.94
 
@@ -193,21 +194,21 @@ Critical predictors/covariates also added as part of the project
 
 Gibson, N. J. S., & Barnes, K. (2013). The varieties of religious nones: factor structure and validity of the non-religosity scales. Paper presented at: The International Association for the Psycholology of Religion, Lausanne, Switzerland.
 
--   [The teachings of traditional religions are still helpful today.]{style="color: red;"}
--   [I oppose religion in any form.]{style="color: red;"}
--   [All things considered, religion is a cause for good in the world.]{style="color: red;"}
+-   $\color{red}{\text{The teachings of traditional religions are still helpful today.}}$
+-   $\color{red}{\text{I oppose religion in any form.}}$
+-   $\color{red}{\text{All things considered, religion is a cause for good in the world.}}$
 
 ### Spiritual identification -- 1 item
 
 Postmes, T., Haslam, S. A., & Jans, L. (2013). A single‐item measure of social identification: Reliability, validity, and utility. British Journal of Social Psychology, 52(4), 597-617.
 
--   [I identify as a spiritual person.]{style="color: red;"}
+-   $\color{red}{\text{I identify as a spiritual person.}}$
 
 ### Criminal Justice Attitudes -- 4 items
 
 Developed for NZAVS
 
--   [With enough support and professional help, people who have committed violent offences can be rehabilitated to become safe members of our society.]{style="color: red;"}
--   [With enough support and professional help, people who have committed sexual offences can be rehabilitated to become safe members of our society.]{style="color: red;"}
--   [A publicly available online database of all convicted sex offenders in NZ.]{style="color: red;"}
--   [The current '3 Strikes' law for violent/sexual offences, where the maximum possible sentence must be imposed without parole upon the third conviction.]{style="color: red;"}
+-   $\color{red}{\text{With enough support and professional help, people who have committed violent offences can be rehabilitated to become safe members of our society.}}$
+-   $\color{red}{\text{With enough support and professional help, people who have committed sexual offences can be rehabilitated to become safe members of our society.}}$
+-   $\color{red}{\text{A publicly available online database of all convicted sex offenders in NZ.}}$
+-   $\color{red}{\text{The current '3 Strikes' law for violent/sexual offences, where the maximum possible sentence must be imposed without parole upon the third conviction.}}$

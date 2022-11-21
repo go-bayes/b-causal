@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2022-11-22">
 
-<title>b-causal.org - Outcome-wide Science in NZAVS Studies</title>
+<title>b-causal.org - Confounding Control Using Three Waves of Panel Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -123,7 +124,7 @@ div.csl-indent {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Outcome-wide Science in NZAVS Studies</h1>
+      <h1 class="title">Confounding Control Using Three Waves of Panel Data</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Causal Inference</div>
                 <div class="quarto-category">NZAVS</div>
@@ -140,7 +141,7 @@ div.csl-indent {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">11/5/22</p>
+        <p class="date">11/22/22</p>
       </div>
     </div>
     
@@ -152,7 +153,15 @@ div.csl-indent {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#m-bias" id="toc-m-bias" class="nav-link active" data-scroll-target="#m-bias">M-bias</a></li>
+  <li><a href="#uncontrollable-confounding" id="toc-uncontrollable-confounding" class="nav-link" data-scroll-target="#uncontrollable-confounding">Uncontrollable confounding</a></li>
+  <li><a href="#a-way-out" id="toc-a-way-out" class="nav-link" data-scroll-target="#a-way-out">A way out</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -160,58 +169,77 @@ div.csl-indent {
 
 
 
-<div class="cell" data-layout-align="center" data-hash="outcome-wide_cache/html/tnytx_861b22badfe2f46400ab801b11dae88d">
+<div class="cell">
 
 </div>
-<div class="cell" data-layout-align="center" data-hash="outcome-wide_cache/html/unnamed-chunk-1_43a01c387a7b0666982aa1aa173bcc76">
+<div class="cell" data-layout-align="center" data-hash="m-bias_cache/html/tnytx_804d3ba3a00cb4e9dc4efb49dcacc55b">
 
 </div>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="outcome-wide_cache/html/fig-1_3c98b2d4aa1ad143f64b505216245bb5">
+<div class="cell" data-layout-align="center" data-hash="m-bias_cache/html/unnamed-chunk-1_2c8e82e716656391f3fb90493a7ef161">
+
+</div>
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-1_6f96ee49992756529a7f08efd7c00483">
 <div class="cell-output-display">
 <div id="fig-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="outcome-wide_files/figure-html/fig-1-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: Confounding control using three waves of data &amp; multiple imputation of responses lost-to-follow-up in which an unmeasured cause affects both selection and the outcome, introducing bias.</figcaption><p></p>
+<p><img src="m-bias_files/figure-html/fig-1-1.svg" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: M-bias: an example of confounding that arises from over-adjustment</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Confounding occurs when the statistical association between indicators in the data do not reflect a causal association between parameters in a target population. A causal diagramme is a qualitative tool that enables us to quickly inspect sources of confounding.</p>
-<p>We may represent our strategy for confounding control using the causal graph presented in <a href="#fig-1">Figure&nbsp;1</a>.</p>
-<p><a href="#fig-2">Figure&nbsp;2</a> presents another causal graph in which selection may introduce bias.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="outcome-wide_cache/html/fig-2_30128f3e09307514b9c5f7fccfe32e12">
+<p><a href="https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html">Elsewhere</a> we describe our strategy for using three waves of panel data to identify causal effects. In this design, we used a “modified disjunctive cause criterion” for confounder selection.</p>
+<p>Briefly in this approach for confounding adjustment we:</p>
+<blockquote class="blockquote">
+<p>control for each covariate that is a cause of the exposure, or of the outcome, or of both; exclude from this set any variable known to be an instrumental variable; and include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome <span class="citation" data-cites="vanderweele2020 vanderweele2019">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020, 441</a>; <a href="#ref-vanderweele2019" role="doc-biblioref">VanderWeele 2019</a>)</span>.</p>
+</blockquote>
+<p>Here we describe a potential threat from confounding by over-adjustment, and describe how our confounding-control strategy meets this threat. Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship. Perfectionism is not causally associated with humility. Put differently, if we were to intervene on someone’s level of perfectionism this would not affect that person’s humility. In <a href="#fig-1">Figure&nbsp;1</a> we represent the absence of a causal association by omitting an arrow from perfectionism to humility. Were we to collect data and model the effect of perfectionism on humility without any further co-variate adjustment <a href="#fig-1">Figure&nbsp;1</a> implies the coefficient for perfectionism would be zero.</p>
+<section id="m-bias" class="level2">
+<h2 class="anchored" data-anchor-id="m-bias">M-bias</h2>
+<p>In outcome-wide studies we include the indicators for the many outcomes of interest at time zero. Although this strategy prevents confounding by blocking the backdoor path between the exposure variable and an outcome variable the strategy risks bias from over adjustment. <a href="#fig-1">Figure&nbsp;1</a> presents a threat over over-adjustment called M-Bias. We have supposed that perfectionism is not causally associated with humility. Suppose that we include in our regression model measures of forgiveness. Suppose further that childhood schooling, an unmeasured cause, affects both forgiveness and perfectionism. Next, suppose that childhood religion, which is also unmeasured, affects both forgiveness and humility. Finally we assume that forgiveness does not affect perfectionism. Notice that under these assumptions, which are presented in <a href="#fig-1">Figure&nbsp;1</a>, adjusting for forgiveness opens a back-door path from perfectionism to humility. This occurs because forgiveness is a collider confounder of childhood schooling and childhood religion. By including forgiveness, we open a path between these two unmeasured parameters, opening an association from perfectionism to humility along the path</p>
+<p><span class="math display">\[perfectionism \to childhood~chooling \to childhood~religion \to humility\]</span></p>
+<p>If we only we had not included forgiveness our regression estimate for perfectionism on humility would have been an unbiased causal estimate. Alas, adjustment for forgiveness has introduced bias. It would have been perfect to leave pefect alone. By including forgiveness we must ask for it!</p>
+</section>
+<section id="uncontrollable-confounding" class="level2">
+<h2 class="anchored" data-anchor-id="uncontrollable-confounding">Uncontrollable confounding</h2>
+<p>Typically, the data cannot tell us the true structure of causal relationships. What if, contrary to our previous assumptions, forgiveness were to cause perfectionism. Under this new assumption, presented in <a href="#fig-2">Figure&nbsp;2</a>, confounding cannot be controlled. If we do not adjust for forgiveness, there is an open path <span class="math inline">\(perfectionism \to forgiveness \to childhood religion \to humility\)</span>. This is bad. However if we condition on forgiveness, the path described above is opened because forgiveness is a collider of childhood school and childhood religion. We have not measured childhood schooling. Nor have we measured childhood religion. Failing to adjust for forgiveness does not remove the bad. We are humbled!</p>
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-2_b0ba8852f6892bb939957abfc1ea5b41">
 <div class="cell-output-display">
 <div id="fig-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="outcome-wide_files/figure-html/fig-2-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: Confounding control using three waves of data &amp; multiple imputation of responses lost-to-follow-up in which the outcome affects selection, introducing bias</figcaption><p></p>
+<p><img src="m-bias_files/figure-html/fig-2-1.svg" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Uncontrollable confounding</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<p>We define an exposure or treatment by <span class="math inline">\(A\)</span>. We define <span class="math inline">\(\boldsymbol{Y}\)</span> as the set of all well-being outcomes contained in the NZAVS. Our interest is in consistently estimating the causal effect of congregation size on each of these outcomes. To consistently estimate the causal effect of an exposure <span class="math inline">\(A=1\)</span> on the vector of well-being outcomes <span class="math inline">\(\boldsymbol{Y}\)</span> we must ensure that we have included a set of confounders that will prevent any statistical association between <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> in the absence of causation. A statistical association in the absence of a causal association may arise in one of three ways.: (1) <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> share a common cause. (2) <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> share a common effect. (3) There is confounding by descent, such that conditioning on a confounder introduces a statistical association between <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> in the absence of a casual association (collider bias).</p>
-<p>To address challenge (1) we may condition or stratify on all measured common causes of <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span>. To address challenges (2) and (3), we must not condition on any effect or descendent of an effect. Note however that by conditioning on a descent of a common cause we may at least partially address conditioning by a common cause. This is because conditioning on the effect of a common cause may itself partially block the effect of the that common cause.</p>
-<p>In NZAVS outcome-wide science studies we use a modified version of VanderWeele et al’s approach for estimating outcome-wide causal effects <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span>.</p>
-<p><strong>VanderWeele’s approach utilises three waves of panel data collected within the same participants over time.</strong></p>
-<p>Call <span class="math inline">\(t-1\)</span> the baseline wave, <span class="math inline">\(t_0\)</span> the exposure wave, and <span class="math inline">\(t+1\)</span> the outcome measurement wave. First, we include at baseline indicators of all past outcomes <span class="math inline">\(\boldsymbol{Y}_{t-1}\)</span><em>. Second, we include at baseline an indicator for the past exposure</em> <span class="math inline">\(A_{t-1}\)</span>. Third, we include a rich set of baseline confounders <span class="math inline">\(\boldsymbol{L_{t-1}}\)</span>. Of course, we cannot ensure that this strategy is sufficient to ensure no unmeasured confounding. However, on On VanderWeele’s strategy, for any unmeasured confounder to affect both the exposure/outcome association, it would need to do so independently of its effects on prior measurements of the exposure and (all) outcomes at baseline, in addition to all measured baseline confounders. Note also that by controlling for measured confounders the wave prior to exposure we avoid unwittingly conditioning on an effects of the exposure that subsequently affects the outcome – mediator bias. Note furthermore that by measuring the outcome in the year following the exposure, <span class="math inline">\(Y_{t+1}\)</span>, we ensure that the exposure temporally precedes the outcome, and is not, for example, an effect of the outcome. Finally, loss-to-follow-up or attrition, as well as survey non-response may introduce selection bias (represented by the boxed <span class="math inline">\(S_{t+1}\)</span>). There are several ways in which uch selection bias may introduce confounding. In Figure 1, we note the prospect in which a novel common cause of <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> called <span class="math inline">\(U_s\)</span> may lead to a spurious association between <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> if <span class="math inline">\(S\)</span> is a collider of <span class="math inline">\(A\)</span> and <span class="math inline">\(U_s\)</span>. To avoid selection bias we multiply impute the missing responses.</p>
+</section>
+<section id="a-way-out" class="level2">
+<h2 class="anchored" data-anchor-id="a-way-out">A way out</h2>
+<p>We need not be humbled into submission.</p>
 
 
 
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-vanderweele2019" class="csl-entry" role="doc-biblioentry">
+VanderWeele, Tyler J. 2019. <span>“Principles of Confounder Selection.”</span> <em>European Journal of Epidemiology</em> 34 (3): 211219.
+</div>
 <div id="ref-vanderweele2020" class="csl-entry" role="doc-biblioentry">
 VanderWeele, Tyler J, Maya B Mathur, and Ying Chen. 2020. <span>“Outcome-Wide Longitudinal Designs for Causal Inference: A New Template for Empirical Studies.”</span> <em>Statistical Science</em> 35 (3): 437466.
 </div>
 </div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{2022,
   author = {},
-  title = {Outcome-Wide {Science} in {NZAVS} {Studies}},
-  date = {2022-11-05},
+  title = {Confounding {Control} {Using} {Three} {Waves} of {Panel}
+    {Data}},
+  date = {2022-11-22},
   url = {https://go-bayes.github.io/b-causal-lab/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-<span>“Outcome-Wide Science in NZAVS Studies.”</span> 2022. November 5,
-2022. <a href="https://go-bayes.github.io/b-causal-lab/">https://go-bayes.github.io/b-causal-lab/</a>.
+<span>“Confounding Control Using Three Waves of Panel Data.”</span>
+2022. November 22, 2022. <a href="https://go-bayes.github.io/b-causal-lab/">https://go-bayes.github.io/b-causal-lab/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
