@@ -127,7 +127,6 @@ div.csl-indent {
       <h1 class="title">M-Bias: Confounding Control Using Three Waves of Panel Data</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Causal Inference</div>
-                <div class="quarto-category">NZAVS</div>
                 <div class="quarto-category">Outcome-wide Science</div>
                 <div class="quarto-category">Methods</div>
               </div>
@@ -158,9 +157,9 @@ div.csl-indent {
    
   <ul>
   <li><a href="#m-bias" id="toc-m-bias" class="nav-link active" data-scroll-target="#m-bias">M-bias</a></li>
-  <li><a href="#uncontrollable-confounding" id="toc-uncontrollable-confounding" class="nav-link" data-scroll-target="#uncontrollable-confounding">Uncontrollable confounding</a></li>
-  <li><a href="#the-modified-disjunctive-cause-criterion-provides-a-way-out." id="toc-the-modified-disjunctive-cause-criterion-provides-a-way-out." class="nav-link" data-scroll-target="#the-modified-disjunctive-cause-criterion-provides-a-way-out.">The modified disjunctive cause criterion provides a way out.</a></li>
-  <li><a href="#adjusting-for-the-exposure-and-the-outcome-at-baseline-clarifies-this-way-out." id="toc-adjusting-for-the-exposure-and-the-outcome-at-baseline-clarifies-this-way-out." class="nav-link" data-scroll-target="#adjusting-for-the-exposure-and-the-outcome-at-baseline-clarifies-this-way-out.">Adjusting for the exposure and the outcome at baseline clarifies this way out.</a></li>
+  <li><a href="#seemingly-uncontrollable-confounding" id="toc-seemingly-uncontrollable-confounding" class="nav-link" data-scroll-target="#seemingly-uncontrollable-confounding">Seemingly uncontrollable confounding</a></li>
+  <li><a href="#the-modified-disjunctive-cause-criterion-provides-a-way-out" id="toc-the-modified-disjunctive-cause-criterion-provides-a-way-out" class="nav-link" data-scroll-target="#the-modified-disjunctive-cause-criterion-provides-a-way-out">The modified disjunctive cause criterion provides a way out</a></li>
+  <li><a href="#adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control." id="toc-adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control." class="nav-link" data-scroll-target="#adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control.">Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control.</a></li>
   <li><a href="#causal-crisis-in-psychology-requires-time-series-data" id="toc-causal-crisis-in-psychology-requires-time-series-data" class="nav-link" data-scroll-target="#causal-crisis-in-psychology-requires-time-series-data">Causal Crisis in Psychology Requires Time Series Data</a></li>
   </ul>
 </nav>
@@ -198,48 +197,50 @@ div.csl-indent {
 <p>Here we describe a potential threat from confounding by over-adjustment, and describe how our confounding-control strategy meets this threat. Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship. Perfectionism is not causally associated with humility. Put differently, if we were to intervene on someone’s level of perfectionism this would not affect that person’s humility. In <a href="#fig-1">Figure&nbsp;1</a> we represent the absence of a causal association by omitting an arrow from perfectionism to humility. Were we to collect data and model the effect of perfectionism on humility without any further co-variate adjustment <a href="#fig-1">Figure&nbsp;1</a> implies the coefficient for perfectionism would be zero.</p>
 <section id="m-bias" class="level2">
 <h2 class="anchored" data-anchor-id="m-bias">M-bias</h2>
-<p>In outcome-wide studies we include the indicators for the many outcomes of interest at time zero. Although this strategy prevents confounding by blocking the backdoor path between the exposure variable and an outcome variable the strategy risks bias from over adjustment. <a href="#fig-1">Figure&nbsp;1</a> presents a threat over over-adjustment called M-Bias. We have supposed that perfectionism is not causally associated with humility. Suppose that we include in our regression model measures of forgiveness. Suppose further that childhood schooling, an unmeasured cause, affects both forgiveness and perfectionism. Next, suppose that childhood religion, which is also unmeasured, affects both forgiveness and humility. Finally we assume that forgiveness does not affect perfectionism. Notice that under these assumptions, which are presented in <a href="#fig-1">Figure&nbsp;1</a>, adjusting for forgiveness opens a back-door path from perfectionism to humility. This occurs because forgiveness is a collider confounder of childhood schooling and childhood religion. By including forgiveness, we open a path between these two unmeasured parameters, opening an association from perfectionism to humility along the path</p>
+<p>In outcome-wide studies we include the indicators for the many outcomes of interest at baseline (<span class="math inline">\(t-1\)</span>). This strategy helps to prevents confounding by blocking the backdoor path between the exposure variable and the outcome variable. However this strategy also invites bias from over-adjustment.</p>
+<p>Suppose we condition on forgiveness. Suppose further that childhood schooling, an unmeasured cause, affects both forgiveness and perfectionism. Next, suppose that childhood religion, which is also unmeasured, affects both forgiveness and humility. By assumption, perfectionism is not causally associated with humility. Notice however that adjusting for forgiveness opens a back-door path from perfectionism to humility. This occurs because forgiveness is a collider confounder of childhood schooling and childhood religion. By including forgiveness, we open a path between these two unmeasured parameters which then opens an association from perfectionism to humility along the path. <a href="#fig-1">Figure&nbsp;1</a> presents the problem.</p>
 <p><span class="math display">\[perfectionism \to childhood~chooling \to childhood~religion \to humility\]</span></p>
-<p>If we only we had not included forgiveness our regression estimate for perfectionism on humility would have been an unbiased causal estimate. Alas, adjustment for forgiveness has introduced bias. It would have been perfect to leave pefect alone. By including forgiveness we must ask for it!</p>
+<p>This type of over-adjustment bias called M-Bias. If only we had not included forgiveness our regression estimate we would have avoided counding. In our quest for perfection we have over-adjusted. By stratifying on forgiveness we must ask for it.</p>
 </section>
-<section id="uncontrollable-confounding" class="level2">
-<h2 class="anchored" data-anchor-id="uncontrollable-confounding">Uncontrollable confounding</h2>
-<p>Typically, the data cannot tell us the true structure of causal relationships. What if, contrary to our previous assumptions, forgiveness were to cause perfectionism. Under this new assumption, presented in <a href="#fig-2">Figure&nbsp;2</a>, confounding cannot be controlled. If we do not adjust for forgiveness, there is an open path</p>
+<section id="seemingly-uncontrollable-confounding" class="level2">
+<h2 class="anchored" data-anchor-id="seemingly-uncontrollable-confounding">Seemingly uncontrollable confounding</h2>
+<p>It might seem as though we have an easy way out. Do not condition on forgiveness. However typically the data cannot tell us the true structure of causal relationships. We must rely on assumptions. What if, contrary to our previous assumptions, forgiveness were to cause (diminish) perfectionism? This seems theoretically plausible. An intervention that caused me to be more forgiving of others might also cause me to be more forgiving of myself. Under this new assumption, presented in <a href="#fig-2">Figure&nbsp;2</a>, confounding would appear to be out of control. If we do not adjust for forgiveness, there is an open path:</p>
 <p><span class="math display">\[perfectionism \to forgiveness \to childhood religion \to humility\]</span>.</p>
-<p>This is bad. However if we condition on forgiveness, the path described above is opened because forgiveness is a collider of childhood school and childhood religion. We have not measured childhood schooling. Nor have we measured childhood religion. Failing to adjust for forgiveness does not remove the bad. We are humbled.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-2_6c9c29de528341db64b25f67f10f3ea0">
+<p>This is bad. It would seem we are trapped. If we adjust for forgiveness, the path described above is opened. We have not measured childhood schooling. Nor have we measured childhood religion. Again we are humbled.</p>
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-2_430e99ed148cfac64ad222d3006fd452">
 <div class="cell-output-display">
 <div id="fig-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="m-bias_files/figure-html/fig-2-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: Seemingly ncontrollable confounding</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Seemingly uncontrollable confounding</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="the-modified-disjunctive-cause-criterion-provides-a-way-out." class="level2">
-<h2 class="anchored" data-anchor-id="the-modified-disjunctive-cause-criterion-provides-a-way-out.">The modified disjunctive cause criterion provides a way out.</h2>
-<p>We need not be humbled into submission.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-3_c5d76ce18e0042ddc47f98fcf4b8e34d">
+<section id="the-modified-disjunctive-cause-criterion-provides-a-way-out" class="level2">
+<h2 class="anchored" data-anchor-id="the-modified-disjunctive-cause-criterion-provides-a-way-out">The modified disjunctive cause criterion provides a way out</h2>
+<p>Recall, we have not measured childhood schooling. Nor have we measured childhood religion. Conditioning on either would enable us to block a back door path from exposure to outcome. However, the modified disjunctive criterion advises that we “include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome.”</p>
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-3_df56190bcd249de4d3f437c02bce8e28">
 <div class="cell-output-display">
 <div id="fig-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="m-bias_files/figure-html/fig-3-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;3: A way out</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: The modified disjunctive criterion minimises confounding.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
+<p><a href="#fig-3">Figure&nbsp;3</a> presents clarifies this application of the modified disjunctive criterion. On this graph, <span class="math inline">\(L^1_{t-1}\)</span> fully mediates the path from childhood schooling to perfectionism. If <span class="math inline">\(L^1_{t-1}\)</span> were measured, including it in our model, along with indicators of forgiveness, would block a backdoor path from perfectionism to humility. Also on this this graph, <span class="math inline">\(L^2_{t-1}\)</span> fully mediates the path from childhood religion to humility. If <span class="math inline">\(L^2_{t-1}\)</span> were measured, including it would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of the reality is unknown. By including in the set of measured confounders any <span class="math inline">\(\{l \in L^1_{t-1}\} \lor \{l \in L^2_{t-1}\}\)</span> we may reduce or even eradicate confounding. Of course, this approach assumes that set of measured confounders as a whole does not introduce novel opportunities for M-bias. Over-adjustment is remains a theoretical possibility. The modified disjunctive criterion cannot escape theory. It rather guides us in the application of theory for strategies of confounding control.</p>
 </section>
-<section id="adjusting-for-the-exposure-and-the-outcome-at-baseline-clarifies-this-way-out." class="level2">
-<h2 class="anchored" data-anchor-id="adjusting-for-the-exposure-and-the-outcome-at-baseline-clarifies-this-way-out.">Adjusting for the exposure and the outcome at baseline clarifies this way out.</h2>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-4_cde9efc58893511d4422035076ace352">
+<section id="adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control." class="level2">
+<h2 class="anchored" data-anchor-id="adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control.">Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control.</h2>
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-4_e6bf59ea7903d145730f2a40afddddba">
 <div class="cell-output-display">
 <div id="fig-4" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="m-bias_files/figure-html/fig-4-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4: A way out</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: Conditioning on baseline exposure and outcome measures minimises uncontrolled confounding.</figcaption><p></p>
 </figure>
 </div>
 </div>

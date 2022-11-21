@@ -15,7 +15,6 @@ execute:
   error: false
 categories:
   - Causal Inference
-  - NZAVS
   - Outcome-wide Science
   - Methods
 ---
@@ -81,21 +80,23 @@ Here we describe a potential threat from confounding by over-adjustment, and des
 
 ## M-bias
 
-In outcome-wide studies we include the indicators for the many outcomes of interest at time zero. Although this strategy prevents confounding by blocking the backdoor path between the exposure variable and an outcome variable the strategy risks bias from over adjustment. @fig-1 presents a threat over over-adjustment called M-Bias. We have supposed that perfectionism is not causally associated with humility. Suppose that we include in our regression model measures of forgiveness. Suppose further that childhood schooling, an unmeasured cause, affects both forgiveness and perfectionism. Next, suppose that childhood religion, which is also unmeasured, affects both forgiveness and humility. Finally we assume that forgiveness does not affect perfectionism. Notice that under these assumptions, which are presented in @fig-1, adjusting for forgiveness opens a back-door path from perfectionism to humility. This occurs because forgiveness is a collider confounder of childhood schooling and childhood religion. By including forgiveness, we open a path between these two unmeasured parameters, opening an association from perfectionism to humility along the path
+In outcome-wide studies we include the indicators for the many outcomes of interest at baseline ($t-1$). This strategy helps to prevents confounding by blocking the backdoor path between the exposure variable and the outcome variable. However this strategy also invites bias from over-adjustment.
+
+Suppose we condition on forgiveness. Suppose further that childhood schooling, an unmeasured cause, affects both forgiveness and perfectionism. Next, suppose that childhood religion, which is also unmeasured, affects both forgiveness and humility. By assumption, perfectionism is not causally associated with humility. Notice however that adjusting for forgiveness opens a back-door path from perfectionism to humility. This occurs because forgiveness is a collider confounder of childhood schooling and childhood religion. By including forgiveness, we open a path between these two unmeasured parameters which then opens an association from perfectionism to humility along the path. @fig-1 presents the problem.
 
 $$perfectionism \to childhood~chooling \to childhood~religion \to humility$$
 
-If we only we had not included forgiveness our regression estimate for perfectionism on humility would have been an unbiased causal estimate. Alas, adjustment for forgiveness has introduced bias. It would have been perfect to leave pefect alone. By including forgiveness we must ask for it!
+This type of over-adjustment bias called M-Bias. If only we had not included forgiveness our regression estimate we would have avoided counding. In our quest for perfection we have over-adjusted. By stratifying on forgiveness we must ask for it.
 
-## Uncontrollable confounding
+## Seemingly uncontrollable confounding
 
-Typically, the data cannot tell us the true structure of causal relationships. What if, contrary to our previous assumptions, forgiveness were to cause perfectionism. Under this new assumption, presented in @fig-2, confounding cannot be controlled. If we do not adjust for forgiveness, there is an open path
+It might seem as though we have an easy way out. Do not condition on forgiveness. However typically the data cannot tell us the true structure of causal relationships. We must rely on assumptions. What if, contrary to our previous assumptions, forgiveness were to cause (diminish) perfectionism? This seems theoretically plausible. An intervention that caused me to be more forgiving of others might also cause me to be more forgiving of myself. Under this new assumption, presented in @fig-2, confounding would appear to be out of control. If we do not adjust for forgiveness, there is an open path:
 
 $$perfectionism \to forgiveness \to childhood religion \to humility$$.
 
-This is bad. However if we condition on forgiveness, the path described above is opened because forgiveness is a collider of childhood school and childhood religion. We have not measured childhood schooling. Nor have we measured childhood religion. Failing to adjust for forgiveness does not remove the bad. We are humbled.
+This is bad. It would seem we are trapped. If we adjust for forgiveness, the path described above is opened. We have not measured childhood schooling. Nor have we measured childhood religion. Again we are humbled.
 
-```{tikz fig-2, fig.cap="Seemingly ncontrollable confounding"}
+```{tikz fig-2, fig.cap="Seemingly uncontrollable confounding"}
 #| engine.opts=list(template = "tikz-template.tex",
 #|                  dvisvgm.opts = "--font-format=woff")
 
@@ -120,11 +121,11 @@ This is bad. However if we condition on forgiveness, the path described above is
 
 ```
 
-## The modified disjunctive cause criterion provides a way out.
+## The modified disjunctive cause criterion provides a way out
 
-We need not be humbled into submission.
+Recall, we have not measured childhood schooling. Nor have we measured childhood religion. Conditioning on either would enable us to block a back door path from exposure to outcome. However, the modified disjunctive criterion advises that we "include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome."
 
-```{tikz fig-3, fig.cap="A way out"}
+```{tikz fig-3, fig.cap="The modified disjunctive criterion minimises confounding."}
 #| engine.opts=list(template = "tikz-template.tex",
 #|                  dvisvgm.opts = "--font-format=woff")
 
@@ -153,9 +154,11 @@ We need not be humbled into submission.
 
 ```
 
-## Adjusting for the exposure and the outcome at baseline clarifies this way out.
+@fig-3 presents clarifies this application of the modified disjunctive criterion. On this graph, $L^1_{t-1}$ fully mediates the path from childhood schooling to perfectionism. If $L^1_{t-1}$ were measured, including it in our model, along with indicators of forgiveness, would block a backdoor path from perfectionism to humility. Also on this this graph, $L^2_{t-1}$  fully mediates the path from childhood religion to humility. If $L^2_{t-1}$  were measured, including it would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of the reality is unknown. By including in the set of measured confounders any $\{l \in L^1_{t-1}\} \lor  \{l \in L^2_{t-1}\}$ we may reduce or even eradicate confounding. Of course, this approach assumes that set of measured confounders as a whole does not introduce novel opportunities for M-bias. Over-adjustment is remains a theoretical possibility. The modified disjunctive criterion cannot escape theory. It rather guides us in the application of theory for strategies of confounding control.
 
-```{tikz fig-4, fig.cap="A way out"}
+## Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control. 
+
+```{tikz fig-4, fig.cap="Conditioning on baseline exposure and outcome measures minimises uncontrolled confounding."}
 #| engine.opts=list(template = "tikz-template.tex",
 #|                  dvisvgm.opts = "--font-format=woff")
 
