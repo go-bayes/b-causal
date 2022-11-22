@@ -304,9 +304,6 @@ Furthermore, the advantage of including indicators both of the exposure and of t
 \node[below =of 14, align=left] (15) {};
 \node[below =of 15, align=left] (16) {U$_{Family~Network}$};
 
-
-
-
 \draw[Arrow] (1) to (4.west);
 \draw[Arrow] (2) to (4.west);
 \draw[Arrow, bend left=20] (1) to (8);
@@ -319,7 +316,8 @@ Furthermore, the advantage of including indicators both of the exposure and of t
 \draw[Arrow] (14) to (12.west);
 \draw[Arrow] (16) to (12.west);
 \draw[Arrow, bend left=70] (14) to (8.west);
-\draw[Arrow, bend right=70] (16) to (6);
+\draw[Arrow, bend left=30] (16) to (10);
+
 
 
 ```
