@@ -79,7 +79,7 @@ Such a criterion might appear to be too liberal. It might seem that we should in
 
 Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship: if we were to intervene on someone's perfectionism, we would not affect their humility. In @fig-1 we represent the absence of a causal association by omitting an arrow from perfectionism to humility.
 
-Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, consider that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. $$perfectionism \to childhood~chooling \to childhood~religion \to humility$$ @fig-1 presents this type of over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness wpuld be biased. Stratifying on forgiveness implies we must ask for it!
+Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, consider that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. $$perfectionism \to childhood~chooling \to childhood~religion \to humility$$ @fig-1 presents this type of over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness would be biased. 
 
 ```{tikz fig-1, fig.cap="M-bias: an example of confounding that arises from over-adjustment"}
 #| engine.opts=list(template = "tikz-template.tex",
@@ -103,6 +103,21 @@ Next, suppose that our statistical model conditions on forgiveness. Suppose furt
 \draw[Arrow, bend right=70] (2) to (6);
 \draw[Arrow, bend left=70] (1) to (5);
 ```
+
+Over conditioning is understandably infuriating. Where $A$ is an exposure, $Y^a$ is a potential outcome and $L$ is our pre-treatment collider, the world hands us: 
+
+$$ A \perp\!\!\!\perp Y^a$$
+
+However the world also hands us:
+
+
+$$A \not\!\perp\!\!\!\perp  Y^a |L$$
+
+In our quest for perfection, we stratified on forgiveness. Now we must ask for it!
+
+
+
+
 
 ## Seemingly uncontrollable confounding
 

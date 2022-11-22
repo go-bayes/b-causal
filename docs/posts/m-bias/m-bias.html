@@ -227,7 +227,7 @@ div.csl-indent {
 <section id="m-bias" class="level2">
 <h2 class="anchored" data-anchor-id="m-bias">M-bias</h2>
 <p>Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship: if we were to intervene on someone’s perfectionism, we would not affect their humility. In <a href="#fig-1">Figure&nbsp;1</a> we represent the absence of a causal association by omitting an arrow from perfectionism to humility.</p>
-<p>Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, consider that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. <span class="math display">\[perfectionism \to childhood~chooling \to childhood~religion \to humility\]</span> <a href="#fig-1">Figure&nbsp;1</a> presents this type of over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness wpuld be biased. Stratifying on forgiveness implies we must ask for it!</p>
+<p>Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, consider that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. <span class="math display">\[perfectionism \to childhood~chooling \to childhood~religion \to humility\]</span> <a href="#fig-1">Figure&nbsp;1</a> presents this type of over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness would be biased.</p>
 <div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-1_6f96ee49992756529a7f08efd7c00483">
 <div class="cell-output-display">
 <div id="fig-1" class="quarto-figure quarto-figure-center anchored">
@@ -238,6 +238,11 @@ div.csl-indent {
 </div>
 </div>
 </div>
+<p>Over conditioning is understandably infuriating. Where <span class="math inline">\(A\)</span> is an exposure, <span class="math inline">\(Y^a\)</span> is a potential outcome and <span class="math inline">\(L\)</span> is our pre-treatment collider, the world hands us:</p>
+<p><span class="math display">\[ A \perp\!\!\!\perp Y^a\]</span></p>
+<p>However the world also hands us:</p>
+<p><span class="math display">\[A \not\!\perp\!\!\!\perp  Y^a |L\]</span></p>
+<p>In our quest for perfection, we stratified on forgiveness. Now we must ask for it!</p>
 </section>
 <section id="seemingly-uncontrollable-confounding" class="level2">
 <h2 class="anchored" data-anchor-id="seemingly-uncontrollable-confounding">Seemingly uncontrollable confounding</h2>
