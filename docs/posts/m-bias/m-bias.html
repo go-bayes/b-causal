@@ -214,21 +214,21 @@ div.csl-indent {
 <ul>
 <li>You are interested in psychological science.</li>
 <li>You have some familiarity with causal diagrams.</li>
-<li>You want to understand better how to select covariates to control for confounding to identify causal effects from statistical associations in observational data.</li>
+<li>You want to understand better how to select covariates to control for confounding.</li>
 </ul>
 </section>
 <section id="review" class="level2">
 <h2 class="anchored" data-anchor-id="review">Review</h2>
-<p><a href="https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html">Elsewhere</a>, we have described our strategy for using three waves of panel data to identify causal effects. For confounding control, we adopt a modified disjunctive cause criterion:</p>
+<p><a href="https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html">Elsewhere</a>, we have described our strategy for using three waves of panel data to identify causal effects. For confounding control, we adopt VanderWeele’s modified disjunctive cause criterion:</p>
 <blockquote class="blockquote">
 <p>control for each covariate that is a cause of the exposure, or of the outcome, or of both; exclude from this set any variable known to be an instrumental variable; and include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome <span class="citation" data-cites="vanderweele2020 vanderweele2019">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020, 441</a>; <a href="#ref-vanderweele2019" role="doc-biblioref">VanderWeele 2019</a>)</span>.</p>
 </blockquote>
-<p>Such a criterion might appear to be too liberal. It might seem that we should instead select the minimum adjustment set of confounders necessary for confounding control. Of course, the minimum adjustment set cannot generally be known. However, a liberal inclusion criterion would seem to invite confounding by over-conditioning. We next consider the risks of liberality in three-wave panel designs.</p>
+<p>Such a criterion might appear to be too liberal. It might seem that we should instead select the minimum adjustment set of confounders necessary for confounding control. Of course, the minimum adjustment set cannot generally be known. However, a liberal inclusion criterion would seem to invite confounding by over-conditioning. We next consider the risks of such liberality in three-wave panel designs.</p>
 </section>
 <section id="m-bias" class="level2">
 <h2 class="anchored" data-anchor-id="m-bias">M-bias</h2>
 <p>Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship: if we were to intervene on someone’s perfectionism, we would not affect their humility. In <a href="#fig-1">Figure&nbsp;1</a> we represent the absence of a causal association by omitting an arrow from perfectionism to humility.</p>
-<p>Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, consider that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. <span class="math display">\[perfectionism \to childhood~chooling \to childhood~religion \to humility\]</span> <a href="#fig-1">Figure&nbsp;1</a> presents this type of over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness would be biased.</p>
+<p>Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, suppose that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. <span class="math display">\[perfectionism \to childhood~chooling \to childhood~religion \to humility\]</span> <a href="#fig-1">Figure&nbsp;1</a> presents this type of baseline over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness would be biased.</p>
 <div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-1_6f96ee49992756529a7f08efd7c00483">
 <div class="cell-output-display">
 <div id="fig-1" class="quarto-figure quarto-figure-center anchored">
@@ -239,17 +239,17 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>Over conditioning is understandably infuriating. Where <span class="math inline">\(A\)</span> is an exposure, <span class="math inline">\(Y^a\)</span> is a potential outcome and <span class="math inline">\(L\)</span> is our pre-treatment collider, the world hands us:</p>
+<p>Over-conditioning is lamentable, to say the least. Where <span class="math inline">\(A\)</span> is an exposure, <span class="math inline">\(Y^a\)</span> is a potential outcome and <span class="math inline">\(L\)</span> is our pre-treatment collider confounder, the world hands us the unconditional independence of the treatment and the potential outcome:</p>
 <p><span class="math display">\[ A \perp\!\!\!\perp Y^a\]</span></p>
-<p>However the world also hands us:</p>
+<p>However the world also hands us conditional confounding:</p>
 <p><span class="math display">\[A \not\!\perp\!\!\!\perp  Y^a |L\]</span></p>
-<p>In our quest for perfection, we stratified on forgiveness. Now we must ask for it!</p>
+<p>In our quest for perfection we stratified on forgiveness. Now we must ask for it!</p>
 </section>
 <section id="seemingly-uncontrollable-confounding" class="level2">
 <h2 class="anchored" data-anchor-id="seemingly-uncontrollable-confounding">Seemingly uncontrollable confounding</h2>
-<p>The solution to M-bias seems obvious. Do not condition on forgiveness. However, typically the data do not tell us the true structures of causal relationships. We must rely on assumptions. How would our problem change if, contrary to our previous assumptions, we were to assume that forgiveness causes (i.e.&nbsp;diminishes) perfectionism? Such an assumption would appear theoretically plausible. An intervention that caused me to be more forgiving of others might also cause me to be more forgiving of myself. A causal diagram that incorporates this new assumption is presented in <a href="#fig-2">Figure&nbsp;2</a>. Under our revised assumptions confounding appears unavoidable. As just discussed, if we were to adjust for forgiveness, we would induce confounding. However, if forgiveness affects perfectionism and we do not adjust for forgiveness an open path between the exposure and outcome remains:</p>
+<p>The strategy for handling M-bias would seem obvious. Do not condition on forgiveness. However, typically the data do not tell us the true structures of causal relationships. We must rely on assumptions. How would our problem change if, contrary to our previous assumptions, we were to assume that forgiveness causes (i.e.&nbsp;diminishes) perfectionism? Such an assumption would appear theoretically plausible. An intervention that caused me to be more forgiving of others might also cause me to be more forgiving of myself. A causal diagram that incorporates this new assumption is presented in <a href="#fig-2">Figure&nbsp;2</a>. Under our revised assumptions confounding appears unavoidable. As just discussed, if we were to adjust for forgiveness, we would induce confounding. However, if we did not adjust for forgiveness, an open path between the exposure and outcome would remain:</p>
 <p><span class="math display">\[perfectionism \to forgiveness \to childhood religion \to humility\]</span>.</p>
-<p>It would seem taht whether or not we adjust for forgiveness we are humbled!</p>
+<p>Whether or not we adjust for forgiveness we are humbled!</p>
 <div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-2_430e99ed148cfac64ad222d3006fd452">
 <div class="cell-output-display">
 <div id="fig-2" class="quarto-figure quarto-figure-center anchored">
@@ -263,23 +263,23 @@ div.csl-indent {
 </section>
 <section id="the-modified-disjunctive-cause-criterion-provides-a-way-out" class="level2">
 <h2 class="anchored" data-anchor-id="the-modified-disjunctive-cause-criterion-provides-a-way-out">The modified disjunctive cause criterion provides a way out</h2>
-<p>Recall, we have not measured childhood schooling. Nor have we measured childhood religion. Had we measured either variable we could block the back door path from exposure to outcome. Yet there are other strategies at our disposal. The modified disjunctive criterion recommends that we “include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome.”</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-3_df56190bcd249de4d3f437c02bce8e28">
+<p>Recall, we have not measured childhood schooling. Nor have we measured childhood religion. Had we measured either variable we could block the back door path from exposure to outcome. Yet there are other strategies at our disposal. The modified disjunctive cause criterion recommends that we “include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome.”</p>
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-3_5c07277aa9d46575d425e43f1d3042c8">
 <div class="cell-output-display">
 <div id="fig-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="m-bias_files/figure-html/fig-3-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;3: The modified disjunctive criterion minimises confounding.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: The modified disjunctive cause criterion minimises confounding.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-3">Figure&nbsp;3</a> clarifies how application of the modified disjunctive criterion may reduce or eliminate confounding. On this graph, <span class="math inline">\(L^1_{t-1}\)</span> fully mediates the path from childhood schooling to perfectionism. If any variable corresponding to <span class="math inline">\(L^1_{t-1}\)</span> were measured, including it in our model, along with indicators of forgiveness, would block the backdoor path from perfectionism to humility. Furthermore, on this graph, <span class="math inline">\(L^2_{t-1}\)</span> fully mediates the path from childhood religion to humility. If any variable corresponding to <span class="math inline">\(L^2_{t-1}\)</span> were measured, including it in our model would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of reality is unknown. However, by including in the set of measured confounders any <span class="math inline">\(l \in (L^1_{t-1} \lor L^2_{t-1})\)</span>, we may reduce or even eradicate confounding. We may adopt confounding control using proxies of unmeasured confounders.</p>
+<p><a href="#fig-3">Figure&nbsp;3</a> clarifies how application of the modified disjunctive cause criterion may reduce or eliminate confounding. On this graph, <span class="math inline">\(L^1_{t-1}\)</span> fully mediates the path from childhood schooling to perfectionism. If any variable corresponding to <span class="math inline">\(L^1_{t-1}\)</span> were measured, including it in our model, along with indicators of forgiveness, would block the backdoor path from perfectionism to humility. Furthermore, on this graph, <span class="math inline">\(L^2_{t-1}\)</span> fully mediates the path from childhood religion to humility. If any variable corresponding to <span class="math inline">\(L^2_{t-1}\)</span> were measured, including it in our model would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of reality is unknown. However, by including in the set of measured confounders any <span class="math inline">\(l \in (L^1_{t-1} \lor L^2_{t-1})\)</span>, we may reduce or even eradicate confounding. We may adopt confounding control using proxies of unmeasured confounders.</p>
 </section>
 <section id="the-spectre-of-confounding-remains" class="level2">
 <h2 class="anchored" data-anchor-id="the-spectre-of-confounding-remains">The spectre of confounding remains</h2>
-<p>Consider how conditioning on many baseline confounders may open new opporunities for M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity, perfectionism, and humility, such as one’s social network and one’s family relationships as presented in <a href="#fig-4">Figure&nbsp;4</a>. Here, conditioning on charity would induce M-bias. If we are confident that charity does not meet the modified disjunctive criterion, then we should exclude charity from our model. However, we repeat our mantra: we cannot be certain any causal diagram reflects the causal structures of reality.</p>
-<p>Application of the modified disjunctive criterion helps us use theory to develop strategies of confounding control. However we cannot escape theory. With this in mind, what if were to allow charity to affect perfectionism? We consider this question next.</p>
+<p>Consider how conditioning on many baseline confounders may open new opporunities for M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity, perfectionism, and humility, such as one’s social network and one’s family relationships as presented in <a href="#fig-4">Figure&nbsp;4</a>. Here, conditioning on charity would induce M-bias. If we are confident that charity does not meet the modified disjunctive cause criterion, then we should exclude charity from our model. However, we repeat our mantra: we cannot be certain any causal diagram reflects the causal structures of reality.</p>
+<p>Application of the modified disjunctive criterion enables researchers to better use theory for developing strategies of confounding control. However researchers cannot escape theory. With this in mind, we ask: what if theory were to allow charity to affect perfectionism? We consider this question next.</p>
 <div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-4_43d2fb57ede58a84728e2025e1737f8d">
 <div class="cell-output-display">
 <div id="fig-4" class="quarto-figure quarto-figure-center anchored">
@@ -346,7 +346,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>The world is dynamic. Science learns the world’s structure only slowly. The modified disjunctive criterion minimises reliance on any specific causal diagram. Yet we cannot known whether our confounding control strategy was successful. For this reason, we recommend sensitivity analysis. In our research, we report E-values <span class="citation" data-cites="vanderweele2017">(<a href="#ref-vanderweele2017" role="doc-biblioref">VanderWeele and Ding 2017</a>)</span>. We reserve discussion of sensitivity analysis for future reports.</p>
+<p>The world is dynamic. Science learns the world’s structure only slowly. The modified disjunctive cause criterion minimises reliance on any specific causal diagram. Yet we cannot known whether our confounding control strategy was successful. For this reason, we recommend sensitivity analysis. In our research, we report E-values <span class="citation" data-cites="vanderweele2017">(<a href="#ref-vanderweele2017" role="doc-biblioref">VanderWeele and Ding 2017</a>)</span>. We reserve discussion of sensitivity analysis for future reports.</p>
 </section>
 <section id="the-causal-crisis-in-psychology-cannot-be-fixed-with-graphs-needed-are-time-series-data." class="level2">
 <h2 class="anchored" data-anchor-id="the-causal-crisis-in-psychology-cannot-be-fixed-with-graphs-needed-are-time-series-data.">The causal crisis in psychology cannot be fixed with graphs: needed are time series data.</h2>
