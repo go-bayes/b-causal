@@ -565,5 +565,12 @@
     "title": "M-Bias: Confounding Control Using Three Waves of Panel Data",
     "section": "The spectre of confounding remains",
     "text": "The spectre of confounding remains\nConsider how conditioning on many baseline confounders opens the pathway for new sources of M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity associated with perfectionism and humility. As indicated in Figure 4, conditioning on charity will induce M-bias. If we are confident that charity does not meet the modified disjunctive criterion, then we should exclude charity from our model. However, again, we cannot be certain we have know the causal structures of reality. Application of the modified disjunctive criterion cannot escape theory. The criterion helps us use theory to develop strategies of confounding control.\n\n\n\n\n\nFigure 4: Overconditioning remains a threat."
+  },
+  {
+    "objectID": "posts/m-bias/m-bias.html#when-can-we-do-better-than-adjusting-for-baseline-exposure-and-outcome-alone",
+    "href": "posts/m-bias/m-bias.html#when-can-we-do-better-than-adjusting-for-baseline-exposure-and-outcome-alone",
+    "title": "M-Bias: Confounding Control Using Three Waves of Panel Data",
+    "section": "When can we do better than adjusting for baseline exposure and outcome alone?",
+    "text": "When can we do better than adjusting for baseline exposure and outcome alone?\nFigure 6 presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects of over-conditioning described in Figure 5, it is worth considering which circumstances would motivate adjusting for indicators other than baseline measures for the exposure and the outcome. We leave such considerations to future work!\n\n\n\n\n\nFigure 6: Conditioning on baseline exposure and outcome may be sufficient for confounding control."
   }
 ]

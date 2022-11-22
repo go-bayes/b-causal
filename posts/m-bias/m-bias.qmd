@@ -276,7 +276,7 @@ We have assumed that (unmeasured) childhood religion causes humility, the outcom
 As indicated in @fig-5, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding. To bias effect estimates any such unmeasured confounding would need to be orthogonal to its effects at baseline. Note that **such a strategy requires collecting at least three waves of panel data.**
 
 
-## Can we ever do better than adjusting for baseline exposure and outcome alone? 
+## When can we do better than adjusting for baseline exposure and outcome alone? 
 
 @fig-6 presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects of over-conditioning described in @fig-5, it is worth considering which circumstances would motivate adjusting for indicators other than baseline measures for the exposure and the outcome. We leave such considerations to future work!
 
