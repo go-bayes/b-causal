@@ -1,0 +1,82 @@
+---
+title: "New Zealand Attitudes and Values Study: flourishing measures"
+subtitle: "Introduced Time 10 (2018-2019) " 
+execute:
+  warning: false
+  echo: false
+draft: true
+toc: true
+fornat: word
+author: 
+  - name: NZAVS TEAM
+    affiliation: Victoria University of Wellington, New Zealand; Georgia State University, USA;  University of Auckland,  New Zealand
+citation:
+  url: https://go-bayes.github.io/b-causal/
+date: 2022-11-08
+date-format: short
+categories: 
+  - NZAVS
+  - Flourishing
+  - Descriptive
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+bibliography: references.bib
+---
+
+<p style="color :green; ">
+
+Items added for this project in green
+
+<p>
+
+<p style="color :red; ">
+
+Items added for this project in red
+
+<p>
+
+<p style="color :purple; ">
+
+Items already existing directly relevant to this project in purple
+
+<p>
+
+## Gratitude-related measures (5 items included for project)
+
+Gratitude-related measures (6 items included for project)
+
+<p style="color :green; ">
+
+(items added for this project in green)
+
+<p>
+
+### The Gratitude Questionnaire (GQ-6) -- 3 items
+
+McCullough, M. E., Emmons, R. A., & Tsang, J. A. (2002). The grateful disposition: a conceptual and empirical topography. Journal of Personality and Social Psychology, 82(1), 112. Please indicate how strongly you disagree or agree with each statement. (1 strongly disagree -- 7 strongly agree)
+
+-   <p style="color :green; ">
+
+    I have much in my life to be thankful for.
+
+    <p>
+
+-   If I had to list everything that I felt grateful for, it would be a long list.
+
+-   <p style="color :green; ">
+
+    When I look at the world, I don't see much to be grateful for.
+
+    <p>
+
+-   <p style="color :green; ">
+
+    I am grateful to a wide variety of people.
+
+    <p>
+
+-   As I get older I find myself more able to appreciate the people, events, and situations that have been part of my life history.
+
+-   Long amounts of time can go by before I feel grateful to something or someone.
