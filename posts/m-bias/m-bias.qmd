@@ -186,7 +186,7 @@ Recall, we have not measured childhood schooling. Nor have we measured childhood
 
 ## The spectre of confounding remains
 
-Consider how conditioning on many baseline confounders opens the pathway for new sources of M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity associated with perfectionism and humility. As indicated in @fig-4, conditioning on charity will induce M-bias. If we are confident that charity does not meet the modified disjunctive criterion, then we should exclude charity from our model. However, again, we cannot be certain we have know the causal structures of reality. Application of the modified disjunctive criterion cannot escape theory. The criterion helps us use theory to develop strategies of confounding control.
+Consider how conditioning on many baseline confounders may open new pathways for  M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity, perfectionism, and humility, such as one's social network and one's family relationships. Under the assumptions presented in @fig-4, conditioning on charity will induce M-bias. If we are confident that charity does not meet the modified disjunctive criterion, then we should exclude charity from our model. However, we cannot be certain we know the causal structures of reality. Application of the modified disjunctive criterion cannot escape theory. The criterion helps us use theory to develop strategies of confounding control. What if Charity were to affect perfectionism?  We consider this questions in the next section. 
 
 
 ```{tikz fig-4, fig.cap="Overconditioning remains a threat."}
@@ -242,7 +242,6 @@ VanderWeele and colleagues present reasons for including indicators for both the
 ```{tikz fig-5, fig.cap="Conditioning on baseline exposure and outcome measures minimises uncontrolled confounding."}
 #| engine.opts=list(template = "tikz-template.tex", dvisvgm.opts = "--font-format=woff")
 
-
 \begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
 \tikzset{>=latex}
 \tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
@@ -257,7 +256,7 @@ VanderWeele and colleagues present reasons for including indicators for both the
 \node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
 \node[squarednode,above =of 5, align=left] (8) {{Perfectionism$_{t-1}$}};
 \node[below =of 4, align=left] (9) {};
-\node[squarednode,below =of 9, align=left, dotted] (10) {{Humility$_{t-1}$}};
+\node[squarednode,below =of 9, align=left] (10) {{Humility$_{t-1}$}};
 \draw[Arrow] (1) to (4.west);
 \draw[Arrow] (2) to (4.west);
 \draw[Arrow, bend left=20] (1) to (8);
@@ -269,19 +268,70 @@ VanderWeele and colleagues present reasons for including indicators for both the
 ```
 
 
-We have assumed that (unmeasured) childhood schooling causes perfectionism, the exposure. Notice that by including measures of the exposure at baseline, the effect of childhood schooling on perfection would need to be orthogonal to its effect at baseline.
+We have assumed that (unmeasured) childhood schooling causes perfectionism, the exposure. Notice that by including measures of the exposure at baseline, the effect of childhood schooling on perfectionism would need to be orthogonal to its effect at baseline.
 
 We have assumed that (unmeasured) childhood religion causes humility, the outcome. Notice that by including measures of the outcome at baseline, the effect of childhood religion on humility would need to be orthogonal to its effect at baseline.
 
-As indicated in @fig-5, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding. To bias effect estimates any such unmeasured confounding would need to be orthogonal to its effects at baseline. Note that **such a strategy requires collecting at least three waves of panel data.**
+As shown in @fig-5, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding. For unmeasured confounders to bias effect estimates their effects would need to be orthogonal to their effects at baseline. 
 
+Furthermore, the advantage of including indicators both of the exposure and of the outcome generalises to the problem of novel M-bias., which we considered in @fig-4. As show in @fig-6, adjusting baseline indicators both for the exposure and for the outcome may dramatically reduce or eliminate M-bias that may arise from conditioning on a rich set of baseline confounders. 
+
+
+```{tikz fig-6, fig.cap="Further benefits of conditioning on the baseline exposure and outcome."}
+#| engine.opts=list(template = "tikz-template.tex", dvisvgm.opts = "--font-format=woff")
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {~};
+\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
+\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
+\node[right =of 0, align=left] (3) {};
+\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
+\node[above =of 4, align=left] (5) {};
+\node[right =of 4, align=left] (-2) {~~~~~~~~};
+\node[squarednode,right =of -2, align=left] (6) {{Perfectionism$_{t}$}};
+\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
+\node[squarednode,above =of 5, align=left] (8) {{Perfectionism$^1_{t-1}$}};
+\node[below =of 4, align=left] (9) {};
+\node[squarednode,below =of 9, align=left] (10) {{Humility$^2_{t-1}$}};
+\node[below =of 10] (11) {};
+\node[squarednode,below =of 11, align=left] (12) {{Charity$^3_{t-1}$}};
+\node[left =of 11, align=left] (13) {};
+\node[left =of 13, align=left] (-1) {~~~~~~~~~~~~~~~~~~~~};
+\node[left =of -1, align=left] (14) {U$_{Social~Network}$};
+\node[below =of 14, align=left] (15) {};
+\node[below =of 15, align=left] (16) {U$_{Family~Network}$};
+
+
+
+
+\draw[Arrow] (1) to (4.west);
+\draw[Arrow] (2) to (4.west);
+\draw[Arrow, bend left=20] (1) to (8);
+\draw[Arrow, bend right=20] (2) to (10);
+\draw[Arrow, bend left= 30, dotted] (8.east) to (6);
+\draw[Arrow, bend right=15, dotted] (10) to (7);
+\draw[Arrow] (4) to (6);
+\draw[Arrow] (2) to (4.west);
+
+\draw[Arrow] (14) to (12.west);
+\draw[Arrow] (16) to (12.west);
+\draw[Arrow, bend left=70] (14) to (8.west);
+\draw[Arrow, bend right=70] (16) to (6);
+
+
+```
+
+Again we underscore the importance of longitudinal data: **a strategy that includes baseline measures both of the exposure and the outcome requires collecting at least three waves of panel data.**
 
 ## When can we do better than adjusting for baseline exposure and outcome alone? 
 
-@fig-6 presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects of over-conditioning described in @fig-5, it is worth considering which circumstances would motivate adjusting for indicators other than baseline measures for the exposure and the outcome. We leave such considerations to future work!
+@fig-7 presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects of over-conditioning described in @fig-4, it is worth considering when we would be motivated to adjust for any indicators other than the baseline measures of the exposure and the outcome. We leave such considerations to future work.
 
 
-```{tikz fig-6, fig.cap="Conditioning on baseline exposure and outcome may be sufficient for confounding control."}
+```{tikz fig-7, fig.cap="Conditioning on baseline exposure and outcome may be sufficient for confounding control."}
 #| engine.opts=list(template = "tikz-template.tex",
 #|                  dvisvgm.opts = "--font-format=woff")
 

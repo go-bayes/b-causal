@@ -273,7 +273,7 @@ div.csl-indent {
 </section>
 <section id="the-spectre-of-confounding-remains" class="level2">
 <h2 class="anchored" data-anchor-id="the-spectre-of-confounding-remains">The spectre of confounding remains</h2>
-<p>Consider how conditioning on many baseline confounders opens the pathway for new sources of M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity associated with perfectionism and humility. As indicated in <a href="#fig-4">Figure&nbsp;4</a>, conditioning on charity will induce M-bias. If we are confident that charity does not meet the modified disjunctive criterion, then we should exclude charity from our model. However, again, we cannot be certain we have know the causal structures of reality. Application of the modified disjunctive criterion cannot escape theory. The criterion helps us use theory to develop strategies of confounding control.</p>
+<p>Consider how conditioning on many baseline confounders may open new pathways for M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity, perfectionism, and humility, such as one’s social network and one’s family relationships. Under the assumptions presented in <a href="#fig-4">Figure&nbsp;4</a>, conditioning on charity will induce M-bias. If we are confident that charity does not meet the modified disjunctive criterion, then we should exclude charity from our model. However, we cannot be certain we know the causal structures of reality. Application of the modified disjunctive criterion cannot escape theory. The criterion helps us use theory to develop strategies of confounding control. What if Charity were to affect perfectionism? We consider this questions in the next section.</p>
 <div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-4_a0422c704853f31f522c1c2d7c20a9ee">
 <div class="cell-output-display">
 <div id="fig-4" class="quarto-figure quarto-figure-center anchored">
@@ -288,7 +288,7 @@ div.csl-indent {
 <section id="adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control." class="level2">
 <h2 class="anchored" data-anchor-id="adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control.">Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control.</h2>
 <p>VanderWeele and colleagues present reasons for including indicators for both the exposure and outcome at baseline when estimating causal effects <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span> (<a href="https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html">Elsewhere</a>) Our discussion of M-bias reveals additional reasons for including these indicators of exposure and outcome at baseline.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-5_1307aa5b964c9f3a8d87937dabee4512">
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-5_885dfb9a8578148935fd137ea436472f">
 <div class="cell-output-display">
 <div id="fig-5" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -298,19 +298,31 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>We have assumed that (unmeasured) childhood schooling causes perfectionism, the exposure. Notice that by including measures of the exposure at baseline, the effect of childhood schooling on perfection would need to be orthogonal to its effect at baseline.</p>
+<p>We have assumed that (unmeasured) childhood schooling causes perfectionism, the exposure. Notice that by including measures of the exposure at baseline, the effect of childhood schooling on perfectionism would need to be orthogonal to its effect at baseline.</p>
 <p>We have assumed that (unmeasured) childhood religion causes humility, the outcome. Notice that by including measures of the outcome at baseline, the effect of childhood religion on humility would need to be orthogonal to its effect at baseline.</p>
-<p>As indicated in <a href="#fig-5">Figure&nbsp;5</a>, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding. To bias effect estimates any such unmeasured confounding would need to be orthogonal to its effects at baseline. Note that <strong>such a strategy requires collecting at least three waves of panel data.</strong></p>
-</section>
-<section id="when-can-we-do-better-than-adjusting-for-baseline-exposure-and-outcome-alone" class="level2">
-<h2 class="anchored" data-anchor-id="when-can-we-do-better-than-adjusting-for-baseline-exposure-and-outcome-alone">When can we do better than adjusting for baseline exposure and outcome alone?</h2>
-<p><a href="#fig-6">Figure&nbsp;6</a> presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects of over-conditioning described in <a href="#fig-5">Figure&nbsp;5</a>, it is worth considering which circumstances would motivate adjusting for indicators other than baseline measures for the exposure and the outcome. We leave such considerations to future work!</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-6_0b5e173f1b7ad68876ec819f1789ddfb">
+<p>As shown in <a href="#fig-5">Figure&nbsp;5</a>, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding. For unmeasured confounders to bias effect estimates their effects would need to be orthogonal to their effects at baseline.</p>
+<p>Furthermore, the advantage of including indicators both of the exposure and of the outcome generalises to the problem of novel M-bias., which we considered in <a href="#fig-4">Figure&nbsp;4</a>. As show in <a href="#fig-6">Figure&nbsp;6</a>, adjusting baseline indicators both for the exposure and for the outcome may dramatically reduce or eliminate M-bias that may arise from conditioning on a rich set of baseline confounders.</p>
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-6_7524ce7ed2dace553595389e3a11a161">
 <div class="cell-output-display">
 <div id="fig-6" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="m-bias_files/figure-html/fig-6-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;6: Conditioning on baseline exposure and outcome may be sufficient for confounding control.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;6: Further benefits of conditioning on the baseline exposure and outcome.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again we underscore the importance of longitudinal data: <strong>a strategy that includes baseline measures both of the exposure and the outcome requires collecting at least three waves of panel data.</strong></p>
+</section>
+<section id="when-can-we-do-better-than-adjusting-for-baseline-exposure-and-outcome-alone" class="level2">
+<h2 class="anchored" data-anchor-id="when-can-we-do-better-than-adjusting-for-baseline-exposure-and-outcome-alone">When can we do better than adjusting for baseline exposure and outcome alone?</h2>
+<p><a href="#fig-7">Figure&nbsp;7</a> presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects of over-conditioning described in <a href="#fig-4">Figure&nbsp;4</a>, it is worth considering when we would be motivated to adjust for any indicators other than the baseline measures of the exposure and the outcome. We leave such considerations to future work.</p>
+<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-7_046d21ee965e2060b17d4de91a0a2777">
+<div class="cell-output-display">
+<div id="fig-7" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="m-bias_files/figure-html/fig-7-1.svg" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7: Conditioning on baseline exposure and outcome may be sufficient for confounding control.</figcaption><p></p>
 </figure>
 </div>
 </div>
