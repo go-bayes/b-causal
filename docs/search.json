@@ -438,7 +438,7 @@
     "href": "posts/m-bias/m-bias.html#summary",
     "title": "M-Bias: Confounding Control Using Three Waves of Panel Data",
     "section": "Summary",
-    "text": "Summary\n\nResearchers may accidentally induce confounding by over-adjustment.\nM-bias occurs from the over-adjustment of baseline indicators.\nOnly a slight modification in the assumptions of the M-bias graph implies intractable confounding.\nThree waves of panel data that include indicators at baseline both for the exposure and the outcome point to a way out of intractable confounding.\nCausal diagrams help researchers to clarify causal assumptions, however, to address the causal crisis in observational psychologists require repeated-measures data."
+    "text": "Summary\n\nResearchers may accidentally induce confounding by over-adjustment.\nM-bias occurs from the over-adjustment of baseline indicators.\nOnly a slight modification in the assumptions of the M-bias graph implies intractable confounding.\nThree waves of panel data that include indicators at baseline both for the exposure and the outcome point to a way out of intractable confounding.\nCausal diagrams help researchers to clarify causal assumptions, however, to address the causal crisis, observational psychologists require longitudinal data."
   },
   {
     "objectID": "posts/m-bias/m-bias.html#my-assumptions-about-you",

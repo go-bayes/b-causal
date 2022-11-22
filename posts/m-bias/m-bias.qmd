@@ -59,7 +59,7 @@ if (Sys.info()[["sysname"]] == "Darwin" && Sys.info()[["machine"]] == "arm64") {
 2.  M-bias occurs from the over-adjustment of baseline indicators.
 3.  Only a slight modification in the assumptions of the M-bias graph implies intractable confounding.
 4.  Three waves of panel data that include indicators at baseline both for the exposure and the outcome point to a way out of intractable confounding.
-5.  Causal diagrams help researchers to clarify causal assumptions, however, to address the causal crisis in observational psychologists require repeated-measures data.
+5.  Causal diagrams help researchers to clarify causal assumptions, however, to address the causal crisis, observational psychologists require longitudinal data.
 
 ## Assumptions
 
