@@ -1,6 +1,6 @@
 ---
 title: "Changes in Perceived Risks and Government Attitudes to COVID-19 in New Zealand: years 2021 - 2022"
-subtitle: "New Zealand Attitudes and Values Study (Panel), N = 38,551 (28,642 retained)" 
+subtitle: "New Zealand Attitudes and Values Study (Panel), N = 38,551 (28,642 retained)"
 execute:
   warning: false
   echo: false

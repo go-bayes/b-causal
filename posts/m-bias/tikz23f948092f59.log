@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=latex 2022.11.21)  22 NOV 2022 15:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=latex 2022.11.21)  22 NOV 2022 21:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**tikze31876a45ffb.tex
-(./tikze31876a45ffb.tex
+**tikz23f948092f59.tex
+(./tikz23f948092f59.tex
 LaTeX2e <2022-11-01>
 L3 programming layer <2022-11-02> (/Users/joseph/Library/TinyTeX/texmf-dist/tex/latex/standalone/standalone.cls
 Document Class: standalone 2022/10/10 v1.3b Class to compile TeX sub-files standalone
@@ -506,8 +506,8 @@ File: l3backend-dvips.def 2022-10-26 L3 backend support: dvips
 \g__pdf_backend_link_int=\count312
 \g__pdf_backend_link_sf_int=\count313
 )
-No file tikze31876a45ffb.aux.
-\openout1 = `tikze31876a45ffb.aux'.
+No file tikz23f948092f59.aux.
+\openout1 = `tikz23f948092f59.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
