@@ -79,7 +79,7 @@ Such a criterion might appear to be too liberal. It might seem that we should in
 
 Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship: if we were to intervene on someone's perfectionism, we would not affect their humility. In @fig-1 we represent the absence of a causal association by omitting an arrow from perfectionism to humility.
 
-Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, consider that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. $$perfectionism \to childhood~chooling \to childhood~religion \to humility$$ @fig-1 presents this type of over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness would be biased. 
+Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, consider that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. $$perfectionism \to childhood~chooling \to childhood~religion \to humility$$ @fig-1 presents this type of over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness would be biased.
 
 ```{tikz fig-1, fig.cap="M-bias: an example of confounding that arises from over-adjustment"}
 #| engine.opts=list(template = "tikz-template.tex",
@@ -104,20 +104,15 @@ Next, suppose that our statistical model conditions on forgiveness. Suppose furt
 \draw[Arrow, bend left=70] (1) to (5);
 ```
 
-Over conditioning is understandably infuriating. Where $A$ is an exposure, $Y^a$ is a potential outcome and $L$ is our pre-treatment collider, the world hands us: 
+Over conditioning is understandably infuriating. Where $A$ is an exposure, $Y^a$ is a potential outcome and $L$ is our pre-treatment collider, the world hands us:
 
 $$ A \perp\!\!\!\perp Y^a$$
 
 However the world also hands us:
 
-
 $$A \not\!\perp\!\!\!\perp  Y^a |L$$
 
 In our quest for perfection, we stratified on forgiveness. Now we must ask for it!
-
-
-
-
 
 ## Seemingly uncontrollable confounding
 
@@ -411,3 +406,7 @@ Three-wave longitudinal designs allow us to measure an outcome after an exposure
 Here, we have considered the specific threats of pre-treatment biases. We have considered how a modified disjunctive cause criterion addresses such bias, and why the inclusion at baseline of indicators both for the exposure and the outcome is an especially powerful strategy for confounding control.
 
 It is important that psychological scientists understand the importance of longitudinal data collection. Psychological science faces a casual crisis whose magnitude has yet to be fully appreciated [@bulbulia2022]. Causal diagrams help us to understand the crisis, however, the crisis will not be resolved with causal diagrams alone. With at at least three waves of repeated measures time-series data researchers may dramatically improve the quality of causal inference.
+
+## Acknowledgements 
+
+I are grateful for Templeton Religion Trust Grant: 0418 for supporting my work.^[The funders played no role in the design or interpretation of this research.]

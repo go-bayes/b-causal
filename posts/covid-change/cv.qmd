@@ -930,7 +930,7 @@ bp_0 <- m0w_p + labs(subtitle = "COVID Risks Exaggerated",
 ```
 
 
-@fig-bayes and @tbl-cap present the results of the Bayesian multilevel imputation models. These agree with the models that do not handle attrition. Conditional on the imputation model, then, we infer there was little bias in estimated average responses arising from panel attrition.
+@fig-bayes and @tbl-bayes-compare present the results of the Bayesian multilevel imputation models. These agree with the models that do not handle attrition. Conditional on the imputation model, then, we infer there was little bias in estimated average responses arising from panel attrition.
 
 
 ```{r}
