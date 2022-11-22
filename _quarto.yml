@@ -10,7 +10,7 @@ website:
       - icon: github
         href: https://github.com/go-bayes
       - icon: mastodon
-        href: https://fosstodon.org/@b_causal
+        href: https://qoto.org/@joseph_bulbulia
 format:
   html:
     theme: cosmo

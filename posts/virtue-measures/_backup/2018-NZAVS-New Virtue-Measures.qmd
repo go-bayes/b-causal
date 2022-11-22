@@ -1,0 +1,214 @@
+---
+title: "NZAVS Virtue Measures introduced in 2018"
+format: html
+date: 2022-11-15
+date-format: short
+categories: 
+  - Background
+  - NZAVS
+---
+
+## Background
+
+In 2018, the New Zealand Attitudes and Values Study (NZAVS) developed the following measures to investigate classical theories of virtue and human flourishing.
+
+## Gratitude-related measures (6 items included for project)
+
+[items added for this project in green]{style="color: green;"}
+
+### The Gratitude Questionnaire (GQ-6) -- 3 items
+
+McCullough, M. E., Emmons, R. A., & Tsang, J. A. (2002). The grateful disposition: a conceptual and empirical topography. Journal of Personality and Social Psychology, 82(1), 112.
+
+Please indicate how strongly you disagree or agree with each statement. (1 strongly disagree -- 7 strongly agree)
+
+-   $\color{green}{\text{I have much in my life to be thankful for.}}$
+-   Second If I had to list everything that I felt grateful for, it would be a long list.
+-   $\color{green}{\text{When I look at the world, I don't see much to be grateful for.}}$
+-   $\color{green}{\text{I am grateful to a wide variety of people.}}$
+-   As I get older I find myself more able to appreciate the people, events, and situations that have been part of my life history.
+-   Long amounts of time can go by before I feel grateful to something or someone.
+
+### Meaning in Life Questionnaire (presence of meaning facet) -- 2 items
+
+Steger, M. F., Frazier, P., Oishi, S., & Kaler, M. (2006). The Meaning in Life Questionnaire: Assessing the presence of and search for meaning in life. Journal of Counseling Psychology, 53, 80-93.
+
+Please take a moment to think about what makes your life and existence feel important and significant to you, and indicate how strongly you disagree or agree with each statement. Please respond as truthfully and accurately as you can, and remember that these are very subjective questions and that there are no right or wrong answers. (1 strongly disagree -- 7 strongly agree)
+
+-    $\color{green}{\text{My life has a clear sense of purpose.$
+-    $\color{green}{\text{I have a good sense of what makes my life meaningful.$
+-   I understand my life's meaning.
+-   I have discovered a satisfying life purpose.
+-   My life has no clear purpose.
+
+## Humility-related measures (9 new items)
+
+### EXACO-100 Honesty-Humility facets -- 4 items
+
+Ashton, M. C., Lee, K., Perugini, M., Szarota, P., De Vries, R. E., Di Blas, L., ... & De Raad, B. (2004). A six-factor structure of personality-descriptive adjectives: solutions from psycholexical studies in seven languages. Journal of personality and social psychology, 86(2), 356.
+
+On the following pages you will find a series of statements about you. Please indicate how strongly you disagree or agree with each statement. (1 strongly disagree -- 7 strongly agree)
+
+#### Sincerity
+
+-   If I want something from a person I dislike, I will act very nicely toward that person in order to get it.
+-   I wouldn't use flattery to get a raise or promotion at work, even if I thought it would succeed.
+-   If I want something from someone, I will laugh at that person's worst jokes.
+-   I wouldn't pretend to like someone just to get that person to do favors for me.
+
+#### Fairness
+
+-   If I knew that I could never get caught, I would be willing to steal a million dollars. - I would be tempted to buy stolen property if I were financially tight.
+-   I would never accept a bribe, even if it were very large.
+-   I'd be tempted to use counterfeit money, if I were sure I could get away with it.
+
+#### Greed-Avoidance
+
+-   Having a lot of money is not especially important to me.
+-   I would like to live in a very expensive, high-class neighborhood.
+-  $\color{purple}{\text{I would like to be seen driving around in a very expensive car. -- ALREADY INCLUDED}}$
+-  $\color{purple}{\text{I would get a lot of pleasure from owning expensive luxury goods. -- ALREADY INCLUDED}}$ 
+
+#### Modesty
+
+-   $\color{green}{\text{I am an ordinary person who is no better than others.}}$
+-    $\color{green}{\text{I wouldn't want people to treat me as though I were superior to them.}}$
+-    $\color{green}{\text{I think that I am entitled to more respect than the average person is.}}$
+-    $\color{green}{\text{I want people to know that I am an important person of high status. -- ROTATED BACK}}$
+
+### Tall Poppy Scale -- 3 items. (Related to Virtue of Humility)
+
+Feather, N. T. (1989). Attitudes towards the high achiever: The fall of the tall poppy. Australian Journal of Psychology, 41(3), 239-267. Please indicate how strongly you disagree or agree with each statement. (1 strongly disagree -- 7 strongly agree)
+
+-   People who are very successful deserve all the rewards they get for their achievements.
+-    $\color{green}{\text{It's good to see very successful people fail occasionally.}}$
+-   Very successful people often get too big for their boots.
+-   People who are successful in what they do are usually friendly and helpful to others. - At school it's probably better for students to be near the middle of the class than the very top student.
+-    $\color{green}{\text{People shouldn't criticise or knock the very successful.}}$
+-   Very successful people who fall from the top usually deserve their fall from grace.
+-   Those who are very successful ought to come down off their pedestals and be like other people.
+-   The very successful person should receive public recognition for his/her accomplishments.
+-    $\color{green}{\text{People who are "tall poppies" should be cut down to size.}}$$
+-   One should always respect the person at the top.
+-   One ought to be sympathetic to very successful people when they experience failure and fall from their very high positions.
+-   Very successful people sometimes need to be brought down a peg or two, even if they have done nothing wrong.
+-   Society needs a lot of very high achievers.
+-   People who always do a lot better than others need to learn what it's like to fail.
+-   People who are right at the top usually deserve their high position.
+-   It's very important for society to support and encourage people who are very successful.
+-   People who are very successful get too full of their own importance.
+-   Very successful people usually succeed at the expense of other people.
+-   Very successful people who are at the top of their field are usually fun to be with.
+
+### Psychological Entitlement Scale -- existing items
+
+Campbell, W. K., Bonacci, A. M., Shelton, J., Exline, J. J., & Bushman, B. J. (2004). Psychological entitlement: Interpersonal consequences and validation of a self-report measure. Journal of Personality Assessment, 83(1), 29-45.
+
+Please indicate how strongly you disagree or agree the following statements reflect your own beliefs. (1 strongly disagree -- 7 strongly agree)
+
+-   I honestly feel I'm just more deserving than others.
+-   Great things should come to me.
+-   If I were on the Titanic, I would deserve to be on the first lifeboat.
+-   I demand the best because I'm worth it.
+-   I do not necessarily deserve special treatment.
+-   $\color{purple}{\text{I deserve more things in my life. -- ALREADY INCLUDED}}$
+-   People like me deserve an extra break now and then.
+-   Things should go my way.
+-   $\color{purple}{\text{I feel entitled to more of everything. -- ALREADY INCLUDED}}$$
+
+### Power and Dependence -- 2 items Developed for NZAVS
+
+-   [I do not have enough power or control over important things in my life.]{style="color: green;"}
+-   [Other people have too much power or control over important parts of my life.]{style="color: green;"}
+
+## Forgivingness (6 items included for project)
+
+### Forgivingness versus Vengeful Rumination -- 3 items
+
+-   $\color{green}{\text{Sometimes I can't sleep because of thinking about past wrongs I have suffered. [Adapted from Caprara]{style="color: green;"}
+-   $\color{green}{\text{I can usually forgive and forget when someone does me wrong. (Adapted from Berry et al)}}$
+-   $\color{green}{\text{I find myself regularly thinking about past times that I have been wronged. }}$
+
+Caprara, G. V. (1986). Indicators of aggression: The dissipation-rumination scale. Personality and Individual Differences, 7(6), 763-769.
+
+Berry, J. W., Worthington, E. L., O'Connor, L. E., Parrott, L., & Wade, N. G. (2005). Forgivingness, vengeful rumination, and affective traits. Journal of Personality, 73(1), 183-226.
+
+-   People close to me probably think I hold a grudge too long.
+-   I can forgive a friend for almost anything.
+-   If someone treats me badly, I treat him or her the same.
+-   I try to forgive others even when they don't feel guilty for what they did.
+-   I can usually forgive and forget an insult. [item above similar to this item]
+-   I feel bitter about many of my relationships.
+-   Even after I forgive someone, things often come back to me that I resent.
+-   There are some things for which I could never forgive even a loved one.
+-   I have always forgiven those who hurt me.
+-   I am a forgiving person.
+
+### Short Almost Perfect Scale (SAPS) -- 3 items
+
+Rice, K. G., Richardson, C. M., & Tueller, S. (2014). The short form of the revised almost perfect scale. Journal of Personality Assessment, 96(3), 368-379.
+
+The following items are designed to measure certain attitudes people have toward themselves, their performance, and toward others. Please indicate how strongly you disagree or agree with each statement. It is important that your answers be true and accurate for you. • I have high expectations for myself.
+
+-   $\color{green}{\text{Doing my best never seems to be enough.}}$
+-   I set very high standards for myself.
+-   I often feel disappointment after completing a task because I know I could have done better.
+-   I have a strong need to strive for excellence.
+-   $\color{green}{\text{My performance rarely measures up to my standards.}}$
+-   I expect the best from myself.
+-   $\color{green}{\text{I am hardly ever satisfied with my performance.}}$
+
+## Focal covariates and predictors (12 items included for project)
+
+### Emotion regulation (3 items)
+
+-   $\color{green}{\text{When I feel negative emotions, my emotions feel out of control.}}$
+-   $\color{green}{\text{When I feel negative emotions, I supress or hide my emotions.}}$
+-   $\color{green}{\text{When I feel negative emotions, I change the way I think to help me stay calm.}}$
+
+Adapted from Difficulties with Emotion Regulation Scale (DERS) -- Item 1 Gratz, K. L., & Roemer, L. (2004). Multidimensional assessment of emotion regulation and dysregulation: Development, factor structure, and initial validation of the difficulties in emotion regulation scale. Journal of psychopathology and behavioral assessment, 26(1), 41-54. doi: 10.1023/B:JOBA.0000007455.08539.94
+
+Adapted from Emotion Regulation Questionnaire (ERQ) -- Items 2 and 3 Gross, J. J., & John, O. P. (2003). Individual differences in two emotion regulation processes: Implications for affect, relationships, and well-being. Journal of Personality and Social Psychology, 85(2), 348-362. doi: 10.1037/0022-3514.85.2.348
+
+### Valued in workplace (1 item: Gratitude)
+
+![Figure1](fig1.png)
+
+### Received support (3 items: Generosity)
+
+![Figure2](fig2.png)
+
+### Hours socializing (4 items: Social networks)
+
+![Figure3](fig3.png)
+
+Critical predictors/covariates also added as part of the project
+
+### Life events inventory (1 item)
+
+![Figure4](fig4.png)
+
+## Items rotated in early to supplement project -- 8 items included for project
+
+### Attitudes toward religion -- 3 items
+
+Gibson, N. J. S., & Barnes, K. (2013). The varieties of religious nones: factor structure and validity of the non-religosity scales. Paper presented at: The International Association for the Psycholology of Religion, Lausanne, Switzerland.
+
+-   $\color{red}{\text{The teachings of traditional religions are still helpful today.}}$
+-   $\color{red}{\text{I oppose religion in any form.}}$
+-   $\color{red}{\text{All things considered, religion is a cause for good in the world.}}$
+
+### Spiritual identification -- 1 item
+
+Postmes, T., Haslam, S. A., & Jans, L. (2013). A single‐item measure of social identification: Reliability, validity, and utility. British Journal of Social Psychology, 52(4), 597-617.
+
+-   $\color{red}{\text{I identify as a spiritual person.}}$
+
+### Criminal Justice Attitudes -- 4 items
+
+Developed for NZAVS
+
+-   $\color{red}{\text{With enough support and professional help, people who have committed violent offences can be rehabilitated to become safe members of our society.}}$
+-   $\color{red}{\text{With enough support and professional help, people who have committed sexual offences can be rehabilitated to become safe members of our society.}}$
+-   $\color{red}{\text{A publicly available online database of all convicted sex offenders in NZ.}}$
+-   $\color{red}{\text{The current '3 Strikes' law for violent/sexual offences, where the maximum possible sentence must be imposed without parole upon the third conviction.}}$

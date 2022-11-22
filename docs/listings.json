@@ -2,7 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/m-bias/m-bias.html",
       "/posts/covid-change/cv.html",
+      "/posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html",
       "/posts/confounder-treatment-feedback/conf-out-feedback.html",
       "/posts/g-computation/g-computation.html",
       "/posts/outcomewide/outcome-wide.html",

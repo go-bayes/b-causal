@@ -2,6 +2,8 @@
 title: "Draft"
 editor: visual
 draft: true
+execute: 
+  warning: false
 ---
 
 ```{r}
@@ -38,8 +40,8 @@ packages <- c("tidyverse",
               "formula.tools",
               "ggpubr",
               "lme4",
-             # "rstan",
-            #  "cmdstanr",
+               "rstan",
+               "cmdstanr",
               "geepack",
               "brms",
               "ggokabeito",
@@ -82,9 +84,8 @@ if (!require(brms)) {
 
 
 # rstan options
-rstan_options(auto_write = TRUE)
+rstan::rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores ())
-
 ```
 
 ```{r, include = FALSE}
@@ -168,9 +169,7 @@ dt <- dat |>
   levels(dt$Wave) <- c("Time12", "Time13")
 ```
 
-
 ```{r, eval = FALSE}
-
 dt <- dat |>
   dplyr::mutate(Male = if_else(GendAll == 1,1,0),
     Euro = if_else(EthCat == 1, 1, 0))|>
@@ -342,53 +341,23 @@ naniar::gg_miss_var(dt)
 ```
 
 
-
-
-
-
-
-
-```{r, eval =FALSE}
-# library(Amelia)
-# # impute missing responses
-# imputed0 <- amelia(
-#   set.seed = 1234,
-#   dt,
-#   cs = c("Id"),
-#   ts = c("wave"),
-#   m = 10,
-#   # number of imputations
-#   noms = c("Male_c", "Euro_c"),
-#   idvars = c("Wave")
-# )
-# length(unique(imputed0$imputations$imp1$Id))
-
-
-# inspect
-table1::table1(~ COVID.SatGovtResponse |
-                 Wave,
-               data =imputed0$imputations$imp1,
-               overall = FALSE)
-```
-
-
-
-
- 
-```{r}
+```{r, eval = FALSE}
 #| echo: false
 # to assess positivity
 msm::statetable.msm(round(COVID.RisksExaggerated, 0), Id, data = dt) |>
   kbl() |> 
   kable_paper(full_width = F)
+
+ds<- dat |> 
+  filter(YearMeasured == 1 & Wave == 2018 | YearMeasured == 1 & Wave == 2019) |> 
+    mutate(o_status = NZSEI13/10)
+
+msm::statetable.msm(round(o_status, 0), Id, data = ds) |> 
+  kbl() |> 
+  kable_paper(full_width = F)
 ```
 
-
-
-Model for COVID.RisksExaggerated
-
-
-```{r, eval=FALSE}
+```{r}
 #COVID.RisksExaggerated
   bform_COVID.RisksExaggerated <- bf(
     COVID.RisksExaggerated | mi()  ~ Wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
@@ -405,7 +374,8 @@ m_0 <- brm(
   file = here::here(push_mods,"COVID.RisksExaggerated_2020_2021.rds")
 )
 
-summary(m_0)
+summary(m_0) 
+
 m0_p  <- plot(
   conditional_effects(
     m_0,
@@ -423,17 +393,9 @@ m0_p + labs(subtitle = "COVID Risks Exaggerated",
   scale_colour_okabe_ito(alpha =1) +
   theme_classic()   +
   scale_y_continuous(limits = c(1, 7))
-
 ```
 
-Model for COVID.TrustGovtResponse,
-
-
-
-
-
-
-
+Model for COVID.TrustGovtResponse
 
 ```{r, eval=TRUE}
 #COVID.TrustGovtResponse
@@ -442,7 +404,7 @@ bform_COVID.TrustGovtResponse <-
     COVID.TrustGovtResponse | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
   )
 
-
+length(unique(dt$Id))
 m_1 <- brm(
   backend = "cmdstanr",
   data = dt,
@@ -453,9 +415,28 @@ m_1 <- brm(
   file = here::here(push_mods,"COVID.TrustGovtResponse_2020_2021.rds")
 )
 
+summary(m_1)
+m1_p  <- plot(
+  conditional_effects(
+    m_1,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+   # spaghetti = TRUE,
+   # ndraws =100,
+    plot = F))[[1]]
+
+m1_p + labs(subtitle = "COVID Trust Govt Response",
+      y = "Trust Government Covid Response (1-7) ",
+       x = "Years: 2020-2022; N = 34319") +
+  scale_colour_okabe_ito(alpha =1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(1, 7))
 ```
 
-Model for 
+Model for Covid Satisifed with Government Response
+
 ```{r, eval=TRUE}
 # COVID.SatGovtResponse
 bform_COVID.SatGovtResponse <-
@@ -473,13 +454,30 @@ m_2 <- brm(
   init = 0,
   file = here::here(push_mods,"COVID.SatGovtResponse_2020_2021.rds")
 )
-```
+summary(m_2)
 
+m2_p  <- plot(
+  conditional_effects(
+    m_2,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+    spaghetti = TRUE,
+    ndraws =100,
+    plot = F))[[1]]
+
+m2_p + labs(subtitle = "COVID Satisfied with Govt Response",
+       y = "Satisfied with Government Covid Response (0-10) ",
+       x = "Years: 2020-2022; N = 34319") +
+  scale_colour_okabe_ito(alpha =1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(0, 10))
+
+```
 
 ```{r, eval=TRUE}
 #COVID.CreatedLab
-
-
 bform_COVID.CreatedLab <-
   bf(
   COVID.CreatedLab | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
@@ -495,9 +493,27 @@ m_3 <- brm(
   init = 0,
   file = here::here(push_mods,"COVID.CreatedLab_2020_2021.rds")
 )
+summary(m_3)
+
+m3_p  <- plot(
+  conditional_effects(
+    m_3,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+    spaghetti = TRUE,
+    ndraws =100,
+    plot = F))[[1]]
+
+m3_p + labs(subtitle = "COVID Created in a Lab",
+       y = "Covid Created in a Lab (1-7) ",
+       x = "Years: 2020-2022; N = 34319") +
+  scale_colour_okabe_ito(alpha =1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(1, 7))
+
 ```
-
-
 
 ```{r, eval = TRUE}
 #COVID.RisksExaggerated
@@ -518,7 +534,21 @@ m_0w <- brm(
 
 summary(m_0w)
 
+m0w_p  <- plot(
+  conditional_effects(
+    m_0w,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+    spaghetti = TRUE,
+    ndraws =100,
+    plot = F))[[1]]
+
+m0w_p + labs(subtitle = "COVID Risks Exaggerated",
+       y = "Covid Risks Exaggeratedin (1-7) ",
+       x = "Years: 2020-2022; N = 34319") +
+  scale_colour_okabe_ito(alpha =1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(1, 7))
 ```
-
-
-

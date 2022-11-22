@@ -6,7 +6,6 @@ execute:
   echo: false
 draft: true
 toc: true
-fornat: word
 author: 
   - name: NZAVS TEAM
     affiliation: Victoria University of Wellington, New Zealand; Georgia State University, USA;  University of Auckland,  New Zealand
@@ -24,6 +23,12 @@ format:
     code-summary: "Show the code"
 bibliography: references.bib
 ---
+
+
+## Background 
+
+In 2018, we developed the following measures to investigate classical theories of virtue and Human Flourishing.
+
 
 <p style="color :green; ">
 

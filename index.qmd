@@ -1,5 +1,5 @@
 ---
-title: "B-causal-Lab"
+title: "b-causal"
 listing:
   contents: posts
   sort: "date desc"
@@ -12,13 +12,16 @@ title-block-banner: true
 ---
 
 
+
+
 ```{r, include = FALSE}
 library(here)
 # GitHub pages
 file.create("docs/.nojekyll", showWarnings = FALSE)
+file.create(here::here(".nojekyll"), showWarnings = FALSE)
 # Ensure directories exist
 dir.create("data", FALSE)
 ```
 
 
- <a rel="me" href="https://mathstodon.xyz/@joseph_bulbulia">mathstodon.xyz</a>
+<a rel="me" href="https://mathstodon.xyz/@joseph_bulbulia">Mastodon</a>

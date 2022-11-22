@@ -34,13 +34,13 @@ Suppose we want to infer whether a dichotomous exposure has a causal effect. We 
 2.  What would happen with no exposure?
 3.  Do these potential outcomes differ?
 
-Consider a binary exposure $A$ with two levels, $A = 0$ and $A=1$ and a continuous outcome $Y$.  Estimating the causal effect of $A$ on outcome $Y$ requires contrasting two states of the world.  The state of the the world $Y^{a=1}$ when, perhaps contrary to fact, $A$ is set to $1$ and the state of the world $Y^{a=0}$ when, perhaps contrary to fact, $A$ is set to $0$. We say that $A$ affects $Y$  when the quantities\$Y\^{a=1} - Y\^{a=0} \\neq 0\$ [@hernan2023] .  
+Consider a binary exposure $A$ with two levels, $A = 0$ and $A=1$ and a continuous outcome $Y$.  Estimating the causal effect of $A$ on outcome $Y$ requires contrasting two states of the world.  The state of the the world $Y^{a=1}$ when, perhaps contrary to fact, $A$ is set to $1$ and the state of the world $Y^{a=0}$ when, perhaps contrary to fact, $A$ is set to $0$. We say that $A$ affects $Y$  when the quantities $Y^{a=1} - Y^{a=0} \neq 0$[@hernan2023].  
 
 ### The fundamental problem of causal inference.
 
 At any given time, for any individual, at most only one level of the exposure $A$ may be realised. That is, $Y^{a=1}$ and $Y^{a=0}$ are never simultaneously observed in any individual.  As such, individual-level causal effects are not typically identified in the data. This is referred to as "the fundamental problem of causal inference " [@rubin1976; @gelman2020a]. $Y^{a=1}$ and $Y^{a=0}$ are therefore called "potential" or "counterfactual" outcomes.
 
-Although we cannot generally observed causal effects in any individual, when certain assumptions are satisfied, we may identify the average or marginal causal effect at the level of a population.  We say there is an average or marginal causal effect if the difference of the averages of those who are exposed and are not exposed does not equal zero:  $E(Y^{a=1}) - E(Y^{a=0})\neq 0$ . Because the difference of the means is equivalent to the mean of the differences, we may equivalently say there is an marginal causal effect if $E(Y^{a=1} - Y^{a=0})\neq 0$ [@hernan2023]. \^\[Our example uses a binary exposure but we may contrast the counterfactual outcomes for two levels of a continuous exposure. However, to do this wee must state the levels of exposure at which we seek comparisons.\] 
+Although we cannot generally observed causal effects in any individual, when certain assumptions are satisfied, we may identify the average or marginal causal effect at the level of a population.  We say there is an average or marginal causal effect if the difference of the averages of those who are exposed and are not exposed does not equal zero:  $E(Y^{a=1}) - E(Y^{a=0})\neq 0$ . Because the difference of the means is equivalent to the mean of the differences, we may equivalently say there is an marginal causal effect if $E(Y^{a=1} - Y^{a=0})\neq 0$ [@hernan2023]. ^[Our example uses a binary exposure but we may contrast the counterfactual outcomes for two levels of a continuous exposure. However, to do this wee must state the levels of exposure at which we seek comparisons.] 
 
 Critically, to ensure valid inference, the potential outcomes must be (conditionally) independent of the exposure: 
 
@@ -68,7 +68,7 @@ To obtain marginal contrasts for the expected outcomes for the entire population
 
 ## The steps for G-computation
 
-1.  First we fit a regression for each outcome on the exposure $A\_{t0}$ and baseline covariates$\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)$. To avoid implausible assumptions of linearity we model the relationship between the exposure each of the potential outcomes of interest using a cubic spline.  We include in the set of baseline confounders $\boldsymbol{L}$ the baseline measure of the exposure as well as the baseline response (or responses):
+1.  First we fit a regression for each outcome on the exposure $A_{t0}$ and baseline covariates $\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)$. To avoid implausible assumptions of linearity we model the relationship between the exposure each of the potential outcomes of interest using a cubic spline.  We include in the set of baseline confounders $\boldsymbol{L}$ the baseline measure of the exposure as well as the baseline response (or responses):
 
 $$\{A\_{t-1}, \boldsymbol{Y_{t-1}} = (Y_{1, t-1}, Y_{2, t-1}, Y_{3, t-1}\dots Y_{n, t-1})\} \subset \boldsymbol{L}$$  
 

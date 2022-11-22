@@ -8,11 +8,18 @@ date-format: short
 image: "ow.png"
 citation:
   url: https://go-bayes.github.io/b-causal-lab/
+draft: false
 execute:
   echo: false
   warning: false
   message: false
   error: false
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
 categories:
   - Causal Inference
   - NZAVS
@@ -50,7 +57,7 @@ if (Sys.info()[["sysname"]] == "Darwin" && Sys.info()[["machine"]] == "arm64") {
 
 
 
-```{tikz fig-1, fig.cap="Confounding control using three waves of data & multiple imputation of responses lost-to-follow-up"}
+```{tikz fig-1, fig.cap="Confounding control using three waves of data & multiple imputation of responses lost-to-follow-up in which an unmeasured cause affects both selection and the outcome, introducing bias."}
 #| engine.opts=list(template = "tikz-template.tex",
 #|                  dvisvgm.opts = "--font-format=woff")
 
@@ -76,13 +83,41 @@ Exposure$_{t-1}$\\ {\bf Y}$_{t-1}$};
 \draw[DoubleArrow, dotted, bend right=20, blue, thick] (2) to (5);
 ```
     
-Confounding occurs when the statistical association between indicators in the data do not reflect a causal association between parameters in a target population. A causal graph is a qualitative tool that enables us to quickly inspect sources of confounding.
+    
+    
+    
+Confounding occurs when the statistical association between indicators in the data do not reflect a causal association between parameters in a target population. A causal diagramme is a qualitative tool that enables us to quickly inspect sources of confounding.
 
 We may represent our strategy for confounding control using the causal graph presented in @fig-1.
 
-We define an exposure or treatment by \$A\$. We define $\boldsymbol{Y}$ as the set of all well-being outcomes contained in the NZAVS. Our interest is in consistently estimating the causal effect of congregation size on each of these outcomes. To consistently estimate the causal effect of an exposure $A=1$ on the vector of well-being outcomes $\boldsymbol{Y}$ we must ensure that we have included a set of confounders that will prevent any statistical association between $A$ and $Y$ in the absence of causation. A statistical association in the absence of a causal association may arise in one of three ways.: (1) $A$ and $Y$ share a common cause. (2) $A$ and $Y$ share a common effect. (3) There is confounding by descent, such that conditioning on a confounder introduces a statistical association between $A$ and $Y$ in the absence of a casual association (collider bias).
+@fig-2 presents another causal graph in which selection may introduce bias.
 
-To address challenge (1) we may condition or stratify on all measured common causes of $A$ and $Y$. To address challenges (2) and (3), we must not condition on any effect or desendent of an effect. Note however that by conditioning on a descent of a common cause we may at least partially address conditioning by a common cause. This is because conditioning on the effect of a common cause may itself partially block the effect of the that common cause.
+```{tikz fig-2, fig.cap="Confounding control using three waves of data & multiple imputation of responses lost-to-follow-up in which the outcome affects selection, introducing bias"}
+#| engine.opts=list(template = "tikz-template.tex",
+#|                  dvisvgm.opts = "--font-format=woff")
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {{\bf U}};
+\node[squarednode,right =of 0, align=left] (1) {{\bf L}$_{t-1}$\\
+Exposure$_{t-1}$\\ {\bf Y}$_{t-1}$};
+\node[right =of 1] (2) {Exposure ${t_0}$};
+\node[right =of 2] (3) {{\bf Y}$_{t+1}$};
+\node[squarednode, right=of 3] (4){{\bf S}$_{t+1+\epsilon}$};
+\draw[Arrow] (0) to (1);
+\draw[Arrow, bend right=50, dotted, red] (0) to (2);
+\draw[Arrow, bend left=50 , dotted, red] (0) to (3);
+\draw[Arrow] (1) to (2);
+\draw[Arrow, bend left] (1) to (3);
+\draw[Arrow] (3) to (4);
+\draw[Arrow, bend right=50] (2) to (4);
+```
+
+We define an exposure or treatment by $A$. We define $\boldsymbol{Y}$ as the set of all well-being outcomes contained in the NZAVS. Our interest is in consistently estimating the causal effect of congregation size on each of these outcomes. To consistently estimate the causal effect of an exposure $A=1$ on the vector of well-being outcomes $\boldsymbol{Y}$ we must ensure that we have included a set of confounders that will prevent any statistical association between $A$ and $Y$ in the absence of causation. A statistical association in the absence of a causal association may arise in one of three ways.: (1) $A$ and $Y$ share a common cause. (2) $A$ and $Y$ share a common effect. (3) There is confounding by descent, such that conditioning on a confounder introduces a statistical association between $A$ and $Y$ in the absence of a casual association (collider bias).
+
+To address challenge (1) we may condition or stratify on all measured common causes of $A$ and $Y$. To address challenges (2) and (3), we must not condition on any effect or descendent of an effect. Note however that by conditioning on a descent of a common cause we may at least partially address conditioning by a common cause. This is because conditioning on the effect of a common cause may itself partially block the effect of the that common cause.
 
 In NZAVS outcome-wide science studies we use a modified version of VanderWeele et al's approach for estimating outcome-wide causal effects [@vanderweele2020]. 
 
