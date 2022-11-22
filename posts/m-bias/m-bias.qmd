@@ -55,31 +55,38 @@ if (Sys.info()[["sysname"]] == "Darwin" && Sys.info()[["machine"]] == "arm64") {
 
 ## Summary
 
-1.  Researcher my induce confounding by over-adjustment.
-2.  M-bias occurs from over-adjustment of baseline indicators
-3.  Only slight adjustments to the assumptions of an M-bias graph imply intractable confounding.
-4.  Three waves of panel data that include indicators of the exposure and outcome at baseline point a way out.
-5.  The causal crisis in psychological science will not be overcome with causal graphs. To address this crisis researchers must collect panel data.
+1. Researchers can accidentally induce confounding by over-adjustment.
+2. M-bias occurs from the over-adjustment of baseline indicators.
+3. Only a slight modification in the assumptions of the M-bias graph implies intractable confounding.
+4.  Three waves of panel data that include indicators at baseline both for the exposure and the outcome point to a way out of intractable confounding.
+5. Causal diagrams help researchers to clarify causal assumptions, however, to address the causal crisis in psychological science, researchers must collect repeated-measures data.
+6. Indicators for both the exposure and the outcome at baseline should be included in all models.
 
 ## Assumptions
 
 -   You are interested in psychological science.
 -   You have some familiarity with causal diagrams.
--   You want to better understand how to select covariates to control for confounding to identify causal effects.
+-   You want to understand better how to select covariates to control for confounding to identify causal effects from statistical associations in observational data.
 
 ## Review
 
-[Elsewhere](https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html) we describe our strategy for using three waves of panel data to identify causal effects. In this design, we used a "modified disjunctive cause criterion" for confounder selection. In this approach we:
+[Elsewhere](https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html), we have described our strategy for using three waves of panel data to identify causal effects. For confounding control, we adopt a modified disjunctive cause criterion: 
 
 > control for each covariate that is a cause of the exposure, or of the outcome, or of both; exclude from this set any variable known to be an instrumental variable; and include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome [@vanderweele2020 p.441; @vanderweele2019].
 
+
+Such a criterion might appear too liberal. It might seem that we should instead select the minimum adjustment set of confounders necessary for confounding control. Of course, the minimum adjustment set cannot generally be known. However, a liberal inclusion criterion will invite confounding by over-conditioning. We next consider the risks of liberality in three-wave panel designs.
+
 ## M-bias
 
-Here, we describe a potential threat from confounding by over-adjustment, and describe how our confounding-control strategy meets this threat. Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship. Perfectionism is not causally associated with humility.
+Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship: if we were to intervene on someone's perfectionism, we would not affect their humility. In @fig-1 we represent the absence of a causal association by omitting an arrow from perfectionism to humility.  
 
-Put differently, if we were to intervene on someone's level of perfectionism this would not affect that person's humility. In @fig-1 we represent the absence of a causal association by omitting an arrow from perfectionism to humility. Were we to collect data and model the effect of perfectionism on humility without any further co-variate adjustment
+Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling is unmeasured and affects both forgiveness and perfectionism. Finally, consider that childhood religion is unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. 
+$$perfectionism \to childhood~chooling \to childhood~religion \to humility$$
+@fig-1 presents this type of over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness will lead to bias. Stratifying on forgiveness entails we must ask for it! 
 
-In outcome-wide studies we include the indicators for the many outcomes of interest at baseline ($t-1$). This strategy helps to prevents confounding by blocking the backdoor path between the exposure variable and the outcome variable. However this strategy also invites bias from over-adjustment.
+
+
 
 ```{tikz fig-1, fig.cap="M-bias: an example of confounding that arises from over-adjustment"}
 #| engine.opts=list(template = "tikz-template.tex",
@@ -104,19 +111,16 @@ In outcome-wide studies we include the indicators for the many outcomes of inter
 \draw[Arrow, bend left=70] (1) to (5);
 ```
 
-Suppose we condition on forgiveness. Suppose further that childhood schooling, an unmeasured cause, affects both forgiveness and perfectionism. Next, suppose that childhood religion, which is also unmeasured, affects both forgiveness and humility. By assumption, perfectionism is not causally associated with humility. Notice however that adjusting for forgiveness opens a back-door path from perfectionism to humility. This occurs because forgiveness is a collider confounder of childhood schooling and childhood religion. By including forgiveness, we open a path between these two unmeasured parameters which then opens an association from perfectionism to humility along the path. @fig-1 presents the problem.
 
-$$perfectionism \to childhood~chooling \to childhood~religion \to humility$$
 
-This type of over-adjustment bias called M-Bias. If only we had not included forgiveness our regression estimate we would have avoided counding. In our quest for perfection we have over-adjusted. By stratifying on forgiveness we must ask for it.
 
 ## Seemingly uncontrollable confounding
 
-It might seem as though we have an easy way out. Do not condition on forgiveness. However typically the data cannot tell us the true structure of causal relationships. We must rely on assumptions. What if, contrary to our previous assumptions, forgiveness were to cause (diminish) perfectionism? This seems theoretically plausible. An intervention that caused me to be more forgiving of others might also cause me to be more forgiving of myself. Under this new assumption, presented in @fig-2, confounding would appear to be out of control. If we do not adjust for forgiveness, there is an open path:
+The solution to M-bias seems obvious. Do not condition on forgiveness! However, typically the data cannot tell us the true structures of causal relationships. We must rely on assumptions. How would our problem change if, contrary to our previous assumptions, we were to assume that forgiveness causes (i.e. diminishes) perfectionism? Such an assumption would appear theoretically plausible. An intervention that caused me to be more forgiving of others might also cause me to be more forgiving of myself. A causal diagram that incorporates this new assumption is presented in @fig-2. Here, confounding would appear to be out of control. As just discussed, if we were to adjust for forgiveness, we would induce confounding. However, if we assume that forgiveness might affect perfectionism and we did not adjust for forgiveness, an open path between the exposure and outcome would remain:
 
 $$perfectionism \to forgiveness \to childhood religion \to humility$$.
 
-This is bad. It would seem we are trapped. If we adjust for forgiveness, the path described above is opened. We have not measured childhood schooling. Nor have we measured childhood religion. Again we are humbled.
+We have not measured childhood schooling. Nor have we measured childhood religion. Whether or not we adjust for forgiveness, we are humbled!
 
 ```{tikz fig-2, fig.cap="Seemingly uncontrollable confounding"}
 #| engine.opts=list(template = "tikz-template.tex",
@@ -145,7 +149,7 @@ This is bad. It would seem we are trapped. If we adjust for forgiveness, the pat
 
 ## The modified disjunctive cause criterion provides a way out
 
-Recall, we have not measured childhood schooling. Nor have we measured childhood religion. Conditioning on either would enable us to block a back door path from exposure to outcome. However, the modified disjunctive criterion advises that we "include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome."
+Recall, we have not measured childhood schooling. Nor have we measured childhood religion. Conditioning on either would enable us to block a back door path from exposure to outcome. However, the modified disjunctive criterion recommends that we "include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome."
 
 ```{tikz fig-3, fig.cap="The modified disjunctive criterion minimises confounding."}
 #| engine.opts=list(template = "tikz-template.tex",
@@ -176,13 +180,68 @@ Recall, we have not measured childhood schooling. Nor have we measured childhood
 
 ```
 
-@fig-3 presents clarifies this application of the modified disjunctive criterion. On this graph, $L^1_{t-1}$ fully mediates the path from childhood schooling to perfectionism. If $L^1_{t-1}$ were measured, including it in our model, along with indicators of forgiveness, would block a backdoor path from perfectionism to humility. Also on this this graph, $L^2_{t-1}$ fully mediates the path from childhood religion to humility. If $L^2_{t-1}$ were measured, including it would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of the reality is unknown. By including in the set of measured confounders any $\{l \in L^1_{t-1}\} \lor \{l \in L^2_{t-1}\}$ we may reduce or even eradicate confounding. Of course, this approach assumes that set of measured confounders as a whole does not introduce new sources of M-bias. Over-adjustment is remains a theoretical possibility. The modified disjunctive criterion cannot escape theory. It rather guides us in the application of theory for strategies of confounding control.
+@fig-3 clarifies how the modified disjunctive criterion can reduce or eliminate confounding. On this graph, $L^1_{t-1}$ fully mediates the path from childhood schooling to perfectionism. If any variable corresponding to $L^1_{t-1}$ were measured, including it in our model, along with indicators of forgiveness, would appear to block a backdoor path from perfectionism to humility. Furthermore, on this this graph, $L^2_{t-1}$ fully mediates the path from childhood religion to humility. If any variable corresponding to $L^2_{t-1}$ were measured, including it in our model would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of reality is unknown. By including in the set of measured confounders any $l \in (L^1_{t-1} \lor  L^2_{t-1})$, we may reduce or even eradicate confounding. 
+
+
+
+## The spectre of confounding remains
+
+Consider how conditioning on many baseline confounders opens the pathway for new sources of M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity associated with perfectionism and humility. As indicated in @fig-4, conditioning on charity will induce M-bias. If we are confident that charity does not meet the modified disjunctive criterion, then we should exclude charity from our model. However, again, we cannot be certain we have know the causal structures of reality. Application of the modified disjunctive criterion cannot escape theory. The criterion helps us use theory to develop strategies of confounding control.
+
+
+```{tikz fig-4, fig.cap="Overconditioning remains a threat."}
+#| engine.opts=list(template = "tikz-template.tex",
+#|                  dvisvgm.opts = "--font-format=woff")
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {~};
+\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
+\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
+\node[right =of 0, align=left] (3) {};
+\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
+\node[above =of 4, align=left] (5) {};
+\node[squarednode,right =of 4, align=left] (6) {{Perfectionism$_{t}$}};
+\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
+\node[squarednode,above =of 5, align=left] (8) {{L$^1_{t-1}$}};
+\node[below =of 4, align=left] (9) {};
+\node[squarednode,below =of 9, align=left] (10) {{L$^2_{t-1}$}};
+\node[below =of 10] (11) {};
+\node[squarednode,below =of 11, align=left] (12) {{Charity$_{t-1}$}};
+\node[left =of 11, align=left] (13) {};
+\node[left =of 13, align=left] (14) {U$_{Social~Network}$};
+\node[below =of 14, align=left] (15) {};
+\node[below =of 15, align=left] (16) {U$_{Family~Network}$};
+
+\draw[Arrow] (1) to (4.west);
+\draw[Arrow] (2) to (4.west);
+\draw[Arrow, bend left=20] (1) to (8);
+\draw[Arrow, bend right=20] (2) to (10);
+\draw[Arrow, bend left= 40, dotted] (8) to (6);
+\draw[Arrow, bend right=25, dotted] (10) to (7);
+\draw[Arrow] (4) to (6);
+\draw[Arrow] (2) to (4.west);
+
+\draw[Arrow, red] (14) to (12.west);
+\draw[Arrow, red] (16) to (12.west);
+\draw[Arrow, bend right=40, red] (14) to (6);
+\draw[Arrow, bend right=40, red] (16) to (7);
+
+````
+
+
 
 ## Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control.
 
-```{tikz fig-4, fig.cap="Conditioning on baseline exposure and outcome measures minimises uncontrolled confounding."}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
+
+VanderWeele and colleagues present reasons for including indicators for both the exposure and outcome at baseline when estimating causal effects [@vanderweele2020] ([Elsewhere](https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html)) Our discussion of M-bias reveals additional reasons for including these indicators of exposure and outcome at baseline.
+
+
+```{tikz fig-5, fig.cap="Conditioning on baseline exposure and outcome measures minimises uncontrolled confounding."}
+#| engine.opts=list(template = "tikz-template.tex", dvisvgm.opts = "--font-format=woff")
+
 
 \begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
 \tikzset{>=latex}
@@ -209,21 +268,46 @@ Recall, we have not measured childhood schooling. Nor have we measured childhood
 
 ```
 
-[Elsewhere](https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html) we have presented reasons for including indicators for both the exposure and outcome at baseline when estimating causal effects. Our discussion of M-bias reveals additional reasons for including these indicators of exposure and outcome at baseline.
 
 We have assumed that (unmeasured) childhood schooling causes perfectionism, the exposure. Notice that by including measures of the exposure at baseline, the effect of childhood schooling on perfection would need to be orthogonal to its effect at baseline.
 
-We have assumed that (unmeasured) childhood religions causes humility, the outcome. Notice that by including measures of the outcome at baseline, the effect of childhood religion on humility would need to be orthogonal to its effect at baseline.
+We have assumed that (unmeasured) childhood religion causes humility, the outcome. Notice that by including measures of the outcome at baseline, the effect of childhood religion on humility would need to be orthogonal to its effect at baseline.
 
-As indicated in @fig-4, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding because any such unmeasured confounding would need to be orthogonal to its effects at baseline. **Such a strategy requires collecting at least three-waves of panel data.**
+As indicated in @fig-5, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding. To bias effect estimates any such unmeasured confounding would need to be orthogonal to its effects at baseline. Note that **such a strategy requires collecting at least three waves of panel data.**
+
+
+## Can we ever do better than adjusting for baseline exposure and outcome alone? 
+
+@fig-6 presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects of over-conditioning described in @fig-5, it is worth considering which circumstances would motivate adjusting for indicators other than baseline measures for the exposure and the outcome. We leave such considerations to future work!
+
+
+```{tikz fig-6, fig.cap="Conditioning on baseline exposure and outcome may be sufficient for confounding control."}
+#| engine.opts=list(template = "tikz-template.tex",
+#|                  dvisvgm.opts = "--font-format=woff")
+
+\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
+\tikzset{>=latex}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
+\node[] (0) {{\bf U}};
+\node[squarednode,right =of 0, align=left] (1) {Exposure$_{t-1}$\\ {Outcome}$_{t-1}$};
+\node[right =of 1] (2) {Exposure ${t_0}$};
+\node[right =of 2] (3) {{Outcome}$_{t+1}$};
+\draw[Arrow] (0) to (1);
+\draw[Arrow, bend right=50, dotted] (0) to (2);
+\draw[Arrow, bend left=50 , dotted] (0) to (3);
+\draw[Arrow] (1) to (2);
+\draw[Arrow, bend left] (1) to (3);
+```
+
+
 
 ## Causal crisis in psychology cannot be fixed with graphs: needed are time series data
 
-Psychological scientists include variables for "control." There is growing awareness that including variables in one's regression model may instead induce bias; for this reason researchers advise parsimony in the selection of variables for confounding control [@mcelreath2020]. Freely available software will help researchers to select the minimally sufficient adjustments sets [@barrett2021]. 
+Psychological scientists include variables for "control." There is growing awareness that including variables in one's regression model may instead induce bias; for this reason, researchers advise parsimony in selecting variables for confounding control [@mcelreath2020]. Freely available software will help researchers to select the minimally sufficient adjustment sets [@barrett2021]. 
 
-Over-adjustment bias arises when we adjust for a mediator along the path from the exposure to an outcome or when we adjust for a common effect of an exposure and an outcome [@bulbulia2021]. It is mediator and collider bias that forms the focus of recent treatments of confounding control. Importantly, with at least three waves of panel data we largely avoid the threat of such over-adjustment bias. By measuring the outcome after the exposure, and by measuring the confounders prior to the exposure we preserve a temporal order in our model we avoid mediator and collider bias of the kind that motivates recent recommendations for parsimony. Additionally, three waves of panel data allows us to include a richer set of confounders at baseline, thus avoiding reliance on a correctly specified causal diagramme. Again, causation cannot be typically inferred from data. Inference requires assumptions. Although assumptions cannot be avoided, three waves of panel data allow us to relax them. 
+Over-adjustment bias arises when we adjust for a mediator along the path from the exposure to an outcome or when we adjust for a common effect of exposure and an outcome [@bulbulia2021]. It is mediator and collider bias that forms the focus of recent treatments of confounding control. Importantly, with at least three waves of panel data, we largely avoid the threat of such over-adjustment bias. By measuring the outcome after the exposure, and by measuring the confounders before the exposure we preserve a temporal order in our model we avoid mediator and collider bias of the kind that motivates recent recommendations for parsimony. Additionally, three waves of panel data allow us to include a richer set of confounders at baseline, thus avoiding reliance on a correctly specified causal diagram. Again, causation cannot be typically inferred from data. Inference requires assumptions. Although assumptions cannot be avoided, three waves of panel data allow us to relax assumptions related to the timing in the occurrence of variables. 
 
-Here, we have considered the threat of M-bias, which may arise from conditioning on pre-exposure variables. We have considered generally how a modified disjunctive cause criterion addresses this bias, and in particular, how a inclusion of indicators for both exposure and outcome at baseline may be an especially powerful strategy for confounding control. 
+Here, we have considered the threat of M-bias, which may arise from conditioning on pre-exposure variables. We have considered generally how a modified disjunctive cause criterion addresses this bias, and why the inclusion at baseline of indicators both for the exposure and the outcome is an especially powerful strategy for confounding control. 
 
-We have argued that psychological science faces a casual crisis whose magnitude has yet to be fully appreciated [@bulbulia2022]. Causal diagrammes help us to understand the crisis, however, the crisis will not be resolved with causal diagrammes. Needed is the collection of time-series data.  Here we have considered how at least three waves of repeated measures time-series data may improve the reliability of causal estimation. We strongly advise observational psychological scientists to collect repeated-measures data.
-
+We have argued that psychological science faces a casual crisis whose magnitude has yet to be fully appreciated [@bulbulia2022]. Causal diagrammes help us to understand the crisis, however, the crisis will not be resolved with causal diagrammes. Needed is the collection of time-series data. Here we have considered how at least three waves of repeated measures time-series data may improve the reliability of causal estimation. We strongly advise observational psychological scientists to collect repeated-measures data.
