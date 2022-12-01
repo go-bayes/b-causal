@@ -29,7 +29,13 @@ The purpose of this site is to convey research to a broader public.
 
 ## Contact 
 
+<<<<<<< Updated upstream
 My name is Joseph Bulbulia (Joe). I am a professor of psychology at Victoria of University. My email address is: joseph.bulbulia@vuw.ac.nz
+=======
+My name is Joseph Bulbulia (Joe). I am a professor of psychology at Victoria of University in Wellington NZ, and an adjunct professor in Psychology at the University of Canterbury [Here](https://www.canterbury.ac.nz/science/schools/psyc-speech-hear/people/), and an associate researcher at the Max Planck Institute for Evolutionary Anthropology [Here](https://www.eva.mpg.de/linguistic-and-cultural-evolution/staff/)
+
+My email address is: joseph.bulbulia@vuw.ac.nz
+>>>>>>> Stashed changes
 
 
 

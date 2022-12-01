@@ -210,19 +210,24 @@ cvd_vars = c(
 # out2 <- noquote(out2)
 ```
 
-## Summary 
+## Summary
 
-(1) New Zealanders report high levels of trust and satisfaction with the New Zealand Government's response to  COVID-19. However, levels of trust and satisfaction have waned somewhat from 2021 to 2022.^[We make no judgment about the New Zealand Government response to COVID-19.] 
-(2) Despite relatively low mortality rates, New Zealanders do not generally believe that COVID-19 risks have been exaggerated.  However, the perceived exaggeration of COVID-19 risks increased from 2021-2022.^[We make no judgment about the communication of risks from COVID-19.]
-(3) There has been an increase in belief that COVID-19 was manufactured in a laboratory.^[We make no judgment about the origins of COVID-19.]
-(4) Results remain unchanged in models that impute missing data arising from sample attrition. 
+(1) New Zealanders report high levels of trust and satisfaction with the New Zealand Government's response to COVID-19. However, levels of trust and satisfaction have waned somewhat from 2021 to 2022.[^1]
+(2) Despite relatively low mortality rates, New Zealanders do not generally believe that COVID-19 risks have been exaggerated. However, the perceived exaggeration of COVID-19 risks increased from 2021-2022.[^2]
+(3) There has been an increase in belief that COVID-19 was manufactured in a laboratory.[^3]
+(4) Results remain unchanged in models that impute missing data arising from sample attrition.
 
+[^1]: We make no judgment about the New Zealand Government response to COVID-19.
+
+[^2]: We make no judgment about the communication of risks from COVID-19.
+
+[^3]: We make no judgment about the origins of COVID-19.
 
 ## Purpose
 
-We investigate changes in attitudes to COVID-19 from the Time 12 to the Time 13 waves of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Chris G. Sibley in 2009 (see:[NZAVS homepage](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html) and  [link](https://go-bayes.github.io/b-causal/posts/nzavs/))
+We investigate changes in attitudes to COVID-19 from the Time 12 to the Time 13 waves of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Chris G. Sibley in 2009 (see:[NZAVS homepage](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html) and [link](https://go-bayes.github.io/b-causal/posts/nzavs/))
 
-There were $N = 38,551$ participants who responded to the NZAVS at Time 12 and $n = 28,642$ participants who responded at Time 13. 
+There were $N = 38,551$ participants who responded to the NZAVS at Time 12 and $n = 28,642$ participants who responded at Time 13.
 
 ## Covid attitude items repeated in NZAVS Time 12 and Time 13
 
@@ -314,7 +319,6 @@ dt_model <- dt |> select(
 
 In 2021, beliefs that COVID=19 was created in a lab were low. Raw response data suggest that tjese beliefs increased from in 2022.
 
-
 ```{r}
 #| label: fig-boxplot-COVID-RISKS-EXAGGERATED
 #| column: page-left
@@ -335,10 +339,7 @@ plot_COVID.CreatedLab <- dt_model |>
 plot_COVID.CreatedLab
 ```
 
-
-
 Although beliefs that risks for COVID-19 are low, raw response data suggest these beliefs increased between 2021 and 2022.
-
 
 ```{r}
 #| label: fig-boxplot-COVID-LAB
@@ -360,11 +361,7 @@ plot_COVID.RisksExaggerated <- dt_model |>
 plot_COVID.RisksExaggerated
 ```
 
-
-
-
 Although trust in the NZ government COVID-19 response is high, raw response data suggest trust dropped between 2021 and 2022.
-
 
 ```{r}
 #| label: fig-boxplot-COVID.TrustGovtResponse
@@ -385,6 +382,7 @@ plot_COVID.TrustGovtResponse <- dt_model |>
 # graph 
 plot_COVID.TrustGovtResponse
 ```
+
 ```{r}
 #| label: save-graph
 #| eval: false
@@ -402,10 +400,7 @@ ggsave(
 )
 ```
 
-
 Although Satisfaction with the NZ Government response to COVID-19 is high, raw response data suggest satisfaction dropped between 2021 and 2022.
-
-
 
 ```{r}
 #| label: fig-boxplot-COVID.SatGovtResponse
@@ -448,9 +443,7 @@ m4 <- lmer(COVID.SatGovtResponse ~  wave + (1|Id), data = dt_model)
 
 ```
 
-
 Results presented in @tbl-tables and @fig-graphs show the magnitudes of change in response across the four indicators of COVID-19 attitudes.
-
 
 ```{r, cache = TRUE}
 #| label: tbl-tables
@@ -549,17 +542,17 @@ gg4 <- plot(ggpredict(m4, terms = "wave"),
 
 ## Findings
 
-These models indicate overall high levels of support for the New Zealand Government Response to COVID 19, that has somewhat waned between NZAVS Time 12 and 13 (October 2020 - October 2022). Notably, these models do not adjust for bias from NZAVS sample attrition. 
+These models indicate overall high levels of support for the New Zealand Government Response to COVID 19, that has somewhat waned between NZAVS Time 12 and 13 (October 2020 - October 2022). Notably, these models do not adjust for bias from NZAVS sample attrition.
 
 We next investigate models that adjust for panel attrition by imputing missing responses.
 
 ## Follow up: Bayesian models impute missing outcomes arising from loss to follow up
 
-Panel studies follow the same people over time. There is typically attrition of any panel over time. Where attrition is related to the outcomes of interest, this can lead to selection bias. That is, responses can be higher or lower because the residual panel systematically differs from initial cohort. 
+Panel studies follow the same people over time. There is typically attrition of any panel over time. Where attrition is related to the outcomes of interest, this can lead to selection bias. That is, responses can be higher or lower because the residual panel systematically differs from initial cohort.
 
-We use Bayesian multilevel models to impute the missing data arising from panel attrition. Our models include a broad range of indicators measured in the baseline year (Time 12) that might affect panel attrition in the following year (Time 13)[^1]. We did not estimate missing predictor values at baseline. These values were excluded. Although exclusion at baseline may result in departure from the population estimate, the time effect estimate is consistent for the population with full response information at baseline. We estimated these models using the brms package in R using the packages default weakly informative priors [@bürkner2022].
+We use Bayesian multilevel models to impute the missing data arising from panel attrition. Our models include a broad range of indicators measured in the baseline year (Time 12) that might affect panel attrition in the following year (Time 13)[^4]. We did not estimate missing predictor values at baseline. These values were excluded. Although exclusion at baseline may result in departure from the population estimate, the time effect estimate is consistent for the population with full response information at baseline. We estimated these models using the brms package in R using the packages default weakly informative priors [@bürkner2022].
 
-[^1]: These indicators are personality, age, gender-identification, ethnicity, employment, education, political orientation, social dominance orientation, right-wing authoritarianism, NZSEI employment status, Religious identification, parental status, partner status, urban residence.
+[^4]: These indicators are personality, age, gender-identification, ethnicity, employment, education, political orientation, social dominance orientation, right-wing authoritarianism, NZSEI employment status, Religious identification, parental status, partner status, urban residence.
 
 ```{r, eval = FALSE}
 #| label: dat-prep-bayes
@@ -929,9 +922,7 @@ bp_0 <- m0w_p + labs(subtitle = "COVID Risks Exaggerated",
 
 ```
 
-
 @fig-bayes and @tbl-bayes-compare present the results of the Bayesian multilevel imputation models. These agree with the models that do not handle attrition. Conditional on the imputation model, then, we infer there was little bias in estimated average responses arising from panel attrition.
-
 
 ```{r}
 #| label: tbl-bayes-compare
@@ -970,7 +961,7 @@ compare_bayes |>
 
 ## Bayesian models do change inference
 
-Overall, New Zealanders do not perceive the risks of COVID-19 to be exaggerated. However, there was somewhat greater perception of exaggeration in 2022 compared with 2021. Here, we speculate about the causes of this dicline. COVID-19 only became widespread in New Zealand after the population was vaccinated. During 2022, about two-million New Zealanders reported testing positive for COVID-19 [source](https://www.health.govt.nz/covid-19-novel-coronavirus/covid-19-data-and-statistics/covid-19-current-cases#case-summary), of whom 3239 died within 28 days of their positive test. This low death-to-case-positive ratio perhaps motivate the somewhat greater perception of risk-exaggeration in 2022. The causes of change in risk-exaggeration remain unclear. The overall high rate in the perception of risk accuracy implies effective science communication. 
+Overall, New Zealanders do not perceive the risks of COVID-19 to be exaggerated. However, there was somewhat greater perception of exaggeration in 2022 compared with 2021. Here, we speculate about the causes of this dicline. COVID-19 only became widespread in New Zealand after the population was vaccinated. During 2022, about two-million New Zealanders reported testing positive for COVID-19 [source](https://www.health.govt.nz/covid-19-novel-coronavirus/covid-19-data-and-statistics/covid-19-current-cases#case-summary), of whom 3239 died within 28 days of their positive test. This low death-to-case-positive ratio perhaps motivate the somewhat greater perception of risk-exaggeration in 2022. The causes of change in risk-exaggeration remain unclear. The overall high rate in the perception of risk accuracy implies effective science communication.
 
 In 2022 beliefs that COVID-19 was manufactured in a laboratory increased. At present, there is some scientific disagreement about the origins of COVID-19 (see for example [link](https://www.thelancet.com/action/showPdf?pii=S0140-6736%2822%2901585-9)), even if most evidence points to a natural origin [source](https://www.science.org/content/article/evidence-suggests-pandemic-came-nature-not-lab-panel-says). Future NZAVS research will investigate whether growing beliefs in a laboratory origin are grounding in confidence in science or tendencies to conspiracy beliefs, or both.
 
@@ -978,8 +969,10 @@ In 2022, New Zealanders continued to express high levels of trust in the New Zea
 
 Similarly, in 2022, New Zealanders continued to express high levels of satisfaction with New Zealand Government's response to COVID-19. However, levels of trust declined somewhat from where they were in 2021.
 
-High trust and satisfaction with the government's COVID-19 response might be partially explained by New Zealand's low COVID-19 death rate. Indeed, the low death rate might also explain **waning** trust and satisfaction. Suffering was averted. That is satisfying. The averted suffering is not directly observable -- it was averted. As such, the averted suffering remains intellectual.  By contrast, the economic and social fallout of the pandemic was experienced, and continues to be experienced.  
-Future NZAVS research will systematically investigate the causal basis of trust and satisfaction with the New Zealand Government's COVID-19 response, which although falling, remains high.^[For an explanation of why three-waves are required for causal inference see other research posted on [https://go-bayes.github.io/b-causal/](https://go-bayes.github.io/b-causal/)]
+High trust and satisfaction with the government's COVID-19 response might be partially explained by New Zealand's low COVID-19 death rate. Indeed, the low death rate might also explain **waning** trust and satisfaction. Suffering was averted. That is satisfying. The averted suffering is not directly observable -- it was averted. As such, the averted suffering remains intellectual. By contrast, the economic and social fallout of the pandemic was experienced, and continues to be experienced.\
+Future NZAVS research will systematically investigate the causal basis of trust and satisfaction with the New Zealand Government's COVID-19 response, which although falling, remains high.[^5]
+
+[^5]: For an explanation of why three-waves are required for causal inference see other research posted on <https://go-bayes.github.io/b-causal/>
 
 ## Appendix A: Descriptive data
 
@@ -1015,7 +1008,6 @@ dt |>
   )%>% 
   tbl_summary(by = Wave)
 ```
-
 
 ```{r, cache = TRUE}
 #| label: tbl-descriptive
@@ -1065,9 +1057,9 @@ equatiomatic::extract_eq(m4)
 
 ## Appendix C: All COVID-related questions (only four items repeated in 2022)
 
-NZAVS Time 12 (2019-2020) contains more indicators of COVID attitudes than those presented above. Responses are graphed in @fig-all.[^2]
+NZAVS Time 12 (2019-2020) contains more indicators of COVID attitudes than those presented above. Responses are graphed in @fig-all.[^6]
 
-[^2]: We exclude the satisfaction with government response item because it is measured on an ordinal scale 0-10, whereas all other items are measured on an ordinal scale 1-7. Recall the satisfaction with government reponses are presented in @fig-boxplot-COVID.SatGovtResponse.
+[^6]: We exclude the satisfaction with government response item because it is measured on an ordinal scale 0-10, whereas all other items are measured on an ordinal scale 1-7. Recall the satisfaction with government reponses are presented in @fig-boxplot-COVID.SatGovtResponse.
 
 ```{r}
 #| echo: false
@@ -1140,20 +1132,17 @@ cov_values <- cov_values +
 cov_values
 ```
 
-## Appendix D: Vacitiation attitudes in the Time 13 sample 
+## Appendix D: Vacitiation attitudes in the Time 13 sample
 
 In Time 13, the NZAVS included four new items to to measure COVID-19 Vaccination attitudes. These are:
-
 
 ### Vaccination Safe
 
 "It is safe for adults to get vaccinated for COVID-19 using the Pfizer vaccine (Pfizer is the vaccine used in New Zealand's COVID-19 vaccine rollout)."
 
-
 ### Vaccinated
 
 "Have you been vaccinated for COVID-19?"
-
 
 ### Vaccinated Intend
 
@@ -1163,8 +1152,7 @@ In Time 13, the NZAVS included four new items to to measure COVID-19 Vaccination
 
 "If you are not, and do not intend to get, vaccinated for COVID-19, why not?"
 
-
-@fig-vaccination-attitudes presents descriptive summaries of responses. 
+@fig-vaccination-attitudes presents descriptive summaries of responses.
 
 ```{r}
 #| label: fig-vaccination-attitudes
@@ -1189,10 +1177,9 @@ table_x <- tbl_summary(
 table_x
 ```
 
+We note that the vaccination intent question contains measurement error. Among the 26688 participants who indicated that they had been vaccinated, 283 (1%) indicated that they did not intend to be vaccinated.
 
-We note that the vaccination intent question contains measurement error. Among the 26688 participants who indicated that they had been vaccinated, 283 (1%) indicated that they did not intend to be vaccinated. 
-
-It is therefore more informative to focus on those  1395 participants who were not vaccinated. Of these, 102 indended to be vaccinated. Thus, 7.3% of participants who reported they were not vaccinated intended to be vaccinated.
+It is therefore more informative to focus on those 1395 participants who were not vaccinated. Of these, 102 indended to be vaccinated. Thus, 7.3% of participants who reported they were not vaccinated intended to be vaccinated.
 
 ```{r}
 #| label: fig-vaccination-cross-table
@@ -1208,15 +1195,13 @@ tbl_cross(data = d13,
 
 ```
 
-
-
 ## Appendix E: Acknowledgments
 
 We are grateful to the maintainers of the following packages, which we use in our work.
 
-We are grateful for Templeton Religion Trust Grant: 0418 for supporting this work.[^3]
+We are grateful for Templeton Religion Trust Grant: 0418 for supporting this work.[^7]
 
-[^3]: The funders played no role in the design or interpretation of this research.
+[^7]: The funders played no role in the design or interpretation of this research.
 
 ```{r}
 sessionInfo()

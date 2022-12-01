@@ -270,7 +270,11 @@
     "href": "about.html#contact",
     "title": "About",
     "section": "Contact",
+<<<<<<< Updated upstream
     "text": "Contact\nMy name is Joseph Bulbulia (Joe). I am a professor of psychology at Victoria of University. My email address is: joseph.bulbulia@vuw.ac.nz"
+=======
+    "text": "Contact\nMy name is Joseph Bulbulia (Joe). I am a professor of psychology at Victoria of University in Wellington NZ, and an adjunct professor in Psychology at the University of Canterbury Here, and an associate researcher at the Max Planck Institute for Evolutionary Anthropology Here\nMy email address is: joseph.bulbulia@vuw.ac.nz"
+>>>>>>> Stashed changes
   },
   {
     "objectID": "posts/covid-change/cv.html#appendix-c",
