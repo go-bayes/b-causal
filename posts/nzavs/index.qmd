@@ -20,72 +20,72 @@ format:
 ---
 
 ```{r, include = FALSE}
-options(scipen = 999)
-
-# function for installing dependencies
-ipak <- function(pkg){
-  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-  if (length(new.pkg))
-    install.packages(new.pkg, dependencies = TRUE)
-  sapply(pkg, require, character.only = TRUE)
-}
-# usage
-packages <- c("tidyverse",
-              "remotes",
-              "devtools",
-              "janitor",
-              "here",
-              "purrr",
-              "ggplot2",
-              "stdReg",
-              "mice",
-              "miceadds",
-              "Amelia",
-              "conflicted",
-              "naniar",
-              "skimr",
-              "marginaleffects",
-              "splines",
-             # "CMAverse",
-              "gghighlight",
-              "formula.tools",
-              "ggpubr",
-              "lme4",
-              "rstan",
-              "cmdstanr",
-              "geepack",
-              "brms",
-              "ggokabeito",
-              "table1",
-              "kableExtra",
-              "parameters",
-              "lubridate",
-              "patchwork",
-              "tidyr")
-ipak(packages)
-
-
-# next install rethinking
-# if (!require(rethinking)) {
-#   devtools::install_github("rmcelreath/rethinking")
+# options(scipen = 999)
+# 
+# # function for installing dependencies
+# ipak <- function(pkg){
+#   new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+#   if (length(new.pkg))
+#     install.packages(new.pkg, dependencies = TRUE)
+#   sapply(pkg, require, character.only = TRUE)
 # }
-
-if (!require(CMAverse)) {
-  devtools::install_github("BS1125/CMAverse")
-}
-
-# install.packages("remotes")
-
-if (!require(cmdstanr)) {
- remotes::install_github("stan-dev/cmdstanr")
- install_cmdstan() 
-}
+# # usage
+# packages <- c("tidyverse",
+#               "remotes",
+#               "devtools",
+#               "janitor",
+#               "here",
+#               "purrr",
+#               "ggplot2",
+#               "stdReg",
+#               "mice",
+#               "miceadds",
+#               "Amelia",
+#               "conflicted",
+#               "naniar",
+#               "skimr",
+#               "marginaleffects",
+#               "splines",
+#              # "CMAverse",
+#               "gghighlight",
+#               "formula.tools",
+#               "ggpubr",
+#               "lme4",
+#               "rstan",
+#               "cmdstanr",
+#               "geepack",
+#               "brms",
+#               "ggokabeito",
+#               "table1",
+#               "kableExtra",
+#               "parameters",
+#               "lubridate",
+#               "patchwork",
+#               "tidyr")
+# ipak(packages)
+# 
+# 
+# # next install rethinking
+# # if (!require(rethinking)) {
+# #   devtools::install_github("rmcelreath/rethinking")
+# # }
+# 
+# if (!require(CMAverse)) {
+#   devtools::install_github("BS1125/CMAverse")
+# }
+# 
+# # install.packages("remotes")
+# 
+# if (!require(cmdstanr)) {
+#  remotes::install_github("stan-dev/cmdstanr")
+#  install_cmdstan() 
+# }
 ```
 
 ```{r, include = FALSE}
 # libraries and functions
 # read libraries
-source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs.R")
+source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
 
 # read functions
 source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")

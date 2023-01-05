@@ -58,7 +58,7 @@ To consistently estimate a causal association we must infer the average outcomes
 
 $$ATE = E[Y^{a*}] - E[Y^a] = $$
 
-$$\sum_l E[Y|A=a*, L=l]\Pr[L=l] - \sum_c E[Y|A=a, L=l]\Pr[L=l]$$
+$$\sum_l E[Y|A=a*, L=l]\Pr[L=l] - \sum_l E[Y|A=a, L=l]\Pr[L=l]$$
 
 We need not estimate $\Pr(L = l)$. Rather obtain the weighted mean for the distribution of the confounders in the data by taking the double expectation: [@hernan2023, p.166].
 
