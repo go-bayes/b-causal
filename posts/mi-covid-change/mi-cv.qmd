@@ -340,13 +340,41 @@ head(dt)
 naniar::gg_miss_var(dt)
 ```
 
+<<<<<<< Updated upstream
 
 ```{r, eval = FALSE}
+=======
+```{r, eval =FALSE}
+# library(Amelia)
+# # impute missing responses
+# imputed0 <- amelia(
+#   set.seed = 1234,
+#   dt,
+#   cs = c("Id"),
+#   ts = c("wave"),
+#   m = 10,
+#   # number of imputations
+#   noms = c("Male_c", "Euro_c"),
+#   idvars = c("Wave")
+# )
+# length(unique(imputed0$imputations$imp1$Id))
+
+
+# inspect
+table1::table1(~ COVID.SatGovtResponse |
+                 Wave,
+               data =imputed0$imputations$imp1,
+               overall = FALSE)
+```
+
+```{r}
+>>>>>>> Stashed changes
 #| echo: false
 # to assess positivity
 msm::statetable.msm(round(COVID.RisksExaggerated, 0), Id, data = dt) |>
   kbl() |> 
   kable_paper(full_width = F)
+<<<<<<< Updated upstream
 
 ds<- dat |> 
   filter(YearMeasured == 1 & Wave == 2018 | YearMeasured == 1 & Wave == 2019) |> 
@@ -358,6 +386,13 @@ msm::statetable.msm(round(o_status, 0), Id, data = ds) |>
 ```
 
 ```{r}
+=======
+```
+
+Model for COVID.RisksExaggerated
+
+```{r, eval=FALSE}
+>>>>>>> Stashed changes
 #COVID.RisksExaggerated
   bform_COVID.RisksExaggerated <- bf(
     COVID.RisksExaggerated | mi()  ~ Wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
@@ -435,9 +470,19 @@ m1_p + labs(subtitle = "COVID Trust Govt Response",
   scale_y_continuous(limits = c(1, 7))
 ```
 
+<<<<<<< Updated upstream
 Model for Covid Satisifed with Government Response
 
+=======
+<<<<<<< Updated upstream
+Model for 
+>>>>>>> Stashed changes
 ```{r, eval=TRUE}
+=======
+Model for
+
+```{r, eval=FALSE}
+>>>>>>> Stashed changes
 # COVID.SatGovtResponse
 bform_COVID.SatGovtResponse <-
   bf(
@@ -467,6 +512,7 @@ m2_p  <- plot(
     ndraws =100,
     plot = F))[[1]]
 
+<<<<<<< Updated upstream
 m2_p + labs(subtitle = "COVID Satisfied with Govt Response",
        y = "Satisfied with Government Covid Response (0-10) ",
        x = "Years: 2020-2022; N = 34319") +
@@ -475,8 +521,14 @@ m2_p + labs(subtitle = "COVID Satisfied with Govt Response",
   scale_y_continuous(limits = c(0, 10))
 
 ```
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 
 ```{r, eval=TRUE}
+=======
+```{r, eval=FALSE}
+>>>>>>> Stashed changes
 #COVID.CreatedLab
 bform_COVID.CreatedLab <-
   bf(
@@ -506,16 +558,23 @@ m3_p  <- plot(
     ndraws =100,
     plot = F))[[1]]
 
+<<<<<<< Updated upstream
 m3_p + labs(subtitle = "COVID Created in a Lab",
        y = "Covid Created in a Lab (1-7) ",
        x = "Years: 2020-2022; N = 34319") +
   scale_colour_okabe_ito(alpha =1) +
   theme_classic()   +
   scale_y_continuous(limits = c(1, 7))
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 
 ```
 
 ```{r, eval = TRUE}
+=======
+```{r, eval = FALSE}
+>>>>>>> Stashed changes
 #COVID.RisksExaggerated
   bform_COVID.RisksExaggerated <- bf(
     COVID.RisksExaggerated | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
@@ -534,6 +593,7 @@ m_0w <- brm(
 
 summary(m_0w)
 
+<<<<<<< Updated upstream
 m0w_p  <- plot(
   conditional_effects(
     m_0w,
@@ -551,4 +611,6 @@ m0w_p + labs(subtitle = "COVID Risks Exaggerated",
   scale_colour_okabe_ito(alpha =1) +
   theme_classic()   +
   scale_y_continuous(limits = c(1, 7))
+=======
+>>>>>>> Stashed changes
 ```
