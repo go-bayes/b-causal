@@ -67,4 +67,4 @@ _freeze/posts/*.png
 #posts/*.pdf
 #docs/posts/**/*.pdf
 #mods/
-#*/figs/
+#*/figs/.DS_Store
