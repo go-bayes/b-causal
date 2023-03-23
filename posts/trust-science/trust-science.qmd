@@ -354,9 +354,10 @@ Here is a graph of the same.
 #| label: fig-trust
 #| column: page-left
 #| fig-cap: "Boxplot for Institutional Trust: NZAVS Waves 11-13 (years 2019-2022)"
-#| warning: false
-#| echo: false
 
+
+
+# transform data into long formate
 dt_temp <- dt |> select(
   Wave,
   Trust_in_Science,
@@ -365,6 +366,7 @@ dt_temp <- dt |> select(
   Trust_in_Govt_Covid_Response, 
   Conspiracy_Beliefs
 )
+
 
 # boxplot dataframe
 dt_long <- pivot_longer(
@@ -376,20 +378,23 @@ dt_long <- pivot_longer(
 ) |>
   drop_na()
 
+
 # make graph
 plot_tab <- dt_long |>
   ggplot2::ggplot(aes(Wave, Values, fill = Attitudes)) +
   labs(title = "Institutional Trust and Conspiracy Beliefs",
        subtitle = "NZ 2019/21 to 2021/22 [N = 42,681 (at baseline)]") +
   geom_boxplot(size = .05, notch = T) +
-   scale_fill_okabe_ito() +
+  scale_fill_okabe_ito() +
   facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
   theme(legend.position = "none") +
-  labs(y = "NZAVS Wave (note: waves cross years)")
+  labs(y = "NZAVS Wave (note: waves cross years)") + 
   theme_classic()
 
-# graph 
+
 plot_tab
+
+
 ```
 
 This table and graph presents trust scores for different institutional trust categories we examined in the previous section: trust in science, police,and trust in politicians. Additionally, we examine attitudes to the New Zealand Government's response to COVID. Here the measures are taken across three NZAVS Waves: 2019, 2020, and 2021. The sample size is again 42,681. These are all those who responded in the NZAVS Wave 2019 (2019-2020). Note missing data increases, from panel attrition.
