@@ -24,4 +24,3 @@ dir.create("data", FALSE)
 ```
 
 
-<a rel="me" href="https://mathstodon.xyz/@joseph_bulbulia">Mastodon</a>

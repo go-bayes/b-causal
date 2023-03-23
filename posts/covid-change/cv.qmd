@@ -21,7 +21,7 @@ date-format: short
 image: covid-change2.png
 categories: 
   - NZAVS
-  - Covid
+  - COVID
   - Descriptive
 format:
   html:

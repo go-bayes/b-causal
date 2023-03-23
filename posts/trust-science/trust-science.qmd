@@ -1,0 +1,565 @@
+---
+title: "Exploring Institutional Trust in New Zealand Pre/Post COVID-19 Pandemic" 
+subtitle: "New Zealand Attitudes and Values Study: Years 2019-2022 N = 42,681"
+date: 2023-03-23
+date-format: short
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
+  - name: Chris G Sibley
+    orcid: 0000-0002-4064-8800
+    affiliation: University of Auckland,  New Zealand
+categories:
+  - NZAVS
+  - COVID
+  - Descriptive
+execute:
+  warning: false
+draft: false
+image: "trust_science.png"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+bibliography: references.bib
+---
+
+## NZAVS Report on Institutional Trust Pre/Post COVID
+
+In this report, we delve into the changes in institutional trust among New Zealanders from the pre-pandemic period in 2019 to 2022.
+
+The New Zealand Attitudes and Values Study uses a two-item scale to measure **Trust in Science**
+
+-   "I have a high degree of confidence in the scientific community."[@nisbet2015]
+
+-   "Our society places too much emphasis on science."(reverse coded) These scores are averaged to form a single score [@hartman2017].[^1]
+
+[^1]: We do not blindly adhere to the standard measurement approaches in psychometrics. It might be preferable to work with single items instead of the averaged score. See [@vanderweele2022] for more information on this point.
+
+These items were introduced in NZAVS Wave 11 (2019 - 2020) \[\^ We must be cautious: causal identification requires contrasting outcomes under different exposures. Because all were exposed to the COVID-19 pandemic, these contrasts are not identified without the strong assumption that there were no pre-existing trends in the acceptance of science before the COVID-19 pandemic struck.\]
+
+Previous research using a propensity score design reported on changes in Trust in Science during the first three weeks of New Zealand's COVID lockdown in March and April 2020 [@sibley2020] .
+
+**COVID-19 Government response** [@marques2022]
+
+-   "I trust the Government to make sensible decisions about how to best manage COVID-19 in New Zealand."
+-   "The New Zealand government response to COVID-19."
+
+**Trust in politicians** [@sibley2020]
+
+-   "Politicians in New Zealand can generally be trusted."
+
+**Institutional trust in police** [@tyler2005]
+
+-   "People's basic rights are well protected by the New Zealand Police."
+-   "There are many things about the New Zealand Police and its policies that need to be changed."
+-   "The New Zealand Police care about the well-being of everyone they deal with. Compliance with police"
+
+**General tendency to believe in conspiracies**[@lantian2016]
+
+-   "I think that the official version of major world events given by authorities often hides the truth."
+
+### Sample responses: yeares 2019-2020: Pre-Covid, Lockdown, Post-Lockdown
+
+```{r setup}
+#| include: false
+#| echo: false
+#| warning: false
+
+
+source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
+
+# read functions
+source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")
+
+
+# libraries and functions
+# read libraries
+source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
+
+# read functions
+source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")
+
+#source(here::here("scripts", "functions", "funs_here.R"))
+
+# read data
+
+pull_path <-
+  fs::path_expand(
+    "/Users/joseph/v-project\ Dropbox/Joseph\ Bulbulia/00Bulbulia\ Pubs/2021/DATA/time13"
+  )
+
+# for saving models
+push_mods <-
+  fs::path_expand(
+    "/Users/joseph/v-project\ Dropbox/Joseph\ Bulbulia/outcomewide/bcausal/mods"
+  )
+
+#| label: fig-boxplot-COVID-LAB
+#| column: page-left
+#| fig-cap: "Boxplot for Covid Risk Exaggerated attitudes: NZAVS Time 12 & NZAVS Time 13"
+#| #| label: fig-meaningless
+#| fig-cap: A meaningless scatterplot
+#| fig-width: 5
+#| fig-height: 5
+#| fig-align: center
+#| out-width: 50%
+#| echo: false
+#| include: false
+```
+
+```{r read-data}
+# read data
+dat <- arrow::read_parquet(pull_path)
+
+# sometimes arrow objects give me trouble
+dat <- as.data.frame(dat)
+
+# create covid timeline variables, select waves of interest. 
+dt <- dat %>%
+  data.frame() |>
+# create covid timeline 
+ mutate(covid_condition = as.factor(ifelse(
+    TSCORE < 3922,
+    "pre_covid",
+    ifelse(TSCORE >= 3922 &
+             TSCORE <= 3954, "lockdown",
+           "post_lockdown")
+  ))) |> 
+  mutate(covid_condition = factor(covid_condition, levels = c("pre_covid", "lockdown", "post_lockdown"))) |> # order levels
+  # select waves
+  dplyr::filter(Wave == 2019| Wave == 2020| Wave == 2021) |>
+    dplyr::filter(
+      (Wave == 2019  &
+         YearMeasured  == 1 & !is.na(covid_condition)) |
+      (Wave == 2020) |
+      (Wave == 2021)) |>  
+  group_by(Id) |> 
+  # inclusion criteria, all those who participated in 2019
+  dplyr::mutate(org2019 = ifelse(Wave == 2019 &
+                                   YearMeasured == 1, 1, 0)) |>  # creating an indicator for the first wave
+  dplyr::mutate(hold19 = mean(org2019, na.rm = TRUE)) |>  # Hack
+  dplyr::filter(hold19 > 0) %>% # hack to enable repeat of baseline
+  ungroup() |>
+  droplevels() %>%
+  mutate(time = as.numeric(Wave) - 1) |>
+  arrange(Id, time) |>
+  select(
+    Id,
+    covid_condition,
+    YearMeasured,
+    COVID19.Timeline,
+    w_GendAgeEuro, # survey weights for PATT
+    time,
+    TSCORE,
+    Wave,
+    Partner,
+    Euro,
+    EthCat,
+    GenCohort,
+    # Gender3,
+    Male,
+    SampleFrame,
+    NZSEI13,
+    NZDep2018,
+    Rural_GCH2018,
+    REGC_2022,
+    CONSCIENTIOUSNESS,
+    OPENNESS,
+    HONESTY_HUMILITY,
+    EXTRAVERSION,
+    NEUROTICISM,
+    AGREEABLENESS,
+    edu_n,
+    Employed,
+    BornNZ,
+    Pol.Orient,
+    Pol.Wing,
+    Parent,
+    Relid,
+    ConspiracyBeliefs,
+    SCIENCE.TRUST,
+    POLICE.TRUST,
+    COVID.TrustGovtResponse,
+    Pol.PoliticianTrust,
+    ScienceTrust01, # individual item
+    ScienceTrust02r # individual item
+  ) |> 
+  rename(
+  Conspiracy_Beliefs  = ConspiracyBeliefs,
+  Trust_in_Science =  SCIENCE.TRUST,
+  Trust_in_Politicians = Pol.PoliticianTrust,
+  Trust_in_Police = POLICE.TRUST,
+  Trust_in_Govt_Covid_Response = COVID.TrustGovtResponse
+  )
+```
+
+
+```{r tab_trust_pre_post}
+# this code creates a table
+# function to make tables simple         
+# simplify
+my.render.cont <- function(x) {
+  with(stats.apply.rounding(stats.default(x), digits=3), c("",
+                                                           "Mean (SD)"=sprintf("%s (&plusmn; %s)", MEAN, SD)))
+}
+
+my.render.cat <- function(x) {
+  c("", sapply(stats.default(x), function(y) with(y,
+                                                  sprintf("%d (%0.0f %%)", FREQ, PCT))))
+}
+
+
+# select only 2019-2021
+dt_19 <-dt |> 
+  dplyr::filter(Wave == 2019)
+
+
+tab_19_trust <- table1::table1(
+  ~ Trust_in_Science +
+    Trust_in_Politicians +
+    Trust_in_Police +
+    Conspiracy_Beliefs| covid_condition,
+  data = dt_19,
+  overall = FALSE,
+  render.continuous = my.render.cont,
+  render.categorical = my.render.cat
+)
+
+# needed for markdown tables
+tab_19_trust <- data.frame( tab_19_trust )
+
+tab_19_trust <- tab_19_trust |> 
+    rename("Forms of Institutional Trust" = X.)
+
+# show
+tab_19_trust |>
+  kbl(format = "markdown", booktabs = TRUE)
+```
+
+Here is a graph of the same.
+
+```{r fig_trust_19}
+#| label: fig-trust-wave-11
+#| column: page-left
+#| fig-cap: "Boxplot for Institutional Trust: NZAVS Waves During Covid: Years 2020"
+
+dt_temp_19 <- dt_19 |> select(
+  covid_condition,
+  Trust_in_Science,
+  Trust_in_Politicians,
+  Trust_in_Police,
+  Conspiracy_Beliefs
+)
+
+
+# boxplot dataframe
+dt_long_19 <- pivot_longer(
+  dt_temp_19,
+  cols = -c("covid_condition"),
+  names_prefix = "Trust_in_",
+  values_to = "Values",
+  names_to = "Attitudes"
+) |>
+  drop_na()
+
+
+# make graph
+plot_tab_19 <- dt_long_19 |>
+  ggplot2::ggplot(aes(covid_condition, Values, fill = Attitudes)) +
+  labs(title = "Institional Trust and Conspiracy Beliefs (1-7)",
+       subtitle = "NZAVS 2019/2020  (N = 42,681)") +
+  geom_boxplot(size = .05, notch = T) +
+  scale_fill_okabe_ito() +
+  facet_grid (. ~ covid_condition, scales = "free_x", space = "free_x") +
+  theme(legend.position = "none") +
+  labs(x = "Covid Condition",
+       y = "Trust response (1-7)") +
+  theme_classic()
+
+# graph
+plot_tab_19
+```
+
+This table and graph compares the trust in science, police, and politicians across three different time periods: pre-Covid, lockdown, and post-lockdown.
+
+We observe:
+
+1.  Trust in science increased during the lockdown period and remained higher in the post-lockdown period compared to the pre-Covid period.
+2.  Trust in police remained relatively stable across all three periods, although the trend appears downward after lockdown.
+3.  Trust in politicians increased during the lockdown period. It decreased slightly in the post-lockdown period, where it nevertheless remained higher than the pre-Covid period.
+
+4. Conspiracy Beliefs: the average mistrust of official versions of major world events given by authorities fell a little during lockdown, and remained lower after. This decline might ari
+
+The graph reveals that while the mean of for trust in science increased, so too did the density of people at the extremes of the scale. This suggests greater galvanisation in attitudes to science in New Zealand, and is a reminder that a central tendency may not always be the most interesting statistic for understanding social change.
+
+### NZAVS sample responses: years 2018-2022
+
+We have seen that different dimensions of institutional trust do not follow the same patterns of change over time. In the next analysis, we examine longer-term trajectories while taking into account that the data has been collected from the same individuals over time and there is panel attrition throughout the study.
+
+It is important to note that panel attrition could potentially result in biased estimates, particularly when it comes to institutional trust. Even though the NZAVS employs prize draws as incentives for participants, those who lose trust in science may be less inclined to continue participating in the study.
+
+```{r tab_trust_years}
+#|echo: false
+#|warning: false
+
+
+# this code creates a table
+# functions to make tables simple
+
+my.render.cont <- function(x) {
+  with(stats.apply.rounding(stats.default(x), digits=3), c("",
+                                                           "Mean (SD)"=sprintf("%s (&plusmn; %s)", MEAN, SD)))
+}
+
+my.render.cat <- function(x) {
+  c("", sapply(stats.default(x), function(y) with(y,
+                                                  sprintf("%d (%0.0f %%)", FREQ, PCT))))
+}
+
+# now the years 
+tab_trust <- table1::table1(
+  ~ Trust_in_Science +
+    Trust_in_Politicians +
+    Trust_in_Police + # not measured in 2019-20
+    Trust_in_Govt_Covid_Response + 
+    Conspiracy_Beliefs| Wave,
+  data = dt,
+  overall = FALSE,
+  render.continuous = my.render.cont,
+  render.categorical = my.render.cat
+)
+
+
+# needed for markdown tables
+tab_trust <- data.frame( tab_trust )
+
+tab_trust <- tab_trust |> 
+    rename("Forms of Institutional Trust" = X.)
+
+
+# graph
+tab_trust |>
+  kbl(format = "markdown", booktabs = TRUE)
+
+```
+
+Here is a graph of the same.
+
+
+```{r fig_trust_years}
+#| label: fig-trust
+#| column: page-left
+#| fig-cap: "Boxplot for Institutional Trust: NZAVS Waves 11-13 (years 2019-2022)"
+#| warning: false
+#| echo: false
+
+dt_temp <- dt |> select(
+  Wave,
+  Trust_in_Science,
+  Trust_in_Politicians,
+  Trust_in_Police,
+  Trust_in_Govt_Covid_Response, 
+  Conspiracy_Beliefs
+)
+
+# boxplot dataframe
+dt_long <- pivot_longer(
+  dt_temp,
+  cols = -c("Wave"),
+  names_prefix = "Trust_in_",
+  values_to = "Values",
+  names_to = "Attitudes"
+) |>
+  drop_na()
+
+# make graph
+plot_tab <- dt_long |>
+  ggplot2::ggplot(aes(Wave, Values, fill = Attitudes)) +
+  labs(title = "Institutional Trust and Conspiracy Beliefs",
+       subtitle = "NZ 2019/21 to 2021/22 [N = 42,681 (at baseline)]") +
+  geom_boxplot(size = .05, notch = T) +
+   scale_fill_okabe_ito() +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+  theme(legend.position = "none") +
+  labs(y = "NZAVS Wave (note: waves cross years)")
+  theme_classic()
+
+# graph 
+plot_tab
+```
+
+This table and graph presents trust scores for different institutional trust categories we examined in the previous section: trust in science, police,and trust in politicians. Additionally, we examine attitudes to the New Zealand Government's response to COVID. Here the measures are taken across three NZAVS Waves: 2019, 2020, and 2021. The sample size is again 42,681. These are all those who responded in the NZAVS Wave 2019 (2019-2020). Note missing data increases, from panel attrition.
+
+1.  Trust in science: The average trust score increased from 5.43 (±1.28) in 2019 to 5.70 (±1.26) in 2021.
+
+2.  Trust in police: The average trust score decreased from 4.58 (±1.26) in 2019 to 4.43 (±1.30) in 2021.
+
+3.  Trust in politicians: The average trust score increased from 3.76 (±1.45) in 2019 to 4.05 (±1.49) in 2020 but slightly decreased to 3.92 (±1.56) in 2021.
+
+4.  Trust in government response to Covid: This parameter was not measured in 2019. We only report Wave 2020 and Wave 2021. There is a considerable decline in trust in the government's reponse to Covid: 5.66 (±1.55) in 2020 to 4.79 (±1.94) in 2021.
+
+5. Conspiracy Beliefs: The average mistrust of official versions of major world events given by authorities fell over time: 4.36 (±1.63) in 2020 to 4.02  (±1.74), however the increasing variance is again a tip-off that the fall might owe more to non-differential panel attrition than to a decline in mistrust of authorities.
+
+The graph again reveals greater evidence for galvanisation in attitudes to science in New Zealand. Again, measuring the central tendency here missing evidence for social division.
+
+Note that missing responses may bias these results. To participant in a survey require trusting educational/scientific institutions. In published work, the team will endevour to handle missing responses.
+
+## Conclusion
+
+-   The NZAVS is a national probability panel study that has good coverage of the NZAVS population.
+-   Trust in science increased after the pandemic (and pandemic response), however, so too did extreme mistrust of science.
+-   This confidence in science remained even as there were strong declines in trust for the government's pandemic response.
+-   Moreover, trust in politicians did not decline, even as trust in the government's response to the pandemic response declined.
+
+### Provisos
+
+-   Missing data from non-response and panel attrition may bias estimates for the population.
+-   Good scientists should be skeptical of their science.
+
+### Looking ahead
+
+-   Stay tuned for peer-reviewed studies in which NZAVS experts develop this work.
+
+For more information about the NZAVS see: [here](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html) and [here](https://go-bayes.github.io/reports/posts/nzavs/)
+
+```{r not_run}
+#| echo: false
+#| include: false
+
+# save for webpage
+# ggsave(
+#   plot_tab,
+#   path = here::here(here::here("posts", "trust-science")),
+#   width = 12,
+#   height = 8,
+#   units = "in",
+#   filename = "trust_science.png",
+#   device = 'png',
+#   limitsize = FALSE,
+#   dpi = 200
+# )
+# for multiple lockdowns 
+
+# start here --------------------------------------------------------------
+# 
+# 
+# sub_dat <- dat %>%
+#   filter(Wave == 2019) %>%
+#   dplyr::mutate(cum_lockdowns_time11 = if_else(
+#     COVID19.Timeline < 1.2,
+#     0,
+#     if_else(
+#       COVID19.Timeline >  1.2 & COVID19.Timeline  < 2,
+#       2,
+#       ifelse(
+#         COVID19.Timeline > 2 &
+#           REGC_2022 == 2  | COVID19.Timeline > 2 & REGC_2022 == 1,
+#         4,
+#         3
+#       )
+#     )
+#   )) |>
+#   mutate(pre_post = if_else (COVID19.Timeline >  1.1, 1, 0)) |>
+#   select(Warm.Muslims,
+#          cum_lockdowns_time11,
+#          REGC_2022,
+#          Id ,
+#          COVID19.Timeline,
+#          pre_post) |>
+#   drop_na()
+# 
+# 
+# length(unique(sub_dat$Id))
+# 
+# # Cumulative locksdowns nothing
+# lm(data = sub_dat,
+#    Warm.Muslims ~ cum_lockdowns_time11 + as.factor(REGC_2022)) |>
+#   model_parameters()
+# 
+# 
+# 
+# # nothing
+# lm(data = sub_dat, Warm.Muslims ~ pre_post) |>
+#   model_parameters() |>
+#   kbl(format = "markdown",
+#       booktabs = TRUE,
+#       digits = 3)
+# 
+# 
+# # nothing
+# lm(data = sub_dat, Warm.Muslims ~ cum_lockdowns_time11) |>
+#   model_parameters() |>
+#   kbl(format = "latex",
+#       booktabs = TRUE,
+#       digits = 3)
+# 
+# 
+# 
+# 
+# ## Time 4 cohort
+# 
+# dat_bayes <-
+#   arrow::read_parquet(here::here(push_mods, "2012_cohort_attacks"))
+# 
+# 
+# sub_dat4 <- dat_bayes %>%
+#   filter(Wave == "Time11") %>%
+#   dplyr::mutate(cum_lockdowns_time11 = if_else(
+#     COVID19.Timeline < 1.2,
+#     0,
+#     if_else(
+#       COVID19.Timeline >  1.2 & COVID19.Timeline  < 2,
+#       2,
+#       ifelse(
+#         COVID19.Timeline > 2 &
+#           REGC_2022 == 2  | COVID19.Timeline > 2 & REGC_2022 == 1,
+#         4,
+#         3
+#       )
+#     )
+#   )) |>
+#   mutate(pre_post = if_else (COVID19.Timeline >  1.1, 1, 0)) |>
+#   select(Warm.Muslims,
+#          cum_lockdowns_time11,
+#          REGC_2022,
+#          Id ,
+#          COVID19.Timeline,
+#          pre_post) |>
+#   drop_na()
+# 
+# 
+# length(unique(sub_dat4$Id))
+# 
+# # Cumulative locksdowns nothing
+# lm(data = sub_dat4,
+#    Warm.Muslims ~ cum_lockdowns_time11 + as.factor(REGC_2022)) |>
+#   model_parameters()
+# 
+# 
+# 
+# # nothing
+# lm(data = sub_dat4, Warm.Muslims ~ pre_post) |>
+#   model_parameters() |>
+#   kbl(format = "latex",
+#       booktabs = TRUE,
+#       digits = 3)
+# 
+# 
+# # nothing
+# lm(data = sub_dat, Warm.Muslims ~ cum_lockdowns_time11) |>
+#   model_parameters() |>
+#   kbl(format = "latex",
+#       booktabs = TRUE,
+#       digits = 3)
+# 
+# 
+# 
+# 
+# 
+# # propensity scores -
+
+```
