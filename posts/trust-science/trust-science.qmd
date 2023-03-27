@@ -428,6 +428,7 @@ To handle missing data, we must model and predict missing responses. We attempt 
 
 ```{r mlim}
 #| eval: false
+#| echo: false
 
 # Impute
 # conflicts may prevent from running
@@ -552,6 +553,7 @@ tab_trust |>
 
 ```{r ppm}
 #| eval: false
+#| echo: false
 
 # takes to long to run, so show code, but re-import data for the model.
 
@@ -746,6 +748,7 @@ Next, we formally model change over time using generalised estimating equations,
 
 ```{r, ppm model}
 #| eval: false
+#| echo: false
 
 # set eval to false to save time 
 # read data
@@ -935,6 +938,61 @@ Secondly, when a population becomes more polarized, the average response may be 
 Overall, the evidence points to a decline in average levels of institutional trust following COVID, particularly concerning the New Zealand Government's COVID response. Yet, the evidence does not suggest a widespread loss in average scientific confidence.
 
 In the near future, we will explore models that provide insights beyond the average response and better account for uncertainty. Stay tuned!  
+
+
+```{r bayes_ord_trust_science}
+#| eval: false
+#| echo: false 
+#| 
+# select only those who responded before 2020, and focus on the two year effect
+
+
+prior_science = c(
+  set_prior("normal(0,.5)",  class = "b"),
+#  set_prior("normal(0,1)", class = "b", dpar = "sigma"),
+  set_prior(
+    "student_t(5, 4, 2)",
+    class = "Intercept",
+    lb = 1,
+    ub = 7
+  ),
+  set_prior("exponential(1)", class = "sd")  # only for raneffs
+)
+
+
+# ord
+bform_science  =   bf(Trust_in_Science|mi() + weights(w_GendAgeEuro) ~ Wave + (1|Id) )
+
+system.time(
+  brms_m_science <- brms::brm(
+    backend = "cmdstanr",
+    data = dt,
+    family = "gaussian",
+    bform_science,
+    prior_science,
+    init = 0,
+    file = here::here(push_mods, "brms_m_science")
+  )
+)
+
+# not run
+# m_bayes <- modelsummary::modelsummary(
+#   m_cond_mus,
+#   gof_omit = "^(?!.*[{conf.low}, {conf.high}])",
+#   statistic  = NULL,
+#   # "conf.int",
+#   ndraws = 100,
+#   estimate =  "{estimate} [{conf.low}, {conf.high}]",
+#   #  standardize = "posthoc",
+#   # output = "latex",
+#   title = "Bayesian Multi-Level Model"
+# )
+
+
+options("modelsummary_format_numeric_latex" = "plain")
+
+
+```
 
 
 
