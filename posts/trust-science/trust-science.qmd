@@ -29,19 +29,19 @@ bibliography: references.bib
 
 ## NZAVS Report on Institutional Trust Pre/Post COVID
 
-In this report, we delve into the changes in institutional trust among New Zealanders from the pre-pandemic period in 2019 to 2022.
+This report delves into the changes in institutional trust among New Zealanders from the pre-pandemic period in 2019 to 2022.
 
 The New Zealand Attitudes and Values Study uses a two-item scale to measure **Trust in Science**
 
 -   "I have a high degree of confidence in the scientific community."[@nisbet2015]
 
--   "Our society places too much emphasis on science."(reverse coded) These scores are averaged to form a single score [@hartman2017].[^1]
+-   "Our society places too much emphasis on science."(reverse coded) 
 
-[^1]: We do not blindly adhere to the standard measurement approaches in psychometrics. It might be preferable to work with single items instead of the averaged score. See [@vanderweele2022] for more information on this point.
+We average these scores to form a single score [@hartman2017].[^We do not blindly adhere to the standard measurement approaches in psychometrics.  It might be preferable to work with single items instead of the averaged score. See [@vanderweele2022] for more information on this point.]
 
-These items were introduced in NZAVS Wave 11 (2019 - 2020) \[\^ We must be cautious: causal identification requires contrasting outcomes under different exposures. Because all were exposed to the COVID-19 pandemic, these contrasts are not identified without the strong assumption that there were no pre-existing trends in the acceptance of science before the COVID-19 pandemic struck.\]
+These items were introduced in NZAVS Wave 11 (2019 - 2020) \[\^ We must be cautious: causal identification requires contrasting outcomes under different exposures.  Because all were exposed to the COVID-19 pandemic, these contrasts are not identified without the strong assumption that there were no pre-existing trends in the acceptance of science before the COVID-19 pandemic struck.\]
 
-Previous research using a propensity score design reported on changes in Trust in Science during the first three weeks of New Zealand's COVID lockdown in March and April 2020 [@sibley2020] .
+Previous research using a propensity score design reported on changes in Trust in Science during the first three weeks of New Zealand's COVID lockdown in March and April 2020 [@sibley2020].
 
 **COVID-19 Government response** [@marques2022]
 
@@ -56,34 +56,32 @@ Previous research using a propensity score design reported on changes in Trust i
 
 -   "People's basic rights are well protected by the New Zealand Police."
 -   "There are many things about the New Zealand Police and its policies that need to be changed."
--   "The New Zealand Police care about the well-being of everyone they deal with. Compliance with police"
+-   "The New Zealand Police care about the well-being of everyone they deal with."
 
 **General tendency to believe in conspiracies**[@lantian2016]
 
 -   "I think that the official version of major world events given by authorities often hides the truth."
 
-### Sample responses: yeares 2019-2020: Pre-Covid, Lockdown, Post-Lockdown
+### Sample responses: years 2019-2020: Pre-Covid, Lockdown, Post-Lockdown
 
 ```{r setup}
 #| include: false
 #| echo: false
 #| warning: false
 
-
 source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
 
+# if you run mlim for imputation, comment out the source file and run these libraries
+# library(tidyverse)
+# library(table1)
+# library(kableExtra)
+# library(mlim)
 # read functions
+
+# for mice functions see: https://amices.org/mice/
+
 source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")
 
-
-# libraries and functions
-# read libraries
-source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
-
-# read functions
-source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")
-
-#source(here::here("scripts", "functions", "funs_here.R"))
 
 # read data
 
@@ -118,8 +116,9 @@ dat <- arrow::read_parquet(pull_path)
 # sometimes arrow objects give me trouble
 dat <- as.data.frame(dat)
 
+
 # create covid timeline variables, select waves of interest. 
-dt <- dat %>%
+dt <- dat |>
   data.frame() |>
 # create covid timeline 
  mutate(covid_condition = as.factor(ifelse(
@@ -142,9 +141,9 @@ dt <- dat %>%
   dplyr::mutate(org2019 = ifelse(Wave == 2019 &
                                    YearMeasured == 1, 1, 0)) |>  # creating an indicator for the first wave
   dplyr::mutate(hold19 = mean(org2019, na.rm = TRUE)) |>  # Hack
-  dplyr::filter(hold19 > 0) %>% # hack to enable repeat of baseline
+  dplyr::filter(hold19 > 0) |> # hack to enable repeat of baseline
   ungroup() |>
-  droplevels() %>%
+  droplevels() |>
   mutate(time = as.numeric(Wave) - 1) |>
   arrange(Id, time) |>
   select(
@@ -180,21 +179,26 @@ dt <- dat %>%
     Pol.Wing,
     Parent,
     Relid,
+    SDO,
+    RWA,
     ConspiracyBeliefs,
     SCIENCE.TRUST,
     POLICE.TRUST,
     COVID.TrustGovtResponse,
     Pol.PoliticianTrust,
     ScienceTrust01, # individual item
-    ScienceTrust02r # individual item
+    ScienceTrust02r  # individual item
   ) |> 
   rename(
   Conspiracy_Beliefs  = ConspiracyBeliefs,
   Trust_in_Science =  SCIENCE.TRUST,
   Trust_in_Politicians = Pol.PoliticianTrust,
   Trust_in_Police = POLICE.TRUST,
-  Trust_in_Govt_Covid_Response = COVID.TrustGovtResponse
-  )
+  Trust_in_Govt_Covid_Response = COVID.TrustGovtResponse, 
+  ) |> 
+  droplevels() |> 
+  arrange(Id,Wave)
+
 ```
 
 
@@ -270,7 +274,7 @@ dt_long_19 <- pivot_longer(
 # make graph
 plot_tab_19 <- dt_long_19 |>
   ggplot2::ggplot(aes(covid_condition, Values, fill = Attitudes)) +
-  labs(title = "Institional Trust and Conspiracy Beliefs (1-7)",
+  labs(title = "Institutional Trust and Conspiracy Beliefs (1-7)",
        subtitle = "NZAVS 2019/2020  (N = 42,681)") +
   geom_boxplot(size = .05, notch = T) +
   scale_fill_okabe_ito() +
@@ -284,23 +288,23 @@ plot_tab_19 <- dt_long_19 |>
 plot_tab_19
 ```
 
-This table and graph compares the trust in science, police, and politicians across three different time periods: pre-Covid, lockdown, and post-lockdown.
+This table and graph compare the trust in science, police, and politicians across three different periods: pre-Covid, lockdown, and post-lockdown.
 
-We observe:
+WE observe:
 
 1.  Trust in science increased during the lockdown period and remained higher in the post-lockdown period compared to the pre-Covid period.
-2.  Trust in police remained relatively stable across all three periods, although the trend appears downward after lockdown.
-3.  Trust in politicians increased during the lockdown period. It decreased slightly in the post-lockdown period, where it nevertheless remained higher than the pre-Covid period.
+2.  Trust in police remained relatively stable across all three periods, although the trend tracked downward after lockdown.
+3.  Trust in politicians increased during the lockdown period. It decreased slightly in the post-lockdown period but remained higher than in the pre-Covid period.
 
-4. Conspiracy Beliefs: the average mistrust of official versions of major world events given by authorities fell a little during lockdown, and remained lower after. This decline might ari
+4. Conspiracy Beliefs: the average mistrust of official versions of major world events given by authorities fell a little during the lockdown and remained lower. This decline might ari
 
-The graph reveals that while the mean of for trust in science increased, so too did the density of people at the extremes of the scale. This suggests greater galvanisation in attitudes to science in New Zealand, and is a reminder that a central tendency may not always be the most interesting statistic for understanding social change.
+The graph reveals that while the mean of trust in science increased, so too did the density of people at the extremes of the scale. This finding suggests greater separation or spread in attitudes to science in New Zealand. This finding is also a reminder that a central tendency may not always be the most interesting statistic for understanding social change.
 
 ### NZAVS sample responses: years 2018-2022
 
-We have seen that different dimensions of institutional trust do not follow the same patterns of change over time. In the next analysis, we examine longer-term trajectories while taking into account that the data has been collected from the same individuals over time and there is panel attrition throughout the study.
+We have seen that different dimensions of institutional trust follow different patterns of change over time. 
 
-It is important to note that panel attrition could potentially result in biased estimates, particularly when it comes to institutional trust. Even though the NZAVS employs prize draws as incentives for participants, those who lose trust in science may be less inclined to continue participating in the study.
+We first investigate change within the sample who remained in the study. It is critical to remember that panel attrition could potentially result in biased estimates. If institutional trust is associated with attrition then an anlaysis that restricts to the observed sample will not accurately recorded change across the country. Knowing nothing else, we may assume bias. Even though the NZAVS employs prize draws as incentives for participants, those who lose trust in science may be less inclined to continue participating in the study.
 
 ```{r tab_trust_years}
 #|echo: false
@@ -397,43 +401,554 @@ plot_tab
 
 ```
 
-This table and graph presents trust scores for different institutional trust categories we examined in the previous section: trust in science, police,and trust in politicians. Additionally, we examine attitudes to the New Zealand Government's response to COVID. Here the measures are taken across three NZAVS Waves: 2019, 2020, and 2021. The sample size is again 42,681. These are all those who responded in the NZAVS Wave 2019 (2019-2020). Note missing data increases, from panel attrition.
 
-1.  Trust in science: The average trust score increased from 5.43 (±1.28) in 2019 to 5.70 (±1.26) in 2021.
+Findings in the naive analysis:
 
-2.  Trust in police: The average trust score decreased from 4.58 (±1.26) in 2019 to 4.43 (±1.30) in 2021.
+Trust in Science: The average trust score increased from 5.43 (±1.28) in 2019 to 5.67 (±1.24) in 2020 and to 5.70 (±1.26) in 2021. The number of missing values increased from 375 (0.9%) in 2019 to 9,475 (22.2%) in 2020 and further to 14,231 (33.3%) in 2021.
 
-3.  Trust in politicians: The average trust score increased from 3.76 (±1.45) in 2019 to 4.05 (±1.49) in 2020 but slightly decreased to 3.92 (±1.56) in 2021.
+Trust in Politicians: The average trust score increased from 3.76 (±1.45) in 2019 to 4.05 (±1.49) in 2020, then slightly decreased to 3.92 (±1.56) in 2021. The number of missing values increased from 853 (2.0%) in 2019 to 10,078 (23.6%) in 2020 and further to 15,406 (36.1%) in 2021.
 
-4.  Trust in government response to Covid: This parameter was not measured in 2019. We only report Wave 2020 and Wave 2021. There is a considerable decline in trust in the government's reponse to Covid: 5.66 (±1.55) in 2020 to 4.79 (±1.94) in 2021.
+Trust in Police: The average trust score decreased from 4.58 (±1.26) in 2019 to 4.53 (±1.26) in 2020 and further to 4.43 (±1.30) in 2021. The number of missing values increased from 15 (0.0%) in 2019 to 9,378 (22.0%) in 2020 and further to 13,770 (32.3%) in 2021.
 
-5. Conspiracy Beliefs: The average mistrust of official versions of major world events given by authorities fell over time: 4.36 (±1.63) in 2020 to 4.02  (±1.74), however the increasing variance is again a tip-off that the fall might owe more to non-differential panel attrition than to a decline in mistrust of authorities.
+Trust in Government's COVID Response: This metric was not applicable in 2019. The average trust score was 5.66 (±1.55) in 2020 and decreased to 4.79 (±1.94) in 2021. The number of missing values was 42,681 (100%) in 2019, 9,620 (22.5%) in 2020, and 15,123 (35.4%) in 2021.
 
-The graph again reveals greater evidence for galvanisation in attitudes to science in New Zealand. Again, measuring the central tendency here missing evidence for social division.
+Conspiracy Beliefs: The average score decreased from 4.36 (±1.63) in 2019 to 4.10 (±1.68) in 2020 and further to 4.02 (±1.74) in 2021. The number of missing values increased from 1,197 (2.8%) in 2019 to 9,676 (22.7%) in 2020 and further to 15,110 (35.4%) in 2021.
 
-Note that missing responses may bias these results. To participant in a survey require trusting educational/scientific institutions. In published work, the team will endevour to handle missing responses.
+How should we in interpret these findings? We should not interpret these findings.  Again, missing data from non-response and panel attrition may bias estimates for the population. We must address bias from missing responses.
+
+
+
+## Handling missingness
+
+To handle missing data, we must model and predict missing responses. We attempt two types of missing data imputation. Both use machine learning. The first is the `mlim` package in R, which uses model tuning to optimise the prediction of missing values. The second is the `mice` package in R.  It uses predictive mean matching (ppm) optimse the prediction of missing values.  We find that the mice package/ppm performs better, and present the`ppm` results here. We present the code for both approaches below
+
+```{r mlim}
+#| eval: false
+
+# Impute
+# conflicts may prevent from running
+library("mlim")
+library("missForest")
+library("mice")
+library("randomForest")
+library("parameters")
+require("tidyverse")
+
+# get data into wide formate
+dt_imp_prep <- dt |>
+  select(-COVID19.Timeline) |> # select only outcomes for t1
+  pivot_wider(
+    id_cols = Id,
+    names_from = time,
+    values_from = -c(Id, time),
+    names_glue = "t{time}_{.value}",
+    names_prefix = "t"
+  ) |>
+ # dplyr::select(-c(starts_with("t1") & !starts_with("t1_Warm."))) |>
+  relocate(starts_with("t0_"), .before = starts_with("t1_")) |>
+  relocate(starts_with("t1_"), .before = starts_with("t2_")) |>
+  mutate(t0_Male = as.numeric(t0_Male) - 1) |>
+  arrange(Id) |> 
+    dplyr::select(-c(Id, t0_Trust_in_Govt_Covid_Response)) |> # don't impute ID or missing cols
+  droplevels()
+
+# check
+# colnames(dt_imp_prep)
+
+# inspect
+naniar::gg_miss_var(dt_imp_prep)
+
+# single imputation
+dt_imp_mlim <- mlim(dt_imp_prep, m=1, seed = 0) 
+#mlim.summarize(dt_imp_mlim)
+
+saveRDS(dt_imp_mlim, here::here(push_mods, "dt_imp_mlim"))
+dt_imp_mlim <- readRDS( here::here(push_mods, "dt_imp_mlim"))
+
+# get id var back into dataset
+dt_imp <- cbind(dt$Id,  dt_imp_mlim)
+
+
+# make data into long format
+dt_imp_long <- dt_imp |>
+  mutate(t1_Male = t0_Male) |>
+  mutate(t2_Male = as.numeric(t2_Male) - 1) |>
+  pivot_longer(
+    cols = starts_with("t"),
+    names_to = c("time", ".value"),
+    names_pattern = "t(\\d+)_(.*)"
+  ) |>
+  mutate(time = as.integer(time)) |>
+  data.frame()
+
+
+
+# transform data into long format for graph and table
+dt_temp <- dt_imp_long |> select(
+  Wave,
+  Trust_in_Science,
+  Trust_in_Politicians,
+  Trust_in_Police,
+ # Trust_in_Govt_Covid_Response, 
+  Conspiracy_Beliefs
+)
+
+
+# boxplot dataframe
+dt_long <- pivot_longer(
+  dt_temp,
+  cols = -c("Wave"),
+  names_prefix = "Trust_in_",
+  values_to = "Values",
+  names_to = "Attitudes"
+) |>
+  drop_na()
+
+
+# figure 
+library(ggokabeito)
+plot_tab <- dt_long |>
+  ggplot2::ggplot(aes(Wave, Values, fill = Attitudes)) +
+  labs(title = "Institutional Trust and Conspiracy Beliefs",
+       subtitle = "NZ 2019/21 to 2021/22 [N = 42,681 (at baseline)]") +
+  geom_boxplot(size = .05, notch = T) +
+  scale_fill_okabe_ito() +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+  theme(legend.position = "none") +
+  labs(y = "NZAVS Wave (note: waves cross years)") + 
+  theme_classic()
+
+#plot_tab
+
+# now the years 
+tab_trust <- table1::table1(
+  ~ Trust_in_Science +
+    Trust_in_Politicians +
+    Trust_in_Police + # not measured in 2019-20
+   # Trust_in_Govt_Covid_Response + 
+    Conspiracy_Beliefs| Wave,
+  data = dt_imp_long,
+  overall = FALSE,
+  render.continuous = my.render.cont,
+  render.categorical = my.render.cat
+)
+
+
+# needed for markdown tables
+tab_trust <- data.frame( tab_trust )
+
+tab_trust <- tab_trust |> 
+    rename("Forms of Institutional Trust" = X.)
+
+# table
+tab_trust |>
+  kbl(format = "markdown", booktabs = TRUE)
+```
+
+
+```{r ppm}
+#| eval: false
+
+# takes to long to run, so show code, but re-import data for the model.
+
+# inspect
+
+# impute
+dt_imp_mice <- mice::mice(dt_imp_prep, m=10,  method = 'pmm', seed = 123)
+
+
+# save
+saveRDS(dt_imp_mice, here::here(push_mods, "dt_imp_mice"))
+
+# check
+# head(dt_imp_mice$loggedEvents, 10)
+
+# data wrangling
+
+mc  <- mice::complete(dt_imp_mice, "long", inc = T)
+
+vnames <- rownames(mc)
+
+cnames <- rownames(mc)
+
+
+nrow(dt)
+
+nid <- skimr::n_unique(dt$Id) 
+length(vnames)/nid #(11 datasets)
+
+
+newdat <- data.frame( rep( dt_imp_prep$t0_w_GendAgeEuro, 11))
+colnames(newdat ) <- "weights"
+
+newdat1 <- data.frame( rep(NA, nrow(dt_imp_prep) * 11))
+colnames(newdat1 ) <- "t0_Trust_in_Govt_Covid_Response"
+#nrow(newdat1)
+
+# length( newdat$weights ) == length( cnames) # check
+
+
+mc_v <- bind_cols(newdat, newdat1, mc ) |>
+  relocate("weights", .before = "t0_Partner") |> 
+  relocate("t0_Trust_in_Govt_Covid_Response", .after = "t0_Trust_in_Science")
+
+
+# checks out
+# colnames( mc_v)
+# skimr::skim(mc_v)
+
+# save
+saveRDS(mc_v, here::here(push_mods, "mcv"))
+
+
+# prepare
+N3 = 3 * nid # made long so need 3 x N
+
+# checks
+#mc_v$.id
+#head(mc_v)
+
+
+# wrangling 
+mc_vv <- mc_v |>
+  dplyr::mutate(Id = as.factor(rep(1:nid, 11))) |> # need ids
+  dplyr::mutate(t1_Male = t0_Male) |>
+  dplyr::mutate(t2_Male = as.numeric(t2_Male) - 1) |> 
+  pivot_longer(
+    cols = starts_with("t"),
+    names_to = c("time", ".value"),
+    names_pattern = "t(\\d+)_(.*)"
+  ) |> 
+  mutate(time = as.integer(time))  |> 
+  relocate("time", .after = "Id") |>
+  arrange(.imp, Id, time)  |>
+  select(-.id) |>
+  mutate(.id = rep(1:N3, 11)) |>  # new id needed  for mice
+  data.frame()
+
+
+
+
+# save
+saveRDS(mc_vv, here::here(push_mods, "mc_vv"))
+
+# make a mids object for the analysis
+dt_mids <- mc_vv|> 
+#  dplyr::mutate(across(starts_with("Trust_in"), ~ scale(.x), .names = "{col}_z")) %>%
+  # select(-c(.imp_z, .id_z)) |>
+  mutate_if(is.matrix, as.vector) %>%
+  as.mids()
+
+saveRDS(dt_mids, here::here(push_mods, "dt_mids"))
+
+
+# for covid sat variable
+dt_mids_no_2019 <- mc_vv|> 
+#  dplyr::mutate(across(starts_with("Trust_in"), ~ scale(.x), .names = "{col}_z")) %>%
+  # select(-c(.imp_z, .id_z)) |>
+  filter(Wave != 2019) |> 
+  droplevels() |> 
+  mutate_if(is.matrix, as.vector) %>%
+  as.mids()
+
+
+saveRDS(dt_mids_no_2019, here::here(push_mods, "dt_mids_no_2019"))
+
+
+```
+
+
+```{r ppm-graph}
+
+mc_vv <- readRDS(here::here(push_mods, "mc_vv"))
+
+# transform data into long format for graph and table
+dt_temp_mice <- mc_vv |> select(
+  Wave,
+  Trust_in_Science,
+  Trust_in_Politicians,
+  Trust_in_Police,
+  Trust_in_Govt_Covid_Response, 
+  Conspiracy_Beliefs
+)
+
+
+# boxplot dataframe
+dt_long_mice <- pivot_longer(
+  dt_temp_mice,
+  cols = -c("Wave"),
+  names_prefix = "Trust_in_",
+  values_to = "Values",
+  names_to = "Attitudes"
+) |>
+  drop_na()
+
+library(ggokabeito)
+plot_tab_mice <- dt_long_mice |>
+  ggplot2::ggplot(aes(Wave, Values, fill = Attitudes)) +
+  labs(title = "Institutional Trust and Conspiracy Beliefs: Missingness Multiply-Imputed",
+       subtitle = "NZ 2019/21 to 2021/22 [N = 42,681 (at baseline)]") +
+  geom_boxplot(size = .05, notch = T) +
+  scale_fill_okabe_ito() +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+  theme(legend.position = "none") +
+  labs(y = "NZAVS Wave (note: waves cross years)") + 
+  theme_classic()
+
+plot_tab_mice
+```
+
+
+```{r tab_imputed}
+mc_vv <- readRDS(here::here(push_mods, "mc_vv"))
+# now the years 
+tab_trust_mice <- table1::table1(
+  ~ Trust_in_Science +
+    Trust_in_Politicians +
+    Trust_in_Police + # not measured in 2019-20
+    Trust_in_Govt_Covid_Response + 
+    Conspiracy_Beliefs| Wave,
+  data = mc_vv,
+  overall = FALSE,
+  render.continuous = my.render.cont,
+  render.categorical = my.render.cat
+)
+
+
+
+# must be a data frame
+tab_trust_mice <- data.frame(tab_trust_mice)
+
+tab_trust_mice <- tab_trust_mice |> 
+    dplyr::rename("Forms of Institutional Trust" = X.)
+
+# graph
+tab_trust_mice |>
+  kbl(format = "markdown", booktabs = TRUE)
+```
+
+
+
+The imputed data contain ten imputed datasets plus the original data with missing values.  We will need to adjust for the uncertainities of multiple imputation using Rubin's rule.
+
+However, for descriptive purposes, we note there is is initial evidence for a declining institutional trust in politicians and the police, which was not as clearly evident in the analysis that ingored missing values  
+
+Next, we formally model change over time using generalised estimating equations, again taking into account uncertainties from multiple imputation. 
+
+### Results
+
+
+### Trust in science
+
+We find that trust in science
+
+```{r, ppm model}
+#| eval: false
+
+# set eval to false to save time 
+# read data
+dt_mids <- readRDS(here::here(push_mods, "dt_mids"))
+dt_mids_no_2019 <- readRDS(here::here(push_mods, "dt_mids_no_2019"))
+
+
+# gee model over the imputed data sets
+m_trust_in_science <-
+  with(dt_mids,
+       geeglm(
+         Trust_in_Science ~ Wave,
+         id = Id,
+         weights = weights,
+         corstr = "ar1"
+       ))
+
+pooled_m_trust_in_science <- mice::pool(m_trust_in_science)
+
+
+m_trust_in_politicians <-
+  with(dt_mids,
+       geeglm(
+         Trust_in_Politicians ~ Wave,
+         id = Id,
+         weights = weights,
+         corstr = "ar1"
+       ))
+
+pooled_m_trust_in_politicians <- mice::pool(m_trust_in_politicians)
+
+m_trust_in_police <-
+  with(dt_mids,
+       geeglm(
+         Trust_in_Police ~ Wave,
+         id = Id,
+         weights = weights,
+         corstr = "ar1"
+       ))
+
+pooled_m_trust_in_police <- mice::pool(m_trust_in_police)
+
+## need to remove wave == 2019
+m_trust_in_gov_covid <-
+  with(
+    dt_mids_no_2019,
+    geeglm(
+      Trust_in_Govt_Covid_Response ~ Wave,
+      id = Id,
+      weights = weights,
+      corstr = "ar1"
+    )
+  ) # need wave 2019
+
+pooled_m_trust_in_gov_covid <- mice::pool(m_trust_in_gov_covid)
+
+
+m_conspiracy_beliefs  <-
+  with(dt_mids,
+       geeglm(
+         Conspiracy_Beliefs ~ Wave,
+         id = Id,
+         weights = weights,
+         corstr = "ar1"
+       ))
+
+pooled_m_conspiracy_beliefs <- mice::pool(m_conspiracy_beliefs)
+
+# save outputs
+saveRDS( pooled_m_trust_in_politicians, here::here(push_mods, "pooled_m_trust_in_politicians"))
+saveRDS( pooled_m_trust_in_science, here::here(push_mods, "pooled_m_trust_in_science"))
+saveRDS( pooled_m_trust_in_police, here::here(push_mods, "pooled_m_trust_in_police"))
+saveRDS( pooled_m_trust_in_gov_covid, here::here(push_mods, "pooled_m_trust_in_gov_covid"))
+saveRDS( pooled_m_conspiracy_beliefs, here::here(push_mods, "pooled_m_conspiracy_beliefs"))
+
+
+```
+
+
+```{r, results_m_trust_in_science}
+#| label: results_m_trust_in_science
+#| tbl-cap: Trust in Science by NZAVS Wave
+
+# read output for table
+pooled_m_trust_in_science <- readRDS( here::here(push_mods, "pooled_m_trust_in_science"))
+
+summary( pooled_m_trust_in_science ) |> 
+  as.data.frame()|> 
+  kbl(format = "markdown", digits = 3, caption = "Trust in Science by NZAVS Wave")
+```
+
+
+
+```{r, results_trust_in_politicians}
+#| label: results_m_trust_in_politicians
+#| tbl-cap: Trust in Politicians by NZAVS Wave
+
+
+# read output for table
+pooled_m_trust_in_politicians <- readRDS( here::here(push_mods, "pooled_m_trust_in_politicians"))
+
+ 
+summary( pooled_m_trust_in_politicians ) |> 
+  as.data.frame()|> 
+  kbl(format = "markdown", digits = 3,  caption = "Trust in Politicians by NZAVS Wave")
+```
+
+
+```{r, results_trust_in_police}
+#| label: results_m_trust_in_police
+#| tbl-cap: Trust in Police by NZAVS Wave
+
+
+# read output for table
+pooled_m_trust_in_police <- readRDS( here::here(push_mods, "pooled_m_trust_in_police"))
+
+ 
+summary( pooled_m_trust_in_police ) |> 
+  as.data.frame()|> 
+  kbl(format = "markdown", digits = 3,  caption = "Trust in Police by NZAVS Wave")
+```
+
+
+```{r, results_trust_in_gov_covid }
+#| label: results_m_trust_in_gov_covid
+#| tbl-cap: Trust in Science by NZAVS Wave
+
+# read output for table
+pooled_m_trust_in_gov_covid <- readRDS( here::here(push_mods, "pooled_m_trust_in_gov_covid"))
+
+summary( pooled_m_trust_in_gov_covid ) |> 
+  as.data.frame()|> 
+  kbl(format = "markdown", digits = 3, caption = "Trust in Covid Governemnt Response by NZAVS Wave")
+```
+
+
+```{r,results_conspiracy_beliefs}
+#| label: results_conspiracy beliefs
+#| tbl-cap: Conspiracy Beliefs by NZAVS Wave
+
+# read output for table
+pooled_m_conspiracy_beliefs <- readRDS(  here::here(push_mods, "pooled_m_conspiracy_beliefs"))
+
+summary(pooled_m_conspiracy_beliefs) |> 
+  as.data.frame()|> 
+  kbl(format = "markdown", digits = 3, caption =  "Conspiracy Beliefs by NZAVS Wave")
+```
+
+
+
+
+#### Trust in Science by NZAVS Wave:
+- From 2019 to 2020, trust in science reliably increased (estimate = 0.228, p < 0.001).
+- From 2019 to 2021, the increase in trust in science was not reliable (estimate = 0.263, p = 0.289). 
+
+
+####  Trust in Politicians by NZAVS Wave:
+- From 2019 to 2020, the increase in trust in politicians was large not reliable (estimate = 0.139, p = 0.790).
+- From 2019 to 2021, the decrease in trust in politicians was not reliable (estimate = -0.093, p = 0.923).
+
+
+#### Trust in Police by NZAVS Wave:
+
+- From 2019 to 2020, the decrease in trust in police was not reliable (estimate = -0.094, p = 0.875).
+- From 2019 to 2021, the decrease in trust in police was large but not reliable (estimate = -0.374, p = 0.516).
+
+
+#### Trust in Government COVID Response by NZAVS Wave (only two waves):
+
+From 2019 to 2021, the decrease in trust in the government's COVID response was large but not reliable (estimate = -0.911, p = 0.477).
+
+#### Conspiracy Beliefs:
+
+- From 2019 to 2020, the increase in conspiracy beliefs was not reliable (estimate = 0.249, p = 0.417).
+From 2019 to 2021, the decrease in conspiracy beliefs was not reliable (estimate = -0.063, p = 0.927).
+
+Summary:
+All models of the multiply imputed datasets were weighted to reflect changes in population averages.  The results show a reliable increase in trust in science from 2019 to 2020.  However, changes in trust in politicians, trust in police, trust in the government's COVID response, and conspiracy beliefs across the waves were generally unreliable. This suggests that trust in science has shown some improvement, while other forms of trust and beliefs have not shown consistent or reliable changes over time.  However, this is because there is considerable uncertainty from the multiple imputation process.  Stepping back, the evidence points to greater loss in average levels of institutional trust following COVID, but not in to a loss in average scientific confidence. 
+
+In the near future, we will consider models that give us insight beyond the average response, and that better account for uncertainty.   
+
 
 ## Conclusion
 
 -   The NZAVS is a national probability panel study that has good coverage of the NZAVS population.
--   Trust in science increased after the pandemic (and pandemic response), however, so too did extreme mistrust of science.
--   This confidence in science remained even as there were strong declines in trust for the government's pandemic response.
--   Moreover, trust in politicians did not decline, even as trust in the government's response to the pandemic response declined.
 
-### Provisos
+-   This confidence in science remained even as there is evidence for strong declines in trust for the government's pandemic response and other forms of instititutial mistrust. 
 
--   Missing data from non-response and panel attrition may bias estimates for the population.
--   Good scientists should be skeptical of their science.
 
-### Looking ahead
 
--   Stay tuned for peer-reviewed studies in which NZAVS experts develop this work.
+### Information about the New Zealand Attitudes and Values Study.
 
 For more information about the NZAVS see: [here](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html) and [here](https://go-bayes.github.io/reports/posts/nzavs/)
+
+
+
+
+
+
+
 
 ```{r not_run}
 #| echo: false
 #| include: false
+#| eval: false
 
 # save for webpage
 # ggsave(
@@ -452,8 +967,8 @@ For more information about the NZAVS see: [here](https://www.psych.auckland.ac.n
 # start here --------------------------------------------------------------
 # 
 # 
-# sub_dat <- dat %>%
-#   filter(Wave == 2019) %>%
+# sub_dat <- dat |>
+#   filter(Wave == 2019) |>
 #   dplyr::mutate(cum_lockdowns_time11 = if_else(
 #     COVID19.Timeline < 1.2,
 #     0,
@@ -511,8 +1026,8 @@ For more information about the NZAVS see: [here](https://www.psych.auckland.ac.n
 #   arrow::read_parquet(here::here(push_mods, "2012_cohort_attacks"))
 # 
 # 
-# sub_dat4 <- dat_bayes %>%
-#   filter(Wave == "Time11") %>%
+# sub_dat4 <- dat_bayes |>
+#   filter(Wave == "Time11") |>
 #   dplyr::mutate(cum_lockdowns_time11 = if_else(
 #     COVID19.Timeline < 1.2,
 #     0,
@@ -566,5 +1081,4 @@ For more information about the NZAVS see: [here](https://www.psych.auckland.ac.n
 # 
 # 
 # # propensity scores -
-
 ```
