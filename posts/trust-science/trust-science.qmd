@@ -960,9 +960,8 @@ prior_science = c(
 )
 
 
-# ord
-bform_science  =   bf(Trust_in_Science|mi() + weights(w_GendAgeEuro) ~ Wave + (1|Id) )
-
+```
+library(cmdstanr)
 system.time(
   brms_m_science <- brms::brm(
     backend = "cmdstanr",
@@ -974,6 +973,7 @@ system.time(
     file = here::here(push_mods, "brms_m_science")
   )
 )
+
 
 # not run
 # m_bayes <- modelsummary::modelsummary(
