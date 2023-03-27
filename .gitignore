@@ -60,6 +60,7 @@ posts/**/*_files/
 _freeze/posts/
 _freeze/posts/*.png
 
+_pdfs/
 #docs/templates/template_review_files/*
 #docs/templates/**/*.html
 

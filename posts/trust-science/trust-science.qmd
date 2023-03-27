@@ -4,14 +4,16 @@ subtitle: "New Zealand Attitudes and Values Study: Years 2019-2022 N = 42,681"
 date: 2023-03-23
 date-format: short
 author: 
+  - name: Authors TBA
+    affiliation: TBA
+  - name: Chris G Sibley
+    orcid: 0000-0002-4064-8800
+    affiliation: University of Auckland,  New Zealand
   - name: Joseph Bulbulia
     orcid: 0000-0002-5861-2056
     affiliation: Victoria University of Wellington, New Zealand
     email: joseph.bulbulia@vuw.ac.nz
     corresponding: yes
-  - name: Chris G Sibley
-    orcid: 0000-0002-4064-8800
-    affiliation: University of Auckland,  New Zealand
 categories:
   - NZAVS
   - COVID
@@ -25,6 +27,8 @@ format:
     code-fold: true
     code-summary: "Show the code"
 bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## NZAVS Report on Institutional Trust Pre/Post COVID
@@ -37,9 +41,8 @@ The New Zealand Attitudes and Values Study uses a two-item scale to measure **Tr
 
 -   "Our society places too much emphasis on science."(reverse coded) 
 
-We average these scores to form a single score [@hartman2017].[^We do not blindly adhere to the standard measurement approaches in psychometrics.  It might be preferable to work with single items instead of the averaged score. See [@vanderweele2022] for more information on this point.]
-
-These items were introduced in NZAVS Wave 11 (2019 - 2020) \[\^ We must be cautious: causal identification requires contrasting outcomes under different exposures.  Because all were exposed to the COVID-19 pandemic, these contrasts are not identified without the strong assumption that there were no pre-existing trends in the acceptance of science before the COVID-19 pandemic struck.\]
+We average these scores to form a single score [@hartman2017]. ^[We do not blindly adhere to the standard measurement approaches in psychometrics.  It might be preferable to work with single items instead of the averaged score. See [@vanderweele2022] for more information on this point.]
+These items were introduced in NZAVS Wave 11 (2019 - 2020) ^[We must be cautious: causal identification requires contrasting outcomes under different exposures.  Because all were exposed to the COVID-19 pandemic, these contrasts are not identified without the strong assumption that there were no pre-existing trends in the acceptance of science before the COVID-19 pandemic struck.]
 
 Previous research using a propensity score design reported on changes in Trust in Science during the first three weeks of New Zealand's COVID lockdown in March and April 2020 [@sibley2020].
 
@@ -141,7 +144,8 @@ dt <- dat |>
   dplyr::mutate(org2019 = ifelse(Wave == 2019 &
                                    YearMeasured == 1, 1, 0)) |>  # creating an indicator for the first wave
   dplyr::mutate(hold19 = mean(org2019, na.rm = TRUE)) |>  # Hack
-  dplyr::filter(hold19 > 0) |> # hack to enable repeat of baseline
+  dplyr::filter(hold19 > 0) |> # hack to enable repeat of baselin
+  fill(w_GendAgeEuro, .direction = "down") |> # weights are all for 2018. Fill if missing
   ungroup() |>
   droplevels() |>
   mutate(time = as.numeric(Wave) - 1) |>
@@ -185,9 +189,9 @@ dt <- dat |>
     SCIENCE.TRUST,
     POLICE.TRUST,
     COVID.TrustGovtResponse,
-    Pol.PoliticianTrust,
-    ScienceTrust01, # individual item
-    ScienceTrust02r  # individual item
+    Pol.PoliticianTrust#,
+  # ScienceTrust01, # individual item
+  # ScienceTrust02r  # individual item
   ) |> 
   rename(
   Conspiracy_Beliefs  = ConspiracyBeliefs,
@@ -295,20 +299,17 @@ We observe:
 1.  Trust in science increased during the lockdown period and remained higher in the post-lockdown period compared to the pre-Covid period.
 2.  Trust in police remained relatively stable across all three periods, although the trend tracked downward after lockdown.
 3.  Trust in politicians increased during the lockdown period. It decreased slightly in the post-lockdown period but remained higher than in the pre-Covid period.
-4. Conspiracy Beliefs: the average mistrust of official versions of major world events given by authorities appear to increase during lockdown but subsequently decrease.
+4. Conspiracy Beliefs: the average mistrust of official versions of major world events given by authorities appear to decrease during lockdown but subsequently decrease.
 
-Importantly, the graph suggests that while the mean of trust in science increased, so too did the density of people at the extremes of the scale. 
-
-This finding suggests galvanisation in attitudes to science in New Zealand. 
-
-This finding is also a reminder that a central tendency may not always be the most interesting statistic for understanding social change.
+Notably, the central tendency may not always be the interesting statistic for understanding social change. There may be greater galvanisation in response that is masked by overall average response.  In future work, we will examine this point.  For now, the trends suggest overall stability during 2019-2020, with increasing confidence in science.  
 
 
 ### NZAVS sample responses: years 2019-2022
 
-Next, we examine changes in institutional trust across two waves following the 2019/2020 NZAVS wave. It is crucial to consider the potential bias caused by panel attrition. If institutional trust is linked to attrition, an analysis limited to the observed sample may not accurately reflect changes across the country. Despite the use of prize draws as incentives in the NZAVS, individuals who lose trust in science might be less likely to continue participating, potentially introducing bias in the results.
+Next, we examine changes in institutional trust across two waves following the 2019/2020 NZAVS wave. 
 
 
+Table:
 
 ```{r tab_trust_years}
 #|echo: false
@@ -405,8 +406,7 @@ plot_tab
 
 ```
 
-
-Findings in the naive analysis:
+Descriptive fndings. 
 
 Trust in Science: The average trust score increased from 5.43 (±1.28) in 2019 to 5.67 (±1.24) in 2020 and to 5.70 (±1.26) in 2021. The number of missing values increased from 375 (0.9%) in 2019 to 9,475 (22.2%) in 2020 and further to 14,231 (33.3%) in 2021.
 
@@ -418,7 +418,7 @@ Trust in Government's COVID Response: This metric was not applicable in 2019. Th
 
 Conspiracy Beliefs: The average score decreased from 4.36 (±1.63) in 2019 to 4.10 (±1.68) in 2020 and further to 4.02 (±1.74) in 2021. The number of missing values increased from 1,197 (2.8%) in 2019 to 9,676 (22.7%) in 2020 and further to 15,110 (35.4%) in 2021.
 
-How should we in interpret these findings?  Again, missing data from non-response and panel attrition may bias estimates for the population. We must address bias from missing responses.
+How should we in interpret these findings?  Missing data from non-response and panel attrition may bias estimates for the population. We must address bias from missing responses. We address this bias through multiple imputation. 
 
 
 
@@ -449,7 +449,8 @@ dt_imp_prep <- dt |>
     names_glue = "t{time}_{.value}",
     names_prefix = "t"
   ) |>
- # dplyr::select(-c(starts_with("t1") & !starts_with("t1_Warm."))) |>
+ # dplyr::select(-c(starts_with("t1") & !starts_with("t1_Trust_"))) |>
+#  dplyr::select(-c(starts_with("t2") & !starts_with("t2_Trust_"))) |>
   relocate(starts_with("t0_"), .before = starts_with("t1_")) |>
   relocate(starts_with("t1_"), .before = starts_with("t2_")) |>
   mutate(t0_Male = as.numeric(t0_Male) - 1) |>
@@ -458,7 +459,7 @@ dt_imp_prep <- dt |>
   droplevels()
 
 # check
-# colnames(dt_imp_prep)
+colnames(dt_imp_prep)
 
 # inspect
 naniar::gg_miss_var(dt_imp_prep)
@@ -558,7 +559,7 @@ tab_trust |>
 # takes to long to run, so show code, but re-import data for the model.
 
 # inspect
-
+colnames( dt_imp_prep )
 # impute
 dt_imp_mice <- mice::mice(dt_imp_prep, m=10,  method = 'pmm', seed = 123)
 
@@ -566,12 +567,28 @@ dt_imp_mice <- mice::mice(dt_imp_prep, m=10,  method = 'pmm', seed = 123)
 # save
 saveRDS(dt_imp_mice, here::here(push_mods, "dt_imp_mice"))
 
-# check
-# head(dt_imp_mice$loggedEvents, 10)
+# read
+dt_imp_mice <- readRDS( here::here(push_mods, "dt_imp_mice"))
 
+# check
+head(dt_imp_mice$loggedEvents, 10)
 # data wrangling
 
 mc  <- mice::complete(dt_imp_mice, "long", inc = T)
+
+colnames(mc)
+
+
+
+# mc <- mc |> 
+#   select(.imp, .id,
+#   ends_with("Trust_in_Science"),
+#   ends_with("Trust_in_Politicians"),
+#   ends_with("Trust_in_Police"),
+#   ends_with("Trust_in_Govt_Covid_Response"),
+#   ends_with("Conspiracy_Beliefs"),
+#   ends_with("Conspiracy_Beliefs")) 
+#   
 
 vnames <- rownames(mc)
 
@@ -583,9 +600,11 @@ nrow(dt)
 nid <- skimr::n_unique(dt$Id) 
 length(vnames)/nid #(11 datasets)
 
+#t1_w_GendAgeEuro <- data.frame( rep( dt_imp_prep$t0_w_GendAgeEuro, 11))
+#t2_w_GendAgeEuro <- data.frame( rep( dt_imp_prep$t0_w_GendAgeEuro, 11))
 
-newdat <- data.frame( rep( dt_imp_prep$t0_w_GendAgeEuro, 11))
-colnames(newdat ) <- "weights"
+#colnames(t1_w_GendAgeEuro ) <- "t1_w_GendAgeEuro"
+#colnames(t2_w_GendAgeEuro ) <- "t2_w_GendAgeEuro"
 
 newdat1 <- data.frame( rep(NA, nrow(dt_imp_prep) * 11))
 colnames(newdat1 ) <- "t0_Trust_in_Govt_Covid_Response"
@@ -594,18 +613,18 @@ colnames(newdat1 ) <- "t0_Trust_in_Govt_Covid_Response"
 # length( newdat$weights ) == length( cnames) # check
 
 
-mc_v <- bind_cols(newdat, newdat1, mc ) |>
-  relocate("weights", .before = "t0_Partner") |> 
-  relocate("t0_Trust_in_Govt_Covid_Response", .after = "t0_Trust_in_Science")
-
-
+mc_v <- bind_cols( newdat1, mc ) |>
+  relocate(starts_with("t0_"), .before = starts_with("t1_")) |> 
+               relocate(starts_with("t1_"), .before = starts_with("t2_") ) |> 
+  relocate(c(".id", ".imp"), .before = starts_with("t0_") )
+  
+colnames(mc_v)
 # checks out
 # colnames( mc_v)
 # skimr::skim(mc_v)
 
 # save
 saveRDS(mc_v, here::here(push_mods, "mcv"))
-
 
 # prepare
 N3 = 3 * nid # made long so need 3 x N
@@ -619,22 +638,20 @@ N3 = 3 * nid # made long so need 3 x N
 mc_vv <- mc_v |>
   dplyr::mutate(Id = as.factor(rep(1:nid, 11))) |> # need ids
   dplyr::mutate(t1_Male = t0_Male) |>
-  dplyr::mutate(t2_Male = as.numeric(t2_Male) - 1) |> 
+  dplyr::mutate(t2_Male = as.numeric(t2_Male) - 1) |>
   pivot_longer(
     cols = starts_with("t"),
     names_to = c("time", ".value"),
     names_pattern = "t(\\d+)_(.*)"
-  ) |> 
-  mutate(time = as.integer(time))  |> 
+  ) |>
+  mutate(time = as.integer(time))  |>
   relocate("time", .after = "Id") |>
   arrange(.imp, Id, time)  |>
   select(-.id) |>
   mutate(.id = rep(1:N3, 11)) |>  # new id needed  for mice
   data.frame()
 
-
-
-
+colnames(mc_vv)
 # save
 saveRDS(mc_vv, here::here(push_mods, "mc_vv"))
 
@@ -647,13 +664,12 @@ dt_mids <- mc_vv|>
 
 saveRDS(dt_mids, here::here(push_mods, "dt_mids"))
 
-
 # for covid sat variable
-dt_mids_no_2019 <- mc_vv|> 
+dt_mids_no_2019 <- mc_vv|>
 #  dplyr::mutate(across(starts_with("Trust_in"), ~ scale(.x), .names = "{col}_z")) %>%
   # select(-c(.imp_z, .id_z)) |>
-  filter(Wave != 2019) |> 
-  droplevels() |> 
+  filter(Wave != 2019) |>
+  droplevels() |>
   mutate_if(is.matrix, as.vector) %>%
   as.mids()
 
@@ -701,6 +717,7 @@ plot_tab_mice <- dt_long_mice |>
   labs(y = "NZAVS Wave (note: waves cross years)") + 
   theme_classic()
 
+
 plot_tab_mice
 ```
 
@@ -733,13 +750,13 @@ tab_trust_mice |>
   kbl(format = "markdown", booktabs = TRUE)
 ```
 
-
-
 The imputed data contain ten imputed datasets plus the original data with missing values.  We will need to adjust for the uncertainities of multiple imputation using Rubin's rule.
 
-However, for descriptive purposes, we note there is is initial evidence for a declining institutional trust in politicians and the police, which was not as clearly evident in the analysis that ingored missing values  
+Additionally, we are now grouping pre and post responses together in the 2019 wave. So we are no longer identifying specific responses of to the COVID pandemic and response. To identify the specific effects of the COVID pandemic and response requires care. There are no contrasts from which to derive comparisons. That is, because all in the population were subject to the exposure, we cannot straightforwardly infer how people would have responded were they not exposed. We will return to this issue in future work.
 
-Next, we formally model change over time using generalised estimating equations, again taking into account uncertainties from multiple imputation. 
+These provisos aside, we find evidence for continued average confidence in science, with some evidence for a continued downward shift in trust for the NZ police. 
+
+Next, we formally model change over time using generalised estimating equations (GEE).  They models take into account uncertainties from multiple imputation. We employ survey weights to recover population estimates. 
 
 ### Results for average responses. 
 
@@ -762,7 +779,7 @@ m_trust_in_science <-
        geeglm(
          Trust_in_Science ~ Wave,
          id = Id,
-         weights = weights,
+         weights = w_GendAgeEuro,
          corstr = "ar1"
        ))
 
@@ -774,7 +791,7 @@ m_trust_in_politicians <-
        geeglm(
          Trust_in_Politicians ~ Wave,
          id = Id,
-         weights = weights,
+         weights = w_GendAgeEuro,
          corstr = "ar1"
        ))
 
@@ -785,7 +802,7 @@ m_trust_in_police <-
        geeglm(
          Trust_in_Police ~ Wave,
          id = Id,
-         weights = weights,
+         weights = w_GendAgeEuro,
          corstr = "ar1"
        ))
 
@@ -798,7 +815,7 @@ m_trust_in_gov_covid <-
     geeglm(
       Trust_in_Govt_Covid_Response ~ Wave,
       id = Id,
-      weights = weights,
+      weights = w_GendAgeEuro,
       corstr = "ar1"
     )
   ) # need wave 2019
@@ -811,7 +828,7 @@ m_conspiracy_beliefs  <-
        geeglm(
          Conspiracy_Beliefs ~ Wave,
          id = Id,
-         weights = weights,
+         weights = w_GendAgeEuro,
          corstr = "ar1"
        ))
 
@@ -898,56 +915,69 @@ summary(pooled_m_conspiracy_beliefs) |>
 ```
 
 
+The results reflect findings in the descriptiove tables. 
 
 
 #### Trust in Science by NZAVS Wave:
 
-- From 2019 to 2020, trust in science reliably increased (estimate = 0.228, p < 0.001).
-- From 2019 to 2021, the increase in trust in science was not reliable (estimate = 0.263, p = 0.289). 
+- From 2019 to 2020, trust in science reliably increased (estimate = 0.192, p < 0.001).
+- From 2019 to 2021, trust in science also reliably increased (estimate = 0.215, p < 0.001).
+
+There is no downward trend in average Trust in Science. 
 
 
-####  Trust in Politicians by NZAVS Wave:
 
-- From 2019 to 2020, the increase in trust in politicians was large not reliable (estimate = 0.139, p = 0.790).
-- From 2019 to 2021, the decrease in trust in politicians was not reliable (estimate = -0.093, p = 0.923).
+#### Trust in Politicians by NZAVS Wave:
+
+- From 2019 to 2020, the increase in trust in politicians was reliable (estimate = 0.251, p < 0.001).
+- From 2019 to 2021, the increase in trust in politicians was also reliable (estimate = 0.080, p < 0.001).
+
+Comparisons here are with the baseline wave, comparing 2019 and 2021 we find evidence for regression to the baseline wave. Whereas trust in politicians increased during the initial COVID-19 attack and response, gains to average trust appear to have been dropping. 
 
 
 #### Trust in Police by NZAVS Wave:
 
-- From 2019 to 2020, the decrease in trust in police was not reliable (estimate = -0.094, p = 0.875).
-- From 2019 to 2021, the decrease in trust in police was large but not reliable (estimate = -0.374, p = 0.516).
+- From 2019 to 2020, the decrease in trust in police was reliable (estimate = -0.110, p < 0.001).
+- From 2019 to 2021, the decrease in trust in police was also reliable (estimate = -0.247, p < 0.001).
 
+Here we find evidence for declining Trust in the NZ police. Notably, however, overall levels of Trust in the NZ police remain high. 
 
 #### Trust in Government COVID Response by NZAVS Wave (only two waves):
 
-From 2019 to 2021, the decrease in trust in the government's COVID response was large but not reliable (estimate = -0.911, p = 0.477).
+- From 2019 to 2021, the decrease in trust in the NZ government's COVID response was reliable (estimate = -0.903, p < 0.001). This represents a major drop in confidence. Notably, this drop in confidence for the NZ government's COVID response has not considerably affected attitudes to science. 
 
 #### Conspiracy Beliefs:
 
-- From 2019 to 2020, the increase in conspiracy beliefs was not reliable (estimate = 0.249, p = 0.417).
-From 2019 to 2021, the decrease in conspiracy beliefs was not reliable (estimate = -0.063, p = 0.927).
+- From 2019 to 2020, the decrease in conspiracy beliefs was reliable (estimate = -0.251, p < 0.001).
+- From 2019 to 2021, the decrease in conspiracy beliefs was also reliable (estimate = -0.308, p < 0.001).
+
+On average, we find that conspiracy beliefs are falling. However, this evidence is based on the assumptions that the model we have used impute missing conspiracy beliefs is adequate. It is possible that real change in conspiracy beliefs, and indeed for all imputed variables differs from what we have recovered in the imputation model. 
+
 
 ### Summary
 
-The results indicate a reliable increase in trust in science from 2019 to 2020, and that this shift has remained constant. In contrast, changes in trust in politicians, trust in police, trust in the government's COVID response, and conspiracy beliefs across the waves were generally unreliable. This suggests that, on average, trust in science has improved, while other forms of trust and beliefs have not shown consistent or reliable changes over time in the average response. However, our analysis should not end here.
+The results indicate a reliable increase in trust in science from 2019 to 2020, and that this shift has remained constant. In contrast, changes in trust in politicians, trust in police, trust in the government's COVID response, across the waves were generally unreliable.  Evidence suggests that average conspiracy beliefs may have declined.   
 
-Firstly, the multiple imputation, which we require to handle missingness, introduces considerable uncertainty.
 
-Secondly, when a population becomes more polarized, the average response may be misleading, potentially indicating no change.
+The preliminary findings merit further research. 
 
-Overall, the evidence points to a decline in average levels of institutional trust following COVID, particularly concerning the New Zealand Government's COVID response. Yet, the evidence does not suggest a widespread loss in average scientific confidence.
+Firstly, multiple imputation models rely on assumptions. These assumptions must be tested. 
 
-In the near future, we will explore models that provide insights beyond the average response and better account for uncertainty. Stay tuned!  
+Secondly, when a population becomes more polarized, the average response may be misleading, potentially indicating no change. We must investigate change at the margins of reponse, not merely at the average response. 
+
+Thirdly, we need not assume that the items model a univariate latent construct. We might instead model items from the scales individually, as suggested by @vanderweele2022.
+
+In the near future, that address these challenges. Stay tuned!  
 
 
 ```{r bayes_ord_trust_science}
 #| eval: false
 #| echo: false 
-#| 
+#| include: false
 # select only those who responded before 2020, and focus on the two year effect
 
 
-prior_science = c(
+prior_science = c(xhe
   set_prior("normal(0,.5)",  class = "b"),
 #  set_prior("normal(0,1)", class = "b", dpar = "sigma"),
   set_prior(
@@ -960,7 +990,6 @@ prior_science = c(
 )
 
 
-```
 library(cmdstanr)
 system.time(
   brms_m_science <- brms::brm(
