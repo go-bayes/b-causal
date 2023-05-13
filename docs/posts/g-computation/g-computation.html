@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.3.340">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,14 +18,15 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -39,8 +40,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -79,6 +79,7 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
@@ -95,27 +96,29 @@ div.csl-indent {
     <span class="navbar-title">b-causal.org</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">
+    <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/go-bayes"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/go-bayes" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://qoto.org/@joseph_bulbulia"><i class="bi bi-mastodon" role="img">
+    <a class="nav-link" href="https://qoto.org/(joseph_bulbulia?)" rel="" target=""><i class="bi bi-mastodon" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -138,7 +141,7 @@ div.csl-indent {
     <div class="quarto-title-meta-heading">Affiliation</div>
     
       <div class="quarto-title-meta-contents">
-      Joseph Bulbulia <a href="https://orcid.org/0000-0002-5861-2056" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+      <p class="author">Joseph Bulbulia <a href="https://orcid.org/0000-0002-5861-2056" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
     </div>
       <div class="quarto-title-meta-contents">
           <p class="affiliation">
@@ -169,12 +172,12 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#causal-inference" id="toc-causal-inference" class="nav-link active" data-scroll-target="#causal-inference">Causal inference</a>
+  <li><a href="#causal-inference" id="toc-causal-inference" class="nav-link active" data-scroll-target="#causal-inference">Causal Inference</a>
   <ul class="collapse">
-  <li><a href="#the-fundamental-problem-of-causal-inference." id="toc-the-fundamental-problem-of-causal-inference." class="nav-link" data-scroll-target="#the-fundamental-problem-of-causal-inference.">The fundamental problem of causal inference.</a></li>
+  <li><a href="#the-fundamental-problem-of-causal-inference" id="toc-the-fundamental-problem-of-causal-inference" class="nav-link" data-scroll-target="#the-fundamental-problem-of-causal-inference">The Fundamental Problem of Causal Inference</a></li>
   </ul></li>
-  <li><a href="#g-computation-or-regression-standardisation" id="toc-g-computation-or-regression-standardisation" class="nav-link" data-scroll-target="#g-computation-or-regression-standardisation">G-computation (or regression standardisation)</a></li>
-  <li><a href="#the-steps-for-g-computation" id="toc-the-steps-for-g-computation" class="nav-link" data-scroll-target="#the-steps-for-g-computation">The steps for G-computation</a></li>
+  <li><a href="#g-computation-or-regression-standardisation" id="toc-g-computation-or-regression-standardisation" class="nav-link" data-scroll-target="#g-computation-or-regression-standardisation">G-Computation (or Regression Standardisation)</a></li>
+  <li><a href="#steps-for-g-computation" id="toc-steps-for-g-computation" class="nav-link" data-scroll-target="#steps-for-g-computation">Steps for G-Computation</a></li>
   <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">Applications</a>
   <ul class="collapse">
   <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
@@ -188,63 +191,49 @@ div.csl-indent {
 
 
 
-<div class="cell">
-
-</div>
 <section id="causal-inference" class="level2">
-<h2 class="anchored" data-anchor-id="causal-inference">Causal inference</h2>
-<p>Suppose we want to infer whether a dichotomous exposure has a causal effect. We must answer three questions:</p>
+<h2 class="anchored" data-anchor-id="causal-inference">Causal Inference</h2>
+<p>Suppose we want to infer whether a binary exposure has a causal effect. We must answer three questions:</p>
 <ol type="1">
 <li>What would happen with exposure?</li>
-<li>What would happen with no exposure?</li>
+<li>What would happen without exposure?</li>
 <li>Do these potential outcomes differ?</li>
 </ol>
-<p>Consider a binary exposure <span class="math inline">\(A\)</span> with two levels, <span class="math inline">\(A = 0\)</span> and <span class="math inline">\(A=1\)</span> and a continuous outcome <span class="math inline">\(Y\)</span>.&nbsp; Estimating the causal effect of <span class="math inline">\(A\)</span> on outcome <span class="math inline">\(Y\)</span> requires contrasting two states of the world.&nbsp; The state of the the world <span class="math inline">\(Y^{a=1}\)</span> when, perhaps contrary to fact, <span class="math inline">\(A\)</span> is set to <span class="math inline">\(1\)</span> and the state of the world <span class="math inline">\(Y^{a=0}\)</span> when, perhaps contrary to fact, <span class="math inline">\(A\)</span> is set to <span class="math inline">\(0\)</span>. We say that <span class="math inline">\(A\)</span> affects <span class="math inline">\(Y\)</span>&nbsp; when the quantities <span class="math inline">\(Y^{a=1} - Y^{a=0} \neq 0\)</span><span class="citation" data-cites="hernan2023">(<a href="#ref-hernan2023" role="doc-biblioref">Hernan and Robins 2023</a>)</span>. &nbsp;</p>
-<section id="the-fundamental-problem-of-causal-inference." class="level3">
-<h3 class="anchored" data-anchor-id="the-fundamental-problem-of-causal-inference.">The fundamental problem of causal inference.</h3>
-<p>At any given time, for any individual, at most only one level of the exposure <span class="math inline">\(A\)</span> may be realised. That is, <span class="math inline">\(Y^{a=1}\)</span> and <span class="math inline">\(Y^{a=0}\)</span> are never simultaneously observed in any individual.&nbsp; As such, individual-level causal effects are not typically identified in the data. This is referred to as “the fundamental problem of causal inference” <span class="citation" data-cites="rubin1976 gelman2020a">(<a href="#ref-rubin1976" role="doc-biblioref">Rubin 1976</a>; <a href="#ref-gelman2020a" role="doc-biblioref">Gelman, Hill, and Vehtari 2020</a>)</span>. <span class="math inline">\(Y^{a=1}\)</span> and <span class="math inline">\(Y^{a=0}\)</span> are therefore called “potential” or “counterfactual” outcomes.</p>
-<p>Although we cannot generally observed causal effects in any individual, when certain assumptions are satisfied, we may identify the average or marginal causal effect at the level of a population.&nbsp; We say there is an average or marginal causal effect if the difference of the averages of those who are exposed and are not exposed does not equal zero:&nbsp; <span class="math inline">\(E(Y^{a=1}) - E(Y^{a=0})\neq 0\)</span> . Because the difference of the means is equivalent to the mean of the differences, we may equivalently say there is an marginal causal effect if <span class="math inline">\(E(Y^{a=1} - Y^{a=0})\neq 0\)</span> <span class="citation" data-cites="hernan2023">(<a href="#ref-hernan2023" role="doc-biblioref">Hernan and Robins 2023</a>)</span>.&nbsp;<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>&nbsp;</p>
-<p>Critically, to ensure valid inference, the potential outcomes must be (conditionally) independent of the exposure:&nbsp;</p>
-<p><span class="math display">\[Y^a&nbsp; \perp\!\!\!\perp A|L\]</span></p>
-<p><strong>Or equivalently:</strong></p>
-<p><span class="math display">\[A \perp\!\!\!\perp Y^a |L\]</span></p>
-<p>Outside of controlled experiments we cannot generally ensure this conditional independence. For this reason, we use sensitivity analysis, such as the <em>E-value</em> <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span></p>
+<p>Consider a binary exposure <span class="math inline">\(A\)</span> with two levels, <span class="math inline">\(A = 0\)</span> and <span class="math inline">\(A = 1\)</span> and a continuous outcome <span class="math inline">\(Y\)</span>. Estimating the causal effect of <span class="math inline">\(A\)</span> on outcome <span class="math inline">\(Y\)</span> requires contrasting two counterfactual states of the world: the state <span class="math inline">\(Y^{a=1}\)</span> when, hypothetically, <span class="math inline">\(A\)</span> is set to <span class="math inline">\(1\)</span> and the state <span class="math inline">\(Y^{a=0}\)</span> when, hypothetically, <span class="math inline">\(A\)</span> is set to <span class="math inline">\(0\)</span>. We say that <span class="math inline">\(A\)</span> affects <span class="math inline">\(Y\)</span> when the quantities <span class="math inline">\(Y^{a=1} - Y^{a=0} \neq 0\)</span> <span class="citation" data-cites="hernan2023">(<a href="#ref-hernan2023" role="doc-biblioref">Hernan and Robins 2023</a>)</span>.</p>
+<section id="the-fundamental-problem-of-causal-inference" class="level3">
+<h3 class="anchored" data-anchor-id="the-fundamental-problem-of-causal-inference">The Fundamental Problem of Causal Inference</h3>
+<p>At any given time, for any individual, at most only one level of the exposure <span class="math inline">\(A\)</span> may be realised. That is, <span class="math inline">\(Y^{a=1}\)</span> and <span class="math inline">\(Y^{a=0}\)</span> are never simultaneously observed for any individual. As such, individual-level causal effects are not typically identifiable in the data. This is referred to as “the fundamental problem of causal inference” <span class="citation" data-cites="rubin1976 gelman2020a">(<a href="#ref-rubin1976" role="doc-biblioref">Rubin 1976</a>; <a href="#ref-gelman2020a" role="doc-biblioref">Gelman, Hill, and Vehtari 2020</a>)</span>. <span class="math inline">\(Y^{a=1}\)</span> and <span class="math inline">\(Y^{a=0}\)</span> are therefore called “potential” or “counterfactual” outcomes.</p>
+<p>Although we generally cannot observe individual causal effects, when certain assumptions are satisfied, we may identify the average or marginal causal effect at the population level. We say there is an average or marginal causal effect if the difference of the means of those who are exposed and not exposed does not equal zero: <span class="math inline">\(E(Y^{a=1}) - E(Y^{a=0})\neq 0\)</span>. Because the difference of the means is equivalent to the mean of the differences, we may equivalently say there is a marginal causal effect if <span class="math inline">\(E(Y^{a=1} - Y^{a=0})\neq 0\)</span> <span class="citation" data-cites="hernan2023">(<a href="#ref-hernan2023" role="doc-biblioref">Hernan and Robins 2023</a>)</span>.</p>
+<p>To ensure valid inference, the potential outcomes must be conditionally independent of the exposure:</p>
+<p><span class="math display">\[Y^a \perp\!\!\!\perp A|L\]</span></p>
+<p>Outside of controlled experiments, we cannot typically ensure this conditional independence. For this reason, we use sensitivity analysis, such as the <em>E-value</em> <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span>.</p>
 </section>
 </section>
 <section id="g-computation-or-regression-standardisation" class="level2">
-<h2 class="anchored" data-anchor-id="g-computation-or-regression-standardisation">G-computation (or regression standardisation)</h2>
-<p>To consistently estimate a causal association we must infer the average outcomes for the entire population were it subject to different levels of the exposure variable <span class="math inline">\(A = a\)</span> and <span class="math inline">\(A=a*\)</span>.&nbsp;</p>
-<p><span class="math display">\[ATE = E[Y^{a*}] - E[Y^a] = \]</span></p>
-<p><span class="math display">\[\sum_l E[Y|A=a*, L=l]\Pr[L=l] - \sum_c E[Y|A=a, L=l]\Pr[L=l]\]</span></p>
-<p>We need not estimate <span class="math inline">\(\Pr(L = l)\)</span>. Rather obtain the weighted mean for the distribution of the confounders in the data by taking the double expectation: <span class="citation" data-cites="hernan2023">(<a href="#ref-hernan2023" role="doc-biblioref">Hernan and Robins 2023, 166</a>)</span>.</p>
-<p><span class="math display">\[ATE = E[E(Y|A = a, \boldsymbol{L}) - E(Y|A = a*, \boldsymbol{L})]\]</span></p>
-<p>To obtain marginal contrasts for the expected outcomes for the entire population we use the stdReg package in R <span class="citation" data-cites="sjölander2016">(<a href="#ref-sjölander2016" role="doc-biblioref">Sjölander 2016</a>)</span>&nbsp;</p>
+<h2 class="anchored" data-anchor-id="g-computation-or-regression-standardisation">G-Computation (or Regression Standardisation)</h2>
+<p>To consistently estimate a causal association, we must infer the average outcomes for the entire population, were it subject to different levels of the exposure variable <span class="math inline">\(A = a\)</span> and <span class="math inline">\(A=a^*\)</span>. The average treatment effect (ATE) can be expressed as:</p>
+<p><span class="math display">\[ATE = E[Y^{a^*}] - E[Y^a] = \sum_l E[Y|A=a^*, L=l]\Pr[L=l] - \sum_l E[Y|A=a, L=l]\Pr[L=l]\]</span></p>
+<p>However, we need not estimate <span class="math inline">\(\Pr(L = l)\)</span> directly. Instead, we can obtain the weighted mean for the distribution of the confounders in the data by taking the double expectation: <span class="citation" data-cites="hernan2023">(<a href="#ref-hernan2023" role="doc-biblioref">Hernan and Robins 2023, 166</a>)</span>.</p>
+<p><span class="math display">\[ATE = E[E(Y|A = a, \boldsymbol{L}) - E(Y|A = a^*, \boldsymbol{L})]\]</span></p>
+<p>We use the <code>stdReg</code> package in R to obtain marginal contrasts for the expected outcomes for the entire population <span class="citation" data-cites="sjölander2016">(<a href="#ref-sjölander2016" role="doc-biblioref">Sjölander 2016</a>)</span>.</p>
 </section>
-<section id="the-steps-for-g-computation" class="level2">
-<h2 class="anchored" data-anchor-id="the-steps-for-g-computation">The steps for G-computation</h2>
+<section id="steps-for-g-computation" class="level2">
+<h2 class="anchored" data-anchor-id="steps-for-g-computation">Steps for G-Computation</h2>
 <ol type="1">
-<li>First we fit a regression for each outcome on the exposure <span class="math inline">\(A_{t0}\)</span> and baseline covariates <span class="math inline">\(\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)\)</span>. To avoid implausible assumptions of linearity we model the relationship between the exposure each of the potential outcomes of interest using a cubic spline.&nbsp; We include in the set of baseline confounders <span class="math inline">\(\boldsymbol{L}\)</span> the baseline measure of the exposure as well as the baseline response (or responses):</li>
-</ol>
-<p><span class="math display">\[\{A\_{t-1}, \boldsymbol{Y_{t-1}} = (Y_{1, t-1}, Y_{2, t-1}, Y_{3, t-1}\dots Y_{n, t-1})\}&nbsp;\subset \boldsymbol{L}\]</span>&nbsp;&nbsp;</p>
-<p>This gives us</p>
-<p><span class="math display">\[E(Y|A, \boldsymbol{L})\]</span></p>
-<ol start="2" type="1">
-<li>Second, we use the model in (1) to predict the values of a potential outcome <span class="math inline">\(Y^{a}\)</span> by setting the exposure to the value <span class="math inline">\(A = a\)</span>.</li>
-</ol>
-<p>This gives us</p>
-<p><span class="math display">\[\hat{E}(Y|A = a, \boldsymbol{L})\]</span></p>
-<ol start="3" type="1">
-<li>Third, we use the model in (1) to predict the values of a different potential outcome <span class="math inline">\(Y^{a*}\)</span>by setting the exposure to a different value of <span class="math inline">\(A =a^{\star}\)</span>.</li>
-</ol>
-<p>This gives us&nbsp;</p>
-<p><span class="math display">\[\hat{E}(Y|A = a*,\boldsymbol{L})\]</span></p>
-<ol start="4" type="1">
-<li>Forth we obtain the focal contrast as the expected difference in the expected average outcomes when exposure&nbsp;at levels <span class="math inline">\(a*\)</span> and <span class="math inline">\(a\)</span>. Where outcomes are continuous we calculate both mean of <span class="math inline">\(Y^a\)</span> and the mean of&nbsp; <span class="math inline">\(Y^{a*}\)</span> and then obtain their difference.&nbsp; This gives us:&nbsp;</li>
-</ol>
-<p><span class="math display">\[\hat{ATE} = \hat{E}[\hat{E}(Y|A = a, \boldsymbol{L}) - \hat{E}(Y|A = a*, \boldsymbol{L})]\]</span></p>
-<ol start="5" type="1">
-<li><p>Where outcomes are binary, we calculate the causal risk ratio in moving between the different levels of A. Where binary outcomes are more common than 10% we use a log-normal model to calculate a causal rate ratio <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span>.&nbsp;</p></li>
-<li><p>The stdReg package in R calculates standard errors using the Delta method from which we construct confidence intervals under asymptotic assumptions<span class="citation" data-cites="sjölander2016">(<a href="#ref-sjölander2016" role="doc-biblioref">Sjölander 2016</a>)</span>. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin’s Rules.&nbsp;</p></li>
+<li><p>Fit a regression for the outcome on the exposure <span class="math inline">\(A_{t0}\)</span> and baseline covariates <span class="math inline">\(\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)\)</span>. To avoid making unjustified linearity assumptions, model the relationship between the exposure and each of the potential outcomes of interest using a cubic spline. Include in the set of baseline confounders <span class="math inline">\(\boldsymbol{L}\)</span>, the baseline measure of the exposure as well as the baseline responses:</p>
+<p><span class="math display">\[\{A_{t-1}, \boldsymbol{Y_{t-1}} = (Y_{1, t-1}, Y_{2, t-1}, Y_{3, t-1}\dots Y_{n, t-1})\} \subset \boldsymbol{L}\]</span></p>
+<p>This provides</p>
+<p><span class="math display">\[E(Y|A, \boldsymbol{L})\]</span></p></li>
+<li><p>Use the model from step 1 to predict the values of a potential outcome <span class="math inline">\(Y^{a}\)</span> by setting the exposure to the value <span class="math inline">\(A = a\)</span>.</p>
+<p>This provides</p>
+<p><span class="math display">\[\hat{E}(Y|A = a, \boldsymbol{L})\]</span></p></li>
+<li><p>Use the model from step 1 to predict the values of a different potential outcome <span class="math inline">\(Y^{a*}\)</span> by setting the exposure to a different value of <span class="math inline">\(A = a^{\star}\)</span>.</p>
+<p>This provides</p>
+<p><span class="math display">\[\hat{E}(Y|A = a^*, \boldsymbol{L})\]</span></p></li>
+<li><p>Obtain the focal contrast as the expected difference in the average outcomes when exposure is at levels <span class="math inline">\(a*\)</span> and <span class="math inline">\(a\)</span>. For continuous outcomes, calculate the mean of <span class="math inline">\(Y^a\)</span> and the mean of <span class="math inline">\(Y^{a*}\)</span> and then find their difference. This provides:</p>
+<p><span class="math display">\[\hat{ATE} = \hat{E}[\hat{E}(Y|A = a, \boldsymbol{L}) - \hat{E}(Y|A = a^*, \boldsymbol{L})]\]</span></p></li>
+<li><p>For binary outcomes, calculate the causal risk ratio in moving between different levels of A. When binary outcomes are more common than 10%, use a log-normal model to calculate a causal rate ratio <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span>.</p></li>
+<li><p>The <code>stdReg</code> package in R calculates standard errors using the Delta method, from which we construct confidence intervals under asymptotic assumptions <span class="citation" data-cites="sjölander2016">(<a href="#ref-sjölander2016" role="doc-biblioref">Sjölander 2016</a>)</span>. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin’s Rules.</p></li>
 </ol>
 </section>
 <section id="applications" class="level2">
@@ -260,37 +249,31 @@ div.csl-indent {
 </section>
 </section>
 
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-gelman2020a" class="csl-entry" role="doc-biblioentry">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-gelman2020a" class="csl-entry" role="listitem">
 Gelman, Andrew, Jennifer Hill, and Aki Vehtari. 2020. <em>Regression and Other Stories</em>. Cambridge University Press.
 </div>
-<div id="ref-hernan2023" class="csl-entry" role="doc-biblioentry">
+<div id="ref-hernan2023" class="csl-entry" role="listitem">
 Hernan, M. A., and J. M. Robins. 2023. <em>Causal Inference</em>. Chapman &amp; Hall/CRC Monographs on Statistics &amp; Applied Probab. Taylor &amp; Francis. <a href="https://books.google.co.nz/books?id=\_KnHIAAACAAJ">https://books.google.co.nz/books?id=\_KnHIAAACAAJ</a>.
 </div>
-<div id="ref-rubin1976" class="csl-entry" role="doc-biblioentry">
+<div id="ref-rubin1976" class="csl-entry" role="listitem">
 Rubin, D. B. 1976. <span>“Inference and Missing Data.”</span> <em>Biometrika</em> 63 (3): 581–92. <a href="https://doi.org/10.1093/biomet/63.3.581">https://doi.org/10.1093/biomet/63.3.581</a>.
 </div>
-<div id="ref-sjölander2016" class="csl-entry" role="doc-biblioentry">
+<div id="ref-sjölander2016" class="csl-entry" role="listitem">
 Sjölander, Arvid. 2016. <span>“Regression Standardization with the R Package stdReg.”</span> <em>European Journal of Epidemiology</em> 31 (6): 563–74. <a href="https://doi.org/10.1007/s10654-016-0157-3">https://doi.org/10.1007/s10654-016-0157-3</a>.
 </div>
-<div id="ref-vanderweele2020" class="csl-entry" role="doc-biblioentry">
+<div id="ref-vanderweele2020" class="csl-entry" role="listitem">
 VanderWeele, Tyler J, Maya B Mathur, and Ying Chen. 2020. <span>“Outcome-Wide Longitudinal Designs for Causal Inference: A New Template for Empirical Studies.”</span> <em>Statistical Science</em> 35 (3): 437466.
 </div>
-</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>Our example uses a binary exposure but we may contrast the counterfactual outcomes for two levels of a continuous exposure. However, to do this wee must state the levels of exposure at which we seek comparisons.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{bulbulia2022,
-  author = {Joseph Bulbulia},
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{bulbulia2022,
+  author = {Bulbulia, Joseph},
   title = {G-Computation in {NZAVS} {Studies}},
   date = {2022-11-05},
   url = {https://go-bayes.github.io/b-causal/},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-bulbulia2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Joseph Bulbulia. 2022. <span>“G-Computation in NZAVS Studies.”</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-bulbulia2022" class="csl-entry quarto-appendix-citeas" role="listitem">
+Bulbulia, Joseph. 2022. <span>“G-Computation in NZAVS Studies.”</span>
 November 5, 2022. <a href="https://go-bayes.github.io/b-causal/">https://go-bayes.github.io/b-causal/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -320,9 +303,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -387,6 +384,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

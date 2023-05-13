@@ -26,75 +26,69 @@ categories:
 library(katex)
 ```
 
-## Causal inference
+## Causal Inference
 
-Suppose we want to infer whether a dichotomous exposure has a causal effect. We must answer three questions:
+Suppose we want to infer whether a binary exposure has a causal effect. We must answer three questions:
 
-1.  What would happen with exposure?
-2.  What would happen with no exposure?
-3.  Do these potential outcomes differ?
+1. What would happen with exposure?
+2. What would happen without exposure?
+3. Do these potential outcomes differ?
 
-Consider a binary exposure $A$ with two levels, $A = 0$ and $A=1$ and a continuous outcome $Y$.  Estimating the causal effect of $A$ on outcome $Y$ requires contrasting two states of the world.  The state of the the world $Y^{a=1}$ when, perhaps contrary to fact, $A$ is set to $1$ and the state of the world $Y^{a=0}$ when, perhaps contrary to fact, $A$ is set to $0$. We say that $A$ affects $Y$  when the quantities $Y^{a=1} - Y^{a=0} \neq 0$[@hernan2023].  
+Consider a binary exposure $A$ with two levels, $A = 0$ and $A = 1$ and a continuous outcome $Y$. Estimating the causal effect of $A$ on outcome $Y$ requires contrasting two counterfactual states of the world: the state $Y^{a=1}$ when, hypothetically, $A$ is set to $1$ and the state $Y^{a=0}$ when, hypothetically, $A$ is set to $0$. We say that $A$ affects $Y$ when the quantities $Y^{a=1} - Y^{a=0} \neq 0$ [@hernan2023].
 
-### The fundamental problem of causal inference.
+### The Fundamental Problem of Causal Inference
 
-At any given time, for any individual, at most only one level of the exposure $A$ may be realised. That is, $Y^{a=1}$ and $Y^{a=0}$ are never simultaneously observed in any individual.  As such, individual-level causal effects are not typically identified in the data. This is referred to as "the fundamental problem of causal inference " [@rubin1976; @gelman2020a]. $Y^{a=1}$ and $Y^{a=0}$ are therefore called "potential" or "counterfactual" outcomes.
+At any given time, for any individual, at most only one level of the exposure $A$ may be realised. That is, $Y^{a=1}$ and $Y^{a=0}$ are never simultaneously observed for any individual. As such, individual-level causal effects are not typically identifiable in the data. This is referred to as "the fundamental problem of causal inference" [@rubin1976; @gelman2020a]. $Y^{a=1}$ and $Y^{a=0}$ are therefore called "potential" or "counterfactual" outcomes.
 
-Although we cannot generally observed causal effects in any individual, when certain assumptions are satisfied, we may identify the average or marginal causal effect at the level of a population.  We say there is an average or marginal causal effect if the difference of the averages of those who are exposed and are not exposed does not equal zero:  $E(Y^{a=1}) - E(Y^{a=0})\neq 0$ . Because the difference of the means is equivalent to the mean of the differences, we may equivalently say there is an marginal causal effect if $E(Y^{a=1} - Y^{a=0})\neq 0$ [@hernan2023]. ^[Our example uses a binary exposure but we may contrast the counterfactual outcomes for two levels of a continuous exposure. However, to do this wee must state the levels of exposure at which we seek comparisons.] 
+Although we generally cannot observe individual causal effects, when certain assumptions are satisfied, we may identify the average or marginal causal effect at the population level. We say there is an average or marginal causal effect if the difference of the means of those who are exposed and not exposed does not equal zero: $E(Y^{a=1}) - E(Y^{a=0})\neq 0$. Because the difference of the means is equivalent to the mean of the differences, we may equivalently say there is a marginal causal effect if $E(Y^{a=1} - Y^{a=0})\neq 0$ [@hernan2023]. 
 
-Critically, to ensure valid inference, the potential outcomes must be (conditionally) independent of the exposure: 
+To ensure valid inference, the potential outcomes must be conditionally independent of the exposure:
 
-$$Y^a  \perp\!\!\!\perp A|L$$
+$$Y^a \perp\!\!\!\perp A|L$$
 
-**Or equivalently:**
+Outside of controlled experiments, we cannot typically ensure this conditional independence. For this reason, we use sensitivity analysis, such as the *E-value* [@vanderweele2020].
 
-$$A \perp\!\!\!\perp Y^a |L$$
+## G-Computation (or Regression Standardisation)
 
-Outside of controlled experiments we cannot generally ensure this conditional independence. For this reason, we use sensitivity analysis, such as the *E-value* [@vanderweele2020]
+To consistently estimate a causal association, we must infer the average outcomes for the entire population, were it subject to different levels of the exposure variable $A = a$ and $A=a^*$. The average treatment effect (ATE) can be expressed as:
 
-## G-computation (or regression standardisation)
+$$ATE = E[Y^{a^*}] - E[Y^a] = \sum_l E[Y|A=a^*, L=l]\Pr[L=l] - \sum_l E[Y|A=a, L=l]\Pr[L=l]$$
 
-To consistently estimate a causal association we must infer the average outcomes for the entire population were it subject to different levels of the exposure variable $A = a$ and $A=a*$. 
+However, we need not estimate $\Pr(L = l)$ directly. Instead, we can obtain the weighted mean for the distribution of the confounders in the data by taking the double expectation: [@hernan2023, p.166].
 
-$$ATE = E[Y^{a*}] - E[Y^a] = $$
+$$ATE = E[E(Y|A = a, \boldsymbol{L}) - E(Y|A = a^*, \boldsymbol{L})]$$
 
-$$\sum_l E[Y|A=a*, L=l]\Pr[L=l] - \sum_c E[Y|A=a, L=l]\Pr[L=l]$$
+We use the `stdReg` package in R to obtain marginal contrasts for the expected outcomes for the entire population [@sjölander2016].
 
-We need not estimate $\Pr(L = l)$. Rather obtain the weighted mean for the distribution of the confounders in the data by taking the double expectation: [@hernan2023, p.166].
+## Steps for G-Computation
 
-$$ATE = E[E(Y|A = a, \boldsymbol{L}) - E(Y|A = a*, \boldsymbol{L})]$$
+1. Fit a regression for the outcome on the exposure $A_{t0}$ and baseline covariates $\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)$. To avoid making unjustified linearity assumptions, model the relationship between the exposure and each of the potential outcomes of interest using a cubic spline. Include in the set of baseline confounders $\boldsymbol{L}$, the baseline measure of the exposure as well as the baseline responses:
 
-To obtain marginal contrasts for the expected outcomes for the entire population we use the stdReg package in R [@sjölander2016] 
+   $$\{A_{t-1}, \boldsymbol{Y_{t-1}} = (Y_{1, t-1}, Y_{2, t-1}, Y_{3, t-1}\dots Y_{n, t-1})\} \subset \boldsymbol{L}$$
 
-## The steps for G-computation
+   This provides
 
-1.  First we fit a regression for each outcome on the exposure $A_{t0}$ and baseline covariates $\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)$. To avoid implausible assumptions of linearity we model the relationship between the exposure each of the potential outcomes of interest using a cubic spline.  We include in the set of baseline confounders $\boldsymbol{L}$ the baseline measure of the exposure as well as the baseline response (or responses):
+   $$E(Y|A, \boldsymbol{L})$$
 
-$$\{A\_{t-1}, \boldsymbol{Y_{t-1}} = (Y_{1, t-1}, Y_{2, t-1}, Y_{3, t-1}\dots Y_{n, t-1})\} \subset \boldsymbol{L}$$  
+2. Use the model from step 1 to predict the values of a potential outcome $Y^{a}$ by setting the exposure to the value $A = a$.
 
-This gives us
+   This provides
 
-$$E(Y|A, \boldsymbol{L})$$
+   $$\hat{E}(Y|A = a, \boldsymbol{L})$$
 
-2.  Second, we use the model in (1) to predict the values of a potential outcome $Y^{a}$ by setting the exposure to the value $A = a$.
+3. Use the model from step 1 to predict the values of a different potential outcome $Y^{a*}$ by setting the exposure to a different value of $A = a^{\star}$.
 
-This gives us
+   This provides
 
-$$\hat{E}(Y|A = a, \boldsymbol{L})$$
+   $$\hat{E}(Y|A = a^*, \boldsymbol{L})$$
 
-3.  Third, we use the model in (1) to predict the values of a different potential outcome $Y^{a*}$by setting the exposure to a different value of $A =a^{\star}$.
+4. Obtain the focal contrast as the expected difference in the average outcomes when exposure is at levels $a*$ and $a$. For continuous outcomes, calculate the mean of $Y^a$ and the mean of $Y^{a*}$ and then find their difference. This provides:
 
-This gives us 
+   $$\hat{ATE} = \hat{E}[\hat{E}(Y|A = a, \boldsymbol{L}) - \hat{E}(Y|A = a^*, \boldsymbol{L})]$$
 
-$$\hat{E}(Y|A = a*,\boldsymbol{L})$$
+5. For binary outcomes, calculate the causal risk ratio in moving between different levels of A. When binary outcomes are more common than 10%, use a log-normal model to calculate a causal rate ratio [@vanderweele2020].
 
-4.  Forth we obtain the focal contrast as the expected difference in the expected average outcomes when exposure at levels $a*$ and $a$. Where outcomes are continuous we calculate both mean of $Y^a$ and the mean of  $Y^{a*}$ and then obtain their difference.  This gives us: 
-
-$$\hat{ATE} = \hat{E}[\hat{E}(Y|A = a, \boldsymbol{L}) - \hat{E}(Y|A = a*, \boldsymbol{L})]$$
-
-5.  Where outcomes are binary, we calculate the causal risk ratio in moving between the different levels of A. Where binary outcomes are more common than 10% we use a log-normal model to calculate a causal rate ratio [@vanderweele2020]. 
-
-6.  The stdReg package in R calculates standard errors using the Delta method from which we construct confidence intervals under asymptotic assumptions[@sjölander2016]. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin's Rules. 
+6. The `stdReg` package in R calculates standard errors using the Delta method, from which we construct confidence intervals under asymptotic assumptions [@sjölander2016]. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin's Rules.
 
 
 ## Applications
