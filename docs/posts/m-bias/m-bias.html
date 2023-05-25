@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.3.340">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,14 +19,15 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -40,8 +41,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -80,7 +80,6 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -96,27 +95,29 @@ div.csl-indent {
     <span class="navbar-title">b-causal.org</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html">
+    <a class="nav-link" href="../../about.html" rel="" target="">
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/go-bayes"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/go-bayes" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://qoto.org/@joseph_bulbulia"><i class="bi bi-mastodon" role="img">
+    <a class="nav-link" href="https://qoto.org/(joseph_bulbulia?)" rel="" target=""><i class="bi bi-mastodon" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -139,7 +140,7 @@ div.csl-indent {
     <div class="quarto-title-meta-heading">Affiliation</div>
     
       <div class="quarto-title-meta-contents">
-      Joseph Bulbulia <a href="https://orcid.org/0000-0002-5861-2056" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+      <p class="author">Joseph Bulbulia <a href="https://orcid.org/0000-0002-5861-2056" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
     </div>
       <div class="quarto-title-meta-contents">
           <p class="affiliation">
@@ -170,16 +171,10 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
-  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions">Assumptions</a></li>
-  <li><a href="#review" id="toc-review" class="nav-link" data-scroll-target="#review">Review</a></li>
+  <li><a href="#review" id="toc-review" class="nav-link active" data-scroll-target="#review">Review</a></li>
   <li><a href="#m-bias" id="toc-m-bias" class="nav-link" data-scroll-target="#m-bias">M-bias</a></li>
-  <li><a href="#seemingly-uncontrollable-confounding" id="toc-seemingly-uncontrollable-confounding" class="nav-link" data-scroll-target="#seemingly-uncontrollable-confounding">Seemingly uncontrollable confounding</a></li>
-  <li><a href="#the-modified-disjunctive-cause-criterion-provides-a-way-out" id="toc-the-modified-disjunctive-cause-criterion-provides-a-way-out" class="nav-link" data-scroll-target="#the-modified-disjunctive-cause-criterion-provides-a-way-out">The modified disjunctive cause criterion provides a way out</a></li>
-  <li><a href="#the-spectre-of-confounding-remains" id="toc-the-spectre-of-confounding-remains" class="nav-link" data-scroll-target="#the-spectre-of-confounding-remains">The spectre of confounding remains</a></li>
-  <li><a href="#adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control." id="toc-adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control." class="nav-link" data-scroll-target="#adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control.">Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control.</a></li>
-  <li><a href="#when-might-adjusting-for-the-baseline-exposure-and-outcome-be-sufficient" id="toc-when-might-adjusting-for-the-baseline-exposure-and-outcome-be-sufficient" class="nav-link" data-scroll-target="#when-might-adjusting-for-the-baseline-exposure-and-outcome-be-sufficient">When might adjusting for the baseline exposure and outcome be sufficient?</a></li>
-  <li><a href="#the-causal-crisis-in-psychology-cannot-be-fixed-with-graphs-needed-are-time-series-data." id="toc-the-causal-crisis-in-psychology-cannot-be-fixed-with-graphs-needed-are-time-series-data." class="nav-link" data-scroll-target="#the-causal-crisis-in-psychology-cannot-be-fixed-with-graphs-needed-are-time-series-data.">The causal crisis in psychology cannot be fixed with graphs: needed are time series data.</a></li>
+  <li><a href="#the-power-of-baseline-measures" id="toc-the-power-of-baseline-measures" class="nav-link" data-scroll-target="#the-power-of-baseline-measures">The Power of Baseline Measures</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
   </ul>
 </nav>
@@ -190,33 +185,6 @@ div.csl-indent {
 
 
 
-<div class="cell">
-
-</div>
-<div class="cell" data-layout-align="center" data-hash="m-bias_cache/html/tnytx_804d3ba3a00cb4e9dc4efb49dcacc55b">
-
-</div>
-<div class="cell" data-layout-align="center" data-hash="m-bias_cache/html/unnamed-chunk-1_2c8e82e716656391f3fb90493a7ef161">
-
-</div>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<ol type="1">
-<li>Researchers may accidentally induce confounding by over-adjustment.</li>
-<li>M-bias occurs from the over-adjustment of baseline indicators.</li>
-<li>Only a slight modification in the assumptions of the M-bias graph implies intractable confounding.</li>
-<li>Three waves of panel data that include indicators at baseline both for the exposure and the outcome point to a way out of intractable confounding.</li>
-<li>Causal diagrams help researchers to clarify causal assumptions, however, to address the causal crisis, observational psychologists require longitudinal data.</li>
-</ol>
-</section>
-<section id="assumptions" class="level2">
-<h2 class="anchored" data-anchor-id="assumptions">Assumptions</h2>
-<ul>
-<li>You are interested in psychological science.</li>
-<li>You have some familiarity with causal diagrams.</li>
-<li>You want to understand better how to select covariates to control for confounding.</li>
-</ul>
-</section>
 <section id="review" class="level2">
 <h2 class="anchored" data-anchor-id="review">Review</h2>
 <p><a href="https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html">Elsewhere</a>, we have described our strategy for using three waves of panel data to identify causal effects. For confounding control, we adopt VanderWeele’s modified disjunctive cause criterion:</p>
@@ -227,185 +195,72 @@ div.csl-indent {
 </section>
 <section id="m-bias" class="level2">
 <h2 class="anchored" data-anchor-id="m-bias">M-bias</h2>
-<p>Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship: if we were to intervene on someone’s perfectionism, we would not affect their humility. In <a href="#fig-1">Figure&nbsp;1</a> we represent the absence of a causal association by omitting an arrow from perfectionism to humility.</p>
-<p>Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, suppose that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. <span class="math display">\[perfectionism \to childhood~chooling \to childhood~religion \to humility\]</span> <a href="#fig-1">Figure&nbsp;1</a> presents this type of baseline over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness would be biased.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-1_6f96ee49992756529a7f08efd7c00483">
+<p>M-bias is a form of bias that can arise when we include too many variables in our analysis, a phenomenon known as over-conditioning. Let’s break this down using a concrete example.</p>
+<p>Suppose we’re interested in understanding if being a perfectionist influences a person’s level of humility. We start with the assumption that there’s no direct cause-and-effect relationship between perfectionism (the exposure) and humility (the outcome).</p>
+<p>Now imagine we’re including forgiveness in our analysis. We know that childhood schooling influences both forgiveness and perfectionism, and childhood religion affects forgiveness and humility. If we adjust for forgiveness in our analysis, an indirect path (or backdoor path) is created between perfectionism and humility, leading to M-bias. This path can be illustrated as <a href="#fig-1">Figure&nbsp;1</a>.</p>
+<div class="cell">
 <div class="cell-output-display">
 <div id="fig-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="m-bias_files/figure-html/fig-1-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: M-bias: an example of confounding that arises from over-adjustment</figcaption><p></p>
+<p><img src="m-bias_files/figure-html/fig-1-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: M-bias: an example of confounding that arises from over-adjustment</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Over-conditioning is lamentable, to say the least. Where <span class="math inline">\(A\)</span> is an exposure, <span class="math inline">\(Y^a\)</span> is a potential outcome and <span class="math inline">\(L\)</span> is our pre-treatment collider confounder, the world hands us the unconditional independence of the treatment and the potential outcome:</p>
-<p><span class="math display">\[ A \perp\!\!\!\perp Y^a\]</span></p>
-<p>However the world also hands us conditional confounding:</p>
-<p><span class="math display">\[A \not\!\perp\!\!\!\perp  Y^a |L\]</span></p>
-<p>In our quest for perfection we stratified on forgiveness. Now we must ask for it!</p>
+<p>By including forgiveness in our model, we’ve inadvertently introduced a correlation between perfectionism and humility where one didn’t previously exist. This is the essence of M-bias.</p>
 </section>
-<section id="seemingly-uncontrollable-confounding" class="level2">
-<h2 class="anchored" data-anchor-id="seemingly-uncontrollable-confounding">Seemingly uncontrollable confounding</h2>
-<p>The strategy for handling M-bias would seem obvious. Do not condition on forgiveness. However, typically the data do not tell us the true structures of causal relationships. We must rely on assumptions. How would our problem change if, contrary to our previous assumptions, we were to assume that forgiveness causes (i.e.&nbsp;diminishes) perfectionism? Such an assumption would appear theoretically plausible. An intervention that caused me to be more forgiving of others might also cause me to be more forgiving of myself. A causal diagram that incorporates this new assumption is presented in <a href="#fig-2">Figure&nbsp;2</a>. Under our revised assumptions confounding appears unavoidable. As just discussed, if we were to adjust for forgiveness, we would induce confounding. However, if we did not adjust for forgiveness, an open path between the exposure and outcome would remain:</p>
-<p><span class="math display">\[perfectionism \to forgiveness \to childhood religion \to humility\]</span>.</p>
-<p>Whether or not we adjust for forgiveness we are humbled!</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-2_430e99ed148cfac64ad222d3006fd452">
+<section id="the-power-of-baseline-measures" class="level2">
+<h2 class="anchored" data-anchor-id="the-power-of-baseline-measures">The Power of Baseline Measures</h2>
+<p>One might think the solution is simple - don’t include forgiveness in the model. However, our understanding of causal relationships is often imperfect, and there may be plausible reasons to believe that forgiveness does, in fact, influence perfectionism. Indeed, it seems plausible that if I am more forgiving of other I will be more forgiving of my imperfections.</p>
+<p>To mitigate bias, we incorporate both prior measurements of the exposure and the outcome in our studies. By doing so, we control for unmeasured confounders that could bias our results. The logic is that any such bias would need to be orthogonal to the measurement of the outcome at baseline. This strategy is depicted in <a href="#fig-2">Figure&nbsp;2</a>.</p>
+<div class="cell">
 <div class="cell-output-display">
 <div id="fig-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="m-bias_files/figure-html/fig-2-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: Seemingly uncontrollable confounding</figcaption><p></p>
+<p><img src="m-bias_files/figure-html/fig-2-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: M-bias: confounding control by including previous measures of the outcome</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="the-modified-disjunctive-cause-criterion-provides-a-way-out" class="level2">
-<h2 class="anchored" data-anchor-id="the-modified-disjunctive-cause-criterion-provides-a-way-out">The modified disjunctive cause criterion provides a way out</h2>
-<p>Recall, we have not measured childhood schooling. Nor have we measured childhood religion. Had we measured either variable we could block the back door path from exposure to outcome. Yet there are other strategies at our disposal. The modified disjunctive cause criterion recommends that we “include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome.”</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-3_5c07277aa9d46575d425e43f1d3042c8">
-<div class="cell-output-display">
-<div id="fig-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="m-bias_files/figure-html/fig-3-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;3: The modified disjunctive cause criterion minimises confounding.</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-<p><a href="#fig-3">Figure&nbsp;3</a> clarifies how application of the modified disjunctive cause criterion may reduce or eliminate confounding. On this graph, <span class="math inline">\(L^1_{t-1}\)</span> fully mediates the path from childhood schooling to perfectionism. If any variable corresponding to <span class="math inline">\(L^1_{t-1}\)</span> were measured, including it in our model, along with indicators of forgiveness, would block the backdoor path from perfectionism to humility. Furthermore, on this graph, <span class="math inline">\(L^2_{t-1}\)</span> fully mediates the path from childhood religion to humility. If any variable corresponding to <span class="math inline">\(L^2_{t-1}\)</span> were measured, including it in our model would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of reality is unknown. However, by including in the set of measured confounders any <span class="math inline">\(l \in (L^1_{t-1} \lor L^2_{t-1})\)</span>, we may reduce or even eradicate confounding. We may adopt confounding control using proxies of unmeasured confounders.</p>
-</section>
-<section id="the-spectre-of-confounding-remains" class="level2">
-<h2 class="anchored" data-anchor-id="the-spectre-of-confounding-remains">The spectre of confounding remains</h2>
-<p>Consider how conditioning on many baseline confounders may open new opporunities for M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity, perfectionism, and humility, such as one’s social network and one’s family relationships as presented in <a href="#fig-4">Figure&nbsp;4</a>. Here, conditioning on charity would induce M-bias. If we are confident that charity does not meet the modified disjunctive cause criterion, then we should exclude charity from our model. However, we repeat our mantra: we cannot be certain any causal diagram reflects the causal structures of reality.</p>
-<p>Application of the modified disjunctive criterion enables researchers to better use theory for developing strategies of confounding control. However researchers cannot escape theory. With this in mind, we ask: what if theory were to allow charity to affect perfectionism? We consider this question next.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-4_43d2fb57ede58a84728e2025e1737f8d">
-<div class="cell-output-display">
-<div id="fig-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="m-bias_files/figure-html/fig-4-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4: Overconditioning remains a threat.</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control." class="level2">
-<h2 class="anchored" data-anchor-id="adjusting-for-both-the-exposure-and-outcome-at-baseline-is-a-powerful-strategy-for-confounding-control.">Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control.</h2>
-<p>VanderWeele and colleagues disuss reasons for including indicators for both the exposure and outcome at baseline when estimating causal effects <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span> (see our application to New Zealand Attitudes and Values Study data <a href="https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html">here</a>)</p>
-<p>Our discussion of M-bias reveals additional reasons for including these indicators of exposure and outcome at baseline.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-5_f1c1bf18f910eb9326b02465c89a7d56">
-<div class="cell-output-display">
-<div id="fig-5" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="m-bias_files/figure-html/fig-5-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5: Conditioning on the baseline exposure and outcome minimises uncontrolled confounding.</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-<p>We have assumed that (unmeasured) childhood schooling causes perfectionism, the exposure. Notice that by including measures of the exposure at baseline, the effect of childhood schooling on perfectionism would need to be orthogonal to its effect at baseline.</p>
-<p>Furthermore, we have assumed that (unmeasured) childhood religion causes humility, the outcome. Notice that by including measures of the outcome at baseline, the effect of childhood religion on humility would need to be orthogonal to its effect at baseline.</p>
-<p>As shown in <a href="#fig-5">Figure&nbsp;5</a>, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding. For unmeasured confounders to bias effect estimates their effects would need to arise subsequent to their effects on baseline measures.</p>
-<p>Furthermore, the advantage of including baseline indicators both for the exposure and the outcome generalises to the problem of novel M-bias presented in <a href="#fig-4">Figure&nbsp;4</a>. However, as show in <a href="#fig-6">Figure&nbsp;6</a>, adjusting for baseline indicators both for the exposure and the outcome may dramatically reduce or eliminate novel M-bias.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-6_afee48becebc068dc2d934e64d5d146b">
-<div class="cell-output-display">
-<div id="fig-6" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="m-bias_files/figure-html/fig-6-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;6: Further benefits of conditioning on the baseline exposure and outcome.</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Again we underscore the importance of longitudinal data in deploying effective confounding control: <strong>a strategy that includes baseline measures both for the exposure and the outcome requires collecting at least three waves of panel data.</strong></p>
-</section>
-<section id="when-might-adjusting-for-the-baseline-exposure-and-outcome-be-sufficient" class="level2">
-<h2 class="anchored" data-anchor-id="when-might-adjusting-for-the-baseline-exposure-and-outcome-be-sufficient">When might adjusting for the baseline exposure and outcome be sufficient?</h2>
-<p><a href="#fig-7">Figure&nbsp;7</a> presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects for over-conditioning described in <a href="#fig-4">Figure&nbsp;4</a>, it is worth considering when we would be motivated to adjust for any indicators other than the baseline exposure and the baseline outcome.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-7_0d61168517c55a67d1459098e391fb0c">
-<div class="cell-output-display">
-<div id="fig-7" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="m-bias_files/figure-html/fig-7-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;7: Conditioning on the baseline exposure and outcome may be sometimes be sufficient for confounding control.</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Sometimes adjusting only for the baseline exposure and the baseline outcome will be sufficient to control confounding. However, we must again recall that we do not know generally know the causal structure of reality.</p>
-<p>In <a href="#fig-8">Figure&nbsp;8</a> we assume that charity at baseline might affect both the exposure, perfectionism, and humility, the outcome. Because the world is dynamic, a confounder might might induce bias even after controlling for pre-exposure perfectionism and pre-exposure humility. If charity were such a cause then including an indicator for charity at baseline would avoid this confounding. Failing to do so would permit confounding. In such an instance, in including the baseline exposure and the baseline outcome would not be sufficient for confounding control, however in the absence of plausible proxies for unmeasured confounders, such inclusion would be necessary for confounding control.</p>
-<div class="cell" data-layout-align="center" data-engine.opts="{&quot;template&quot;:&quot;tikz-template.tex&quot;,&quot;dvisvgm.opts&quot;:&quot;--font-format=woff&quot;}" data-hash="m-bias_cache/html/fig-8_499ac7e82485b15bd6830b67cfee0bdd">
-<div class="cell-output-display">
-<div id="fig-8" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="m-bias_files/figure-html/fig-8-1.svg" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;8: Conditioning on the baseline exposure and outcome is not always sufficient for confounding control. We advise using the modified disjunctive cause criterion; we also advise performing sensitivity analysis.</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The world is dynamic. Science learns it’s causal structures only slowly. The modified disjunctive cause criterion minimises reliance on any specific causal diagram. Yet we cannot known whether our confounding control strategy was successful. For this reason, we recommend sensitivity analysis. In our research, we report E-values <span class="citation" data-cites="vanderweele2017">(<a href="#ref-vanderweele2017" role="doc-biblioref">VanderWeele and Ding 2017</a>)</span>. We reserve discussion of sensitivity analysis for future reports.</p>
-</section>
-<section id="the-causal-crisis-in-psychology-cannot-be-fixed-with-graphs-needed-are-time-series-data." class="level2">
-<h2 class="anchored" data-anchor-id="the-causal-crisis-in-psychology-cannot-be-fixed-with-graphs-needed-are-time-series-data.">The causal crisis in psychology cannot be fixed with graphs: needed are time series data.</h2>
-<p>To “control” for confounding, psychologists often include many variables in their regression models. There is growing awareness that including many variables in one’s regression model may instead induce bias. Over-adjustment bias arises when we adjust for a mediator along the path from the exposure to an outcome. It also arises when we adjust for a common effect of exposure and an outcome, or post-treatment collider bias <span class="citation" data-cites="bulbulia2021">(<a href="#ref-bulbulia2021" role="doc-biblioref">J. Bulbulia et al. 2021</a>)</span>. It is mediator bias and post-treatment collider bias that forms the focus of most recent treatments of confounding control. We discuss mediator bias and post-treatment collider bias in the context of <a href="https://go-bayes.github.io/b-causal/posts/confounder-treatment-feedback/conf-out-feedback.html">treatment-confounder feedback</a>.</p>
-<p>It is with mediator bias and post-treatment collider bias in mind that many researchers advise parsimony when selecting variables for confounding control <span class="citation" data-cites="mcelreath2020">(<a href="#ref-mcelreath2020" role="doc-biblioref">McElreath 2020</a>)</span>. Furthermore, freely available software assists researchers in the search for minimally sufficient adjustment sets <span class="citation" data-cites="barrett2021a">(<a href="#ref-barrett2021a" role="doc-biblioref">Barrett 2021</a>)</span>. However, as we have been emphasising all along, scientists cannot generally know whether any assumed causal diagram reflects the true causal structure of reality. Our self-confidence in a given causal diagram is too flimsy a peg on which which to hang all our science.</p>
-<p>There is hope. With at least three waves of repeated measures data we may avoid the threat of over-adjustment bias from mediator and post-treatment collider confounding. The structure of times series data may require special methods (such as handling <a href="https://go-bayes.github.io/b-causal/posts/confounder-treatment-feedback/conf-out-feedback.html">treatment-confounder feedback</a>.) However, when variables are repeatedly measured over time we can see, and avert, many concerns about post-treatment biases.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Three-wave longitudinal designs allow us to measure an outcome after an exposure, measure confounders before that exposure, and include in the set of confounders measured at baseline indicators both for the exposure and for the outcome. As such, the time series allows us to preserve the temporal order needed to infer causal effects. By preserving this order we dramatically reduce the threats of mediator bias and post-treatment collider bias. Although assumptions cannot be avoided, three waves of panel data allow us to relax the very strong assumptions about timing in the occurrence of outcome, exposure, and confounders that are needed in single wave studies and many pre-post studies.</p>
-<p>Here, we have considered the specific threats to causal inference from pre-treatment confounding. We have considered how a modified disjunctive cause criterion addresses the threat of M-bias, and why the inclusion at baseline of indicators both for the exposure and the outcome is an especially powerful strategy for confounding control.</p>
-<p>Psychological science faces a casual crisis whose magnitude has yet to be fully appreciated <span class="citation" data-cites="bulbulia2022">(<a href="#ref-bulbulia2022" role="doc-biblioref">J. A. Bulbulia 2022</a>)</span>. It is encouraging that many psychological scientists are better understanding the importance of causal diagrams <span class="citation" data-cites="rohrer2018">(<a href="#ref-rohrer2018" role="doc-biblioref">Rohrer 2018</a>)</span>. However, there is considerable work to be done still in conveying the importance of longitudinal data collection. Causal diagrams will continue to help psychological scientists to appreciate the discipline’s causal crisis, however, the causal crisis will not be resolved with causal diagrams alone. Transforming observational psychology into a science turns on the quality and diversity of the discipline’s longitudinal data collection.</p>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In our pursuit of understanding causal relationships, we must carefully navigate the risk of M-bias—a form of confounding that can emerge from over-adjusting for variables. We’ve outlined a strategy to mitigate this bias by including both prior measurements of the exposure and the outcome in our studies. This approach provides a robust mechanism to control for unmeasured confounders that might otherwise skew our results. However, even with these measures, we cannot guarantee the elimination of all confounding. For this reason, we also conduct sensitivity analysis using E-values to assess the robustness of our findings to potential unmeasured confounding. E-values provide a quantitative measure of the minimum strength an unmeasured confounder would need to fully explain away an observed association.</p>
+<p>In future posts, we will delve more deeply into the concept of E-values and their role in robust causal inference. By leveraging strategies for confounding control that include previous measures of the outcome and exposure variables, as well as senstivity analysis, we strive for more reliable, accurate insights in our studies.</p>
 </section>
 <section id="acknowledgements" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>I am grateful to Templeton Religion Trust Grant 0418 for supporting my work.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>I am grateful to Templeton Religion Trust Grant 0418 for supporting my work.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 
 
 
 </section>
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-barrett2021a" class="csl-entry" role="doc-biblioentry">
-Barrett, Malcolm. 2021. <em>Ggdag: Analyze and Create Elegant Directed Acyclic Graphs</em>. <a href="https://CRAN.R-project.org/package=ggdag">https://CRAN.R-project.org/package=ggdag</a>.
-</div>
-<div id="ref-bulbulia2022" class="csl-entry" role="doc-biblioentry">
-Bulbulia, Joseph A. 2022. <span>“A Workflow for Causal Inference in Cross-Cultural Psychology.”</span> <em>Religion, Brain &amp; Behavior</em> 0 (0): 1–16. <a href="https://doi.org/10.1080/2153599X.2022.2070245">https://doi.org/10.1080/2153599X.2022.2070245</a>.
-</div>
-<div id="ref-bulbulia2021" class="csl-entry" role="doc-biblioentry">
-Bulbulia, Joseph, Uffe Schjoedt, John H Shaver, Richard Sosis, and Wesley J Wildman. 2021. <span>“Causal Inference in Regression: Advice to Authors.”</span> <em>Religion, Brain &amp; Behavior</em> 11 (4): 353360.
-</div>
-<div id="ref-mcelreath2020" class="csl-entry" role="doc-biblioentry">
-McElreath, Richard. 2020. <em>Statistical Rethinking: A Bayesian Course with Examples in r and Stan</em>. CRC press.
-</div>
-<div id="ref-rohrer2018" class="csl-entry" role="doc-biblioentry">
-Rohrer, Julia M. 2018. <span>“Thinking Clearly about Correlations and Causation: Graphical Causal Models for Observational Data.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 1 (1): 2742.
-</div>
-<div id="ref-vanderweele2019" class="csl-entry" role="doc-biblioentry">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-vanderweele2019" class="csl-entry" role="listitem">
 VanderWeele, Tyler J. 2019. <span>“Principles of Confounder Selection.”</span> <em>European Journal of Epidemiology</em> 34 (3): 211219.
 </div>
-<div id="ref-vanderweele2017" class="csl-entry" role="doc-biblioentry">
-VanderWeele, Tyler J, and Peng Ding. 2017. <span>“Sensitivity Analysis in Observational Research: Introducing the e-Value.”</span> <em>Annals of Internal Medicine</em> 167 (4): 268274.
-</div>
-<div id="ref-vanderweele2020" class="csl-entry" role="doc-biblioentry">
+<div id="ref-vanderweele2020" class="csl-entry" role="listitem">
 VanderWeele, Tyler J, Maya B Mathur, and Ying Chen. 2020. <span>“Outcome-Wide Longitudinal Designs for Causal Inference: A New Template for Empirical Studies.”</span> <em>Statistical Science</em> 35 (3): 437466.
 </div>
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>Selection bias remains a concern, as we discuss <a href="https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html">here</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>The funders played no role in the design or interpretation of this research.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>The funders played no role in the design or interpretation of this research.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div quarto-reuse="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{bulbulia2022,
-  author = {Joseph Bulbulia},
+</section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{bulbulia2022,
+  author = {Bulbulia, Joseph},
   title = {M-Bias: {Confounding} {Control} {Using} {Three} {Waves} of
     {Panel} {Data}},
   date = {2022-11-22},
   url = {https://go-bayes.github.io/b-causal/},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-bulbulia2022" class="csl-entry quarto-appendix-citeas" role="doc-biblioentry">
-Joseph Bulbulia. 2022. <span>“M-Bias: Confounding Control Using Three
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-bulbulia2022" class="csl-entry quarto-appendix-citeas" role="listitem">
+Bulbulia, Joseph. 2022. <span>“M-Bias: Confounding Control Using Three
 Waves of Panel Data.”</span> November 22, 2022. <a href="https://go-bayes.github.io/b-causal/">https://go-bayes.github.io/b-causal/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -435,9 +290,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -502,6 +371,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

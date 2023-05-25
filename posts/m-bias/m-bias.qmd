@@ -12,6 +12,7 @@ author:
     affiliation: Victoria University of Wellington, New Zealand
     email: joseph.bulbulia@vuw.ac.nz
     corresponding: yes
+keep-tex: false
 citation:
   url: https://go-bayes.github.io/b-causal/
 execute:
@@ -25,47 +26,25 @@ categories:
   - Methods
 ---
 
-```{r setup, eval=TRUE}
-# see https://remlapmot.github.io/mrdags/
-# https://github.com/remlapmot/mrdags/blob/master/index.qmd
-knitr::opts_chunk$set(cache = TRUE,
-                      dev = "svg",
-                      fig.align = "center")
-# Using advice from Andrew Heiss blogpost to use SVGs in HTML from TikZ
-# https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/#connecting-dvisvgm-to-ghostscript-on-macos
-# For svg figures we require the latex package dvisvgm
-if (!tinytex::check_installed("dvisvgm")) tinytex::tlmgr_install("dvisvgm")
-# On macOS dvisvgm needs the ghostscript library dynamically linked to it via
-# either the LIBGS environment variable or the --libgs flag.
-# The libgs.dylib from Homebrew (brew install ghostscript) is sufficient.
-if (Sys.info()[["sysname"]] == "Darwin" && Sys.info()[["machine"]] == "arm64") {
-  #Sys.setenv(LIBGS = "/usr/local/lib/libgs.dylib")
-  Sys.setenv(LIBGS = "/opt/homebrew/Cellar/ghostscript/10.0.0/lib/libgs.dylib")
-}
+
+
+```{r}
+#| include: false
+#| echo: false
+#read libraries
+
+library("tinytex")
+library(extrafont)
+loadfonts(device = "all")
+
+# read libraries
+source("/Users/joseph/GIT/templates/functions/libs2.R")
+
+# read functions
+#source("/Users/joseph/GIT/templates/functions/funs.R")
 ```
 
-```{r tnytx, eval=FALSE}
-#install.packages("tinytex")
-#tinytex::install_tinytex()
-```
 
-```{r, eval=FALSE}
-#tinytex::tlmgr_install("tikz-cd")
-```
-
-## Summary
-
-1.  Researchers may accidentally induce confounding by over-adjustment.
-2.  M-bias occurs from the over-adjustment of baseline indicators.
-3.  Only a slight modification in the assumptions of the M-bias graph implies intractable confounding.
-4.  Three waves of panel data that include indicators at baseline both for the exposure and the outcome point to a way out of intractable confounding.
-5.  Causal diagrams help researchers to clarify causal assumptions, however, to address the causal crisis, observational psychologists require longitudinal data.
-
-## Assumptions
-
--   You are interested in psychological science.
--   You have some familiarity with causal diagrams.
--   You want to understand better how to select covariates to control for confounding.
 
 ## Review
 
@@ -77,335 +56,96 @@ Such a criterion might appear to be too liberal. It might seem that we should in
 
 ## M-bias
 
-Suppose we are interested in estimating the causal effect of perfectionism on humility. Suppose further that there is no causal relationship: if we were to intervene on someone's perfectionism, we would not affect their humility. In @fig-1 we represent the absence of a causal association by omitting an arrow from perfectionism to humility.
+M-bias is a form of bias that can arise when we include too many variables in our analysis, a phenomenon known as over-conditioning. Let's break this down using a concrete example. 
 
-Next, suppose that our statistical model conditions on forgiveness. Suppose further that childhood schooling was unmeasured and affects both forgiveness and perfectionism. Finally, suppose that childhood religion was unmeasured and affects both forgiveness and humility. Under these assumptions, adjusting for forgiveness would open a backdoor path from perfectionism to humility. $$perfectionism \to childhood~chooling \to childhood~religion \to humility$$ @fig-1 presents this type of baseline over-adjustment bias, which is called M-Bias. Confounding arises by conditioning on forgiveness because forgiveness is a pre-treatment collider-confounder of childhood schooling and childhood religion. The statistical association in a model that includes forgiveness would be biased.
+Suppose we're interested in understanding if being a perfectionist influences a person's level of humility. We start with the assumption that there's no direct cause-and-effect relationship between perfectionism (the exposure) and humility (the outcome).
 
-```{tikz fig-1, fig.cap="M-bias: an example of confounding that arises from over-adjustment"}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
+Now imagine we're including forgiveness in our analysis. We know that childhood schooling influences both forgiveness and perfectionism, and childhood religion affects forgiveness and humility. If we adjust for forgiveness in our analysis, an indirect path (or backdoor path) is created between perfectionism and humility, leading to M-bias. This path can be illustrated as @fig-1.
 
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
-\tikzset{>=latex}
+
+```{tikz} 
+#| label: fig-1
+#| fig-cap: "M-bias: an example of confounding that arises from over-adjustment"
+#| out-width: 100%
+#| echo: false
+
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations}
 \tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
 \tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\node[] (0) {~};
-\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
-\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
-\node[right =of 0, align=left] (3) {};
-\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
-\node[squarednode,right =of 4, align=left] (5) {{Perfectionism$_{t}$}};
-\node[squarednode,right =of 5, align=left] (6) {{Humility$_{t+1}$}};
+\tikzset{>=latex}
 
+\begin{tikzpicture}[{every node/.append style}=draw]
 
-\draw[Arrow] (1) to (4);
-\draw[Arrow] (2) to (4);
-\draw[Arrow, bend right=70] (2) to (6);
-\draw[Arrow, bend left=70] (1) to (5);
+\node [rectangle, draw=white] (U1) at (0, 2) {Childhood~Schooling};
+\node [rectangle, draw=white] (U2) at (0, -2) {Childhood~Religion};
+\node [rectangle, draw=black] (L) at (4, 0) {Forgiveness};
+\node [rectangle, draw=white] (A) at (8, 0) {Perfectionism};
+\node [rectangle, draw=white] (Y) at (12, 0) {Humility};
+
+\draw [-latex, draw=black] (U1) to (L);
+\draw [-latex, draw =black] (U2) to (L);
+\draw [-latex, draw=black, bend left] (U1) to (Y);
+\draw [-latex, draw =black, bend right] (U2) to (Y);
+\draw [-latex,  draw=red, red, dashed] (A) to (Y);
+
+\end{tikzpicture}
 ```
 
-Over-conditioning is lamentable, to say the least. Where $A$ is an exposure, $Y^a$ is a potential outcome and $L$ is our pre-treatment collider confounder, the world hands us the unconditional independence of the treatment and the potential outcome:
+By including forgiveness in our model, we've inadvertently introduced a correlation between perfectionism and humility where one didn't previously exist. This is the essence of M-bias.
 
-$$ A \perp\!\!\!\perp Y^a$$
+## The Power of Baseline Measures
 
-However the world also hands us conditional confounding:
 
-$$A \not\!\perp\!\!\!\perp  Y^a |L$$
+One might think the solution is simple - don't include forgiveness in the model. However, our understanding of causal relationships is often imperfect, and there may be plausible reasons to believe that forgiveness does, in fact, influence perfectionism. Indeed, it seems plausible that if I am more forgiving of other I will be more forgiving of my imperfections.  
 
-In our quest for perfection we stratified on forgiveness. Now we must ask for it!
+To mitigate bias, we incorporate both prior measurements of the exposure and the outcome in our studies. By doing so, we control for unmeasured confounders that could bias our results. The logic is that any such bias would need to be orthogonal to the measurement of the outcome at baseline. This strategy is depicted in @fig-2.
 
-## Seemingly uncontrollable confounding
+```{tikz} 
+#| label: fig-2
+#| fig-cap: "M-bias: confounding control by including previous measures of the outcome"
+#| out-width: 100%
+#| echo: false
 
-The strategy for handling M-bias would seem obvious. Do not condition on forgiveness. However, typically the data do not tell us the true structures of causal relationships. We must rely on assumptions. How would our problem change if, contrary to our previous assumptions, we were to assume that forgiveness causes (i.e. diminishes) perfectionism? Such an assumption would appear theoretically plausible. An intervention that caused me to be more forgiving of others might also cause me to be more forgiving of myself. A causal diagram that incorporates this new assumption is presented in @fig-2. Under our revised assumptions confounding appears unavoidable. As just discussed, if we were to adjust for forgiveness, we would induce confounding. However, if we did not adjust for forgiveness, an open path between the exposure and outcome would remain:
 
-$$perfectionism \to forgiveness \to childhood religion \to humility$$.
-
-Whether or not we adjust for forgiveness we are humbled!
-
-```{tikz fig-2, fig.cap="Seemingly uncontrollable confounding"}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
-
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
-\tikzset{>=latex}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations}
 \tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
 \tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\node[] (0) {~};
-\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
-\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
-\node[right =of 0, align=left] (3) {};
-\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
-\node[squarednode,right =of 4, align=left] (5) {{Perfectionism$_{t}$}};
-\node[squarednode,right =of 5, align=left] (6) {{Humility$_{t+1}$}};
-
-
-\draw[Arrow] (1) to (4);
-\draw[Arrow] (2) to (4);
-\draw[Arrow, bend right=70] (2) to (6);
-\draw[Arrow, bend left=70] (1) to (5);
-\draw[Arrow] (4) to (5);
-
-```
-
-## The modified disjunctive cause criterion provides a way out
-
-Recall, we have not measured childhood schooling. Nor have we measured childhood religion. Had we measured either variable we could block the back door path from exposure to outcome. Yet there are other strategies at our disposal. The modified disjunctive cause criterion recommends that we "include as a covariate any proxy for an unmeasured variable that is a common cause of both the exposure and the outcome."
-
-```{tikz fig-3, fig.cap="The modified disjunctive cause criterion minimises confounding."}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
-
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
 \tikzset{>=latex}
-\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
-\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\node[] (0) {~};
-\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
-\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
-\node[right =of 0, align=left] (3) {};
-\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
-\node[above =of 4, align=left] (5) {};
-\node[squarednode,right =of 4, align=left] (6) {{Perfectionism$_{t}$}};
-\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
-\node[squarednode,above =of 5, align=left] (8) {{L$^1_{t-1}$}};
-\node[below =of 4, align=left] (9) {};
-\node[squarednode,below =of 9, align=left] (10) {{L$^2_{t-1}$}};
-\draw[Arrow] (1) to (4.west);
-\draw[Arrow] (2) to (4.west);
-\draw[Arrow, bend left=20] (1) to (8);
-\draw[Arrow, bend right=20] (2) to (10);
-\draw[Arrow, bend left= 40, dotted] (8) to (6);
-\draw[Arrow, bend right=25, dotted] (10) to (7);
-\draw[Arrow] (4) to (6);
 
+\begin{tikzpicture}[{every node/.append style}=draw]
+
+\node [rectangle, draw=white] (U1) at (0, 2) {Childhood~Schooling};
+\node [rectangle, draw=white] (U2) at (0, -2) {Childhood~Religion};
+\node [rectangle, draw=black, align=left] (L) at (4, 0) {t0/Forgiveness\\t0/Perfectionism\\t0/Humility};
+\node [rectangle, draw=white] (A) at (8, 0) {t1/Perfectionism};
+\node [rectangle, draw=white] (Y) at (12, 0) {t2/Humility};
+
+\draw [-latex, draw=black] (U1) to (L);
+\draw [-latex, draw =black] (U2) to (L);
+\draw [-latex, draw=black, bend left,dotted] (U1) to (Y);
+\draw [-latex, draw =black, bend right,dotted] (U2) to (Y);
+\draw [-latex,  draw=red, black, dotted] (A) to (Y);
+\draw [-latex, draw =black] (L) to (A);
+
+
+\end{tikzpicture}
 ```
 
-@fig-3 clarifies how application of the modified disjunctive cause criterion may reduce or eliminate confounding. On this graph, $L^1_{t-1}$ fully mediates the path from childhood schooling to perfectionism. If any variable corresponding to $L^1_{t-1}$ were measured, including it in our model, along with indicators of forgiveness, would block the backdoor path from perfectionism to humility. Furthermore, on this graph, $L^2_{t-1}$ fully mediates the path from childhood religion to humility. If any variable corresponding to $L^2_{t-1}$ were measured, including it in our model would be sufficient to block a backdoor path from perfectionism to humility. Again, the causal structure of reality is unknown. However, by including in the set of measured confounders any $l \in (L^1_{t-1} \lor L^2_{t-1})$, we may reduce or even eradicate confounding. We may adopt confounding control using proxies of unmeasured confounders.
 
-## The spectre of confounding remains
+## Conclusion
 
-Consider how conditioning on many baseline confounders may open new opporunities for M-bias. Suppose that charity at baseline is not causally associated with either perfectionism or humility. Suppose further that there are common causes of charity, perfectionism, and humility, such as one's social network and one's family relationships as presented in @fig-4. Here, conditioning on charity would induce M-bias. If we are confident that charity does not meet the modified disjunctive cause criterion, then we should exclude charity from our model. However, we repeat our mantra: we cannot be certain any causal diagram reflects the causal structures of reality.
+In our pursuit of understanding causal relationships, we must carefully navigate the risk of M-bias—a form of confounding that can emerge from over-adjusting for variables. We've outlined a strategy to mitigate this bias by including both prior measurements of the exposure and the outcome in our studies. This approach provides a robust mechanism to control for unmeasured confounders that might otherwise skew our results. However, even with these measures, we cannot guarantee the elimination of all confounding. For this reason, we also conduct sensitivity analysis using E-values to assess the robustness of our findings to potential unmeasured confounding. E-values provide a quantitative measure of the minimum strength an unmeasured confounder would need to fully explain away an observed association. 
 
-Application of the modified disjunctive criterion enables researchers to better use theory for developing strategies of confounding control. However researchers cannot escape theory. With this in mind, we ask: what if theory were to allow charity to affect perfectionism? We consider this question next.
-
-```{tikz fig-4, fig.cap="Overconditioning remains a threat."}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
-
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
-\tikzset{>=latex}
-\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
-\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\node[] (0) {~};
-\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
-\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
-\node[right =of 0, align=left] (3) {};
-\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
-\node[above =of 4, align=left] (5) {};
-\node[squarednode,right =of 4, align=left] (6) {{Perfectionism$_{t}$}};
-\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
-\node[squarednode,above =of 5, align=left] (8) {{L$^1_{t-1}$}};
-\node[below =of 4, align=left] (9) {};
-\node[squarednode,below =of 9, align=left] (10) {{L$^2_{t-1}$}};
-\node[below =of 10] (11) {};
-\node[squarednode,below =of 11, align=left] (12) {{Charity$_{t-1}$}};
-\node[left =of 11, align=left] (13) {};
-\node[left =of 13, align=left] (14) {U$_{Social~Network}$};
-\node[below =of 14, align=left] (15) {};
-\node[below =of 15, align=left] (16) {U$_{Family~Network}$};
-
-\draw[Arrow] (1) to (4.west);
-\draw[Arrow] (2) to (4.west);
-\draw[Arrow, bend left=20] (1) to (8);
-\draw[Arrow, bend right=20] (2) to (10);
-\draw[Arrow, bend left= 40, dotted] (8) to (6);
-\draw[Arrow, bend right=25, dotted] (10) to (7);
-\draw[Arrow] (4) to (6);
-\draw[Arrow] (2) to (4.west);
-
-\draw[Arrow, red] (14) to (12.west);
-\draw[Arrow, red] (16) to (12.west);
-\draw[Arrow, bend right=40, red] (14) to (6);
-\draw[Arrow, bend right=40, red] (16) to (7);
-```
-
-## Adjusting for both the exposure and outcome at baseline is a powerful strategy for confounding control.
-
-VanderWeele and colleagues disuss reasons for including indicators for both the exposure and outcome at baseline when estimating causal effects [@vanderweele2020] (see our application to New Zealand Attitudes and Values Study data [here](https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html))
-
-Our discussion of M-bias reveals additional reasons for including these indicators of exposure and outcome at baseline.
-
-```{tikz fig-5, fig.cap="Conditioning on the baseline exposure and outcome minimises uncontrolled confounding."}
-#| engine.opts=list(template = "tikz-template.tex", dvisvgm.opts = "--font-format=woff")
-
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
-\tikzset{>=latex}
-\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
-\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\node[] (0) {~};
-\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
-\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
-\node[right =of 0, align=left] (3) {};
-\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
-\node[above =of 4, align=left] (5) {};
-\node[squarednode,right =of 4, align=left] (6) {{Perfectionism$_{t}$}};
-\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
-\node[squarednode,above =of 5, align=left] (8) {{Perfectionism$_{t-1}$}};
-\node[below =of 4, align=left] (9) {};
-\node[squarednode,below =of 9, align=left] (10) {{Humility$_{t-1}$}};
-\draw[Arrow] (1) to (4.west);
-\draw[Arrow] (2) to (4.west);
-\draw[Arrow, bend left=20] (1) to (8);
-\draw[Arrow, bend right=20] (2) to (10);
-\draw[Arrow, bend left= 40,  dotted] (8) to (6);
-\draw[Arrow, bend right=25, dotted] (10) to (7);
-\draw[Arrow] (4) to (6);
-
-```
-
-We have assumed that (unmeasured) childhood schooling causes perfectionism, the exposure. Notice that by including measures of the exposure at baseline, the effect of childhood schooling on perfectionism would need to be orthogonal to its effect at baseline.
-
-Furthermore, we have assumed that (unmeasured) childhood religion causes humility, the outcome. Notice that by including measures of the outcome at baseline, the effect of childhood religion on humility would need to be orthogonal to its effect at baseline.
-
-As shown in @fig-5, including measures for both the exposure and outcome at baseline provides a powerful check on unmeasured confounding. For unmeasured confounders to bias effect estimates their effects would need to arise subsequent to their effects on baseline measures.
-
-Furthermore, the advantage of including baseline indicators both for the exposure and the outcome generalises to the problem of novel M-bias presented in @fig-4. However, as show in @fig-6, adjusting for baseline indicators both for the exposure and the outcome may dramatically reduce or eliminate novel M-bias.
-
-```{tikz fig-6, fig.cap="Further benefits of conditioning on the baseline exposure and outcome."}
-#| engine.opts=list(template = "tikz-template.tex", dvisvgm.opts = "--font-format=woff")
-
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
-\tikzset{>=latex}
-\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
-\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\node[] (0) {~};
-\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
-\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
-\node[right =of 0, align=left] (3) {};
-\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
-\node[above =of 4, align=left] (5) {};
-\node[right =of 4, align=left] (-2) {~~~~~~~~};
-\node[squarednode,right =of -2, align=left] (6) {{Perfectionism$_{t}$}};
-\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
-\node[squarednode,above =of 5, align=left] (8) {{Perfectionism$^1_{t-1}$}};
-\node[below =of 4, align=left] (9) {};
-\node[squarednode,below =of 9, align=left] (10) {{Humility$^2_{t-1}$}};
-\node[below =of 10] (11) {};
-\node[squarednode,below =of 11, align=left] (12) {{Charity$^3_{t-1}$}};
-\node[left =of 11, align=left] (13) {};
-\node[left =of 13, align=left] (-1) {~~~~~~~~~~~~~~~~~~~~};
-\node[left =of -1, align=left] (14) {U$_{Social~Network}$};
-\node[below =of 14, align=left] (15) {};
-\node[below =of 15, align=left] (16) {U$_{Family~Network}$};
-
-\draw[Arrow] (1) to (4.west);
-\draw[Arrow] (2) to (4.west);
-\draw[Arrow, bend left=20] (1) to (8);
-\draw[Arrow, bend right=20] (2) to (10);
-\draw[Arrow, bend left= 30, dotted] (8.east) to (6);
-\draw[Arrow, bend right=15, dotted] (10) to (7);
-\draw[Arrow] (4) to (6);
-\draw[Arrow] (2) to (4.west);
-
-\draw[Arrow] (14) to (12.west);
-\draw[Arrow] (16) to (12.west);
-\draw[Arrow, bend left=70] (14) to (8.west);
-\draw[Arrow, bend left=30] (16) to (10);
+In future posts, we will delve more deeply into the concept of E-values and their role in robust causal inference. By leveraging strategies for confounding control that include previous measures of the outcome and exposure variables, as well as senstivity analysis, we strive for more reliable, accurate insights in our studies.
 
 
-
-```
-
-Again we underscore the importance of longitudinal data in deploying effective confounding control: **a strategy that includes baseline measures both for the exposure and the outcome requires collecting at least three waves of panel data.**
-
-## When might adjusting for the baseline exposure and outcome be sufficient?
-
-@fig-7 presents a model in which we only condition on baseline exposure and outcome. Given the lingering prospects for over-conditioning described in @fig-4, it is worth considering when we would be motivated to adjust for any indicators other than the baseline exposure and the baseline outcome.
-
-```{tikz fig-7, fig.cap="Conditioning on the baseline exposure and outcome may be sometimes be sufficient for confounding control."}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
-
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
-\tikzset{>=latex}
-\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
-\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\node[] (0) {{\bf U}};
-\node[squarednode,right =of 0, align=left] (1) {Exposure$_{t-1}$\\ {Outcome}$_{t-1}$};
-\node[right =of 1] (2) {Exposure ${t_0}$};
-\node[right =of 2] (3) {{Outcome}$_{t+1}$};
-\draw[Arrow] (0) to (1);
-\draw[Arrow, bend right=50, dotted] (0) to (2);
-\draw[Arrow, bend left=50 , dotted] (0) to (3);
-\draw[Arrow] (1) to (2);
-\draw[Arrow, bend left] (1) to (3);
-```
-
-Sometimes adjusting only for the baseline exposure and the baseline outcome will be sufficient to control confounding. However, we must again recall that we do not know generally know the causal structure of reality.
-
-In @fig-8 we assume that charity at baseline might affect both the exposure, perfectionism, and humility, the outcome. Because the world is dynamic, a confounder might might induce bias even after controlling for pre-exposure perfectionism and pre-exposure humility. If charity were such a cause then including an indicator for charity at baseline would avoid this confounding. Failing to do so would permit confounding. In such an instance, in including the baseline exposure and the baseline outcome would not be sufficient for confounding control, however in the absence of plausible proxies for unmeasured confounders, such inclusion would be necessary for confounding control.
-
-```{tikz fig-8, fig.cap="Conditioning on the baseline exposure and outcome is not always sufficient for confounding control. We advise using the modified disjunctive cause criterion; we also advise performing sensitivity analysis."}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
-
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
-\tikzset{>=latex}
-\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
-\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\node[] (0) {~};
-\node[above =of 0] (1) {{U$_{Childhood~Schooling}$}};
-\node[below =of 0] (2) {{U$_{Childhood~Religion}$}};
-\node[right =of 0, align=left] (3) {};
-\node[squarednode,right =of 3, align=left] (4) {{Forgiveness$_{t-1}$}};
-\node[above =of 4, align=left] (5) {};
-\node[right =of 4, align=left] (-2) {~~~~~~~~};
-\node[squarednode,right =of -2, align=left] (6) {{Perfectionism$_{t}$}};
-\node[squarednode,right =of 6, align=left] (7) {{Humility$_{t+1}$}};
-\node[squarednode,above =of 5, align=left] (8) {{Perfectionism$^1_{t-1}$}};
-\node[below =of 4, align=left] (9) {};
-\node[squarednode,below =of 9, align=left] (10) {{Humility$^2_{t-1}$}};
-\node[below =of 10] (11) {};
-\node[squarednode,below =of 11, align=left,thick] (12) {{Charity$^3_{t-1}$}};
-\node[left =of 11, align=left] (13) {};
-\node[left =of 13, align=left] (-1) {~~~~~~~~~~~~~~~~~~~~};
-\node[left =of -1, align=left] (14) {U$_{Social~Network}$};
-\node[below =of 14, align=left] (15) {};
-\node[below =of 15, align=left] (16) {U$_{Family~Network}$};
-
-\draw[Arrow] (1) to (4.west);
-\draw[Arrow] (2) to (4.west);
-\draw[Arrow, bend left=20] (1) to (8);
-\draw[Arrow, bend right=20] (2) to (10);
-\draw[Arrow, bend left= 30, dotted] (8.east) to (6);
-\draw[Arrow, bend right=15, dotted] (10) to (7);
-\draw[Arrow] (4) to (6);
-\draw[Arrow] (2) to (4.west);
-
-\draw[Arrow] (14) to (12.west);
-\draw[Arrow] (16) to (12.west);
-\draw[Arrow, bend left=70] (14) to (8.west);
-\draw[Arrow, bend left=30] (16) to (10);
-
-\draw[Arrow, dotted] (12) to (6);
-\draw[Arrow, dotted] (12) to (7);
-```
-
-The world is dynamic. Science learns it's causal structures only slowly. The modified disjunctive cause criterion minimises reliance on any specific causal diagram. Yet we cannot known whether our confounding control strategy was successful. For this reason, we recommend sensitivity analysis. In our research, we report E-values [@vanderweele2017]. We reserve discussion of sensitivity analysis for future reports.
-
-## The causal crisis in psychology cannot be fixed with graphs: needed are time series data.
-
-To "control" for confounding, psychologists often include many variables in their regression models. There is growing awareness that including many variables in one's regression model may instead induce bias. Over-adjustment bias arises when we adjust for a mediator along the path from the exposure to an outcome. It also arises when we adjust for a common effect of exposure and an outcome, or post-treatment collider bias [@bulbulia2021]. It is mediator bias and post-treatment collider bias that forms the focus of most recent treatments of confounding control. We discuss mediator bias and post-treatment collider bias in the context of [treatment-confounder feedback](https://go-bayes.github.io/b-causal/posts/confounder-treatment-feedback/conf-out-feedback.html).
-
-It is with mediator bias and post-treatment collider bias in mind that many researchers advise parsimony when selecting variables for confounding control [@mcelreath2020]. Furthermore, freely available software assists researchers in the search for minimally sufficient adjustment sets [@barrett2021a]. However, as we have been emphasising all along, scientists cannot generally know whether any assumed causal diagram reflects the true causal structure of reality. Our self-confidence in a given causal diagram is too flimsy a peg on which which to hang all our science.
-
-There is hope. With at least three waves of repeated measures data we may avoid the threat of over-adjustment bias from mediator and post-treatment collider confounding. The structure of times series data may require special methods (such as handling [treatment-confounder feedback](https://go-bayes.github.io/b-causal/posts/confounder-treatment-feedback/conf-out-feedback.html).) However, when variables are repeatedly measured over time we can see, and avert, many concerns about post-treatment biases.[^1] Three-wave longitudinal designs allow us to measure an outcome after an exposure, measure confounders before that exposure, and include in the set of confounders measured at baseline indicators both for the exposure and for the outcome. As such, the time series allows us to preserve the temporal order needed to infer causal effects. By preserving this order we dramatically reduce the threats of mediator bias and post-treatment collider bias. Although assumptions cannot be avoided, three waves of panel data allow us to relax the very strong assumptions about timing in the occurrence of outcome, exposure, and confounders that are needed in single wave studies and many pre-post studies.
-
-[^1]: Selection bias remains a concern, as we discuss [here](https://go-bayes.github.io/b-causal/posts/outcomewide/outcome-wide.html)
-
-Here, we have considered the specific threats to causal inference from pre-treatment confounding. We have considered how a modified disjunctive cause criterion addresses the threat of M-bias, and why the inclusion at baseline of indicators both for the exposure and the outcome is an especially powerful strategy for confounding control.
-
-Psychological science faces a casual crisis whose magnitude has yet to be fully appreciated [@bulbulia2022]. It is encouraging that many psychological scientists are better understanding the importance of causal diagrams [@rohrer2018]. However, there is considerable work to be done still in conveying the importance of longitudinal data collection. Causal diagrams will continue to help psychological scientists to appreciate the discipline's causal crisis, however, the causal crisis will not be resolved with causal diagrams alone. Transforming observational psychology into a science turns on the quality and diversity of the discipline's longitudinal data collection.
 
 ## Acknowledgements
 

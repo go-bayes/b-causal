@@ -176,8 +176,12 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#the-fundamental-problem-of-causal-inference" id="toc-the-fundamental-problem-of-causal-inference" class="nav-link" data-scroll-target="#the-fundamental-problem-of-causal-inference">The Fundamental Problem of Causal Inference</a></li>
   </ul></li>
-  <li><a href="#g-computation-or-regression-standardisation" id="toc-g-computation-or-regression-standardisation" class="nav-link" data-scroll-target="#g-computation-or-regression-standardisation">G-Computation (or Regression Standardisation)</a></li>
-  <li><a href="#steps-for-g-computation" id="toc-steps-for-g-computation" class="nav-link" data-scroll-target="#steps-for-g-computation">Steps for G-Computation</a></li>
+  <li><a href="#g-computation" id="toc-g-computation" class="nav-link" data-scroll-target="#g-computation">G-Computation</a>
+  <ul class="collapse">
+  <li><a href="#what-is-g-computation" id="toc-what-is-g-computation" class="nav-link" data-scroll-target="#what-is-g-computation">What is G-Computation?</a></li>
+  <li><a href="#how-does-g-computation-work" id="toc-how-does-g-computation-work" class="nav-link" data-scroll-target="#how-does-g-computation-work">How Does G-Computation Work?</a></li>
+  </ul></li>
+  <li><a href="#what-are-the-assumptions-of-g-computation" id="toc-what-are-the-assumptions-of-g-computation" class="nav-link" data-scroll-target="#what-are-the-assumptions-of-g-computation">What are the assumptions of g-computation?</a></li>
   <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">Applications</a>
   <ul class="collapse">
   <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
@@ -209,31 +213,40 @@ div.csl-indent {
 <p>Outside of controlled experiments, we cannot typically ensure this conditional independence. For this reason, we use sensitivity analysis, such as the <em>E-value</em> <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span>.</p>
 </section>
 </section>
-<section id="g-computation-or-regression-standardisation" class="level2">
-<h2 class="anchored" data-anchor-id="g-computation-or-regression-standardisation">G-Computation (or Regression Standardisation)</h2>
-<p>To consistently estimate a causal association, we must infer the average outcomes for the entire population, were it subject to different levels of the exposure variable <span class="math inline">\(A = a\)</span> and <span class="math inline">\(A=a^*\)</span>. The average treatment effect (ATE) can be expressed as:</p>
+<section id="g-computation" class="level2">
+<h2 class="anchored" data-anchor-id="g-computation">G-Computation</h2>
+<section id="what-is-g-computation" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-g-computation">What is G-Computation?</h3>
+<p>G-computation, sometimes called “regression standardisation” is a non-parametric method for estimating causal effects from observational data in the presence of confounding variables. It was introduced by James Robins in 1986 and is based on the potential outcomes framework. G-computation allows for estimating the causal effects of time-varying treatments and can handle complex treatment regimens and effect modification.</p>
+</section>
+<section id="how-does-g-computation-work" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-g-computation-work">How Does G-Computation Work?</h3>
+<p>To consistently estimate a causal association from statistical associations in the data, we must infer the average outcomes for the entire population were it subject to different levels of the exposure variable <span class="math inline">\(A = a\)</span> and <span class="math inline">\(A=a^*\)</span>. The average treatment effect (ATE) can be expressed as:</p>
 <p><span class="math display">\[ATE = E[Y^{a^*}] - E[Y^a] = \sum_l E[Y|A=a^*, L=l]\Pr[L=l] - \sum_l E[Y|A=a, L=l]\Pr[L=l]\]</span></p>
 <p>However, we need not estimate <span class="math inline">\(\Pr(L = l)\)</span> directly. Instead, we can obtain the weighted mean for the distribution of the confounders in the data by taking the double expectation: <span class="citation" data-cites="hernan2023">(<a href="#ref-hernan2023" role="doc-biblioref">Hernan and Robins 2023, 166</a>)</span>.</p>
 <p><span class="math display">\[ATE = E[E(Y|A = a, \boldsymbol{L}) - E(Y|A = a^*, \boldsymbol{L})]\]</span></p>
-<p>We use the <code>stdReg</code> package in R to obtain marginal contrasts for the expected outcomes for the entire population <span class="citation" data-cites="sjölander2016">(<a href="#ref-sjölander2016" role="doc-biblioref">Sjölander 2016</a>)</span>.</p>
-</section>
-<section id="steps-for-g-computation" class="level2">
-<h2 class="anchored" data-anchor-id="steps-for-g-computation">Steps for G-Computation</h2>
-<ol type="1">
-<li><p>Fit a regression for the outcome on the exposure <span class="math inline">\(A_{t0}\)</span> and baseline covariates <span class="math inline">\(\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)\)</span>. To avoid making unjustified linearity assumptions, model the relationship between the exposure and each of the potential outcomes of interest using a cubic spline. Include in the set of baseline confounders <span class="math inline">\(\boldsymbol{L}\)</span>, the baseline measure of the exposure as well as the baseline responses:</p>
+<p>Step 1. Fit a regression for the outcome on the exposure <span class="math inline">\(A_{t0}\)</span> and baseline covariates <span class="math inline">\(\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)\)</span>. To avoid making unjustified linearity assumptions, model the relationship between the exposure and each of the potential outcomes of interest using a cubic spline. Include in the set of baseline confounders <span class="math inline">\(\boldsymbol{L}\)</span>, the baseline measure of the exposure as well as the baseline responses:</p>
 <p><span class="math display">\[\{A_{t-1}, \boldsymbol{Y_{t-1}} = (Y_{1, t-1}, Y_{2, t-1}, Y_{3, t-1}\dots Y_{n, t-1})\} \subset \boldsymbol{L}\]</span></p>
 <p>This provides</p>
-<p><span class="math display">\[E(Y|A, \boldsymbol{L})\]</span></p></li>
-<li><p>Use the model from step 1 to predict the values of a potential outcome <span class="math inline">\(Y^{a}\)</span> by setting the exposure to the value <span class="math inline">\(A = a\)</span>.</p>
+<p><span class="math display">\[E(Y|A, \boldsymbol{L})\]</span></p>
+<p>Step 2. Use the model from step 1 to predict the values of a potential outcome <span class="math inline">\(Y^{a}\)</span> by setting the exposure to the value <span class="math inline">\(A = a\)</span>.</p>
 <p>This provides</p>
-<p><span class="math display">\[\hat{E}(Y|A = a, \boldsymbol{L})\]</span></p></li>
-<li><p>Use the model from step 1 to predict the values of a different potential outcome <span class="math inline">\(Y^{a*}\)</span> by setting the exposure to a different value of <span class="math inline">\(A = a^{\star}\)</span>.</p>
+<p><span class="math display">\[\hat{E}(Y|A = a, \boldsymbol{L})\]</span></p>
+<p>Step 3. Use the model from step 1 to predict the values of a different potential outcome <span class="math inline">\(Y^{a*}\)</span> by setting the exposure to a different value of <span class="math inline">\(A = a^{\star}\)</span>.</p>
 <p>This provides</p>
-<p><span class="math display">\[\hat{E}(Y|A = a^*, \boldsymbol{L})\]</span></p></li>
-<li><p>Obtain the focal contrast as the expected difference in the average outcomes when exposure is at levels <span class="math inline">\(a*\)</span> and <span class="math inline">\(a\)</span>. For continuous outcomes, calculate the mean of <span class="math inline">\(Y^a\)</span> and the mean of <span class="math inline">\(Y^{a*}\)</span> and then find their difference. This provides:</p>
-<p><span class="math display">\[\hat{ATE} = \hat{E}[\hat{E}(Y|A = a, \boldsymbol{L}) - \hat{E}(Y|A = a^*, \boldsymbol{L})]\]</span></p></li>
-<li><p>For binary outcomes, calculate the causal risk ratio in moving between different levels of A. When binary outcomes are more common than 10%, use a log-normal model to calculate a causal rate ratio <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span>.</p></li>
-<li><p>The <code>stdReg</code> package in R calculates standard errors using the Delta method, from which we construct confidence intervals under asymptotic assumptions <span class="citation" data-cites="sjölander2016">(<a href="#ref-sjölander2016" role="doc-biblioref">Sjölander 2016</a>)</span>. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin’s Rules.</p></li>
+<p><span class="math display">\[\hat{E}(Y|A = a^*, \boldsymbol{L})\]</span></p>
+<p>Step 4. Obtain the focal contrast as the expected difference in the average outcomes when exposure is at levels <span class="math inline">\(a*\)</span> and <span class="math inline">\(a\)</span>. For continuous outcomes, calculate the mean of <span class="math inline">\(Y^a\)</span> and the mean of <span class="math inline">\(Y^{a*}\)</span> and then find their difference. This provides:</p>
+<p><span class="math display">\[\hat{ATE} = \hat{E}[\hat{E}(Y|A = a, \boldsymbol{L}) - \hat{E}(Y|A = a^*, \boldsymbol{L})]\]</span></p>
+<p>Step 5. For binary outcomes, calculate the causal risk ratio in moving between different levels of A. When binary outcomes are more common than 10%, use a log-normal model to calculate a causal rate ratio <span class="citation" data-cites="vanderweele2020">(<a href="#ref-vanderweele2020" role="doc-biblioref">VanderWeele, Mathur, and Chen 2020</a>)</span>.</p>
+<p>Step 6. The <code>stdReg</code> package in R calculates standard errors using the Delta method, from which we construct confidence intervals under asymptotic assumptions <span class="citation" data-cites="sjölander2016">(<a href="#ref-sjölander2016" role="doc-biblioref">Sjölander 2016</a>)</span>. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin’s Rules.</p>
+<p>Step 7. Finally, we perform sensitivity analyses to assess the sensitivity of the causal effect estimates to modelling assumptions.</p>
+</section>
+</section>
+<section id="what-are-the-assumptions-of-g-computation" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-the-assumptions-of-g-computation">What are the assumptions of g-computation?</h2>
+<ol type="1">
+<li><p><strong>Outcome Model Misspecification</strong>: G-computation’s performance depends on the correct specification of the outcome model. If the model is misspecified, g-computation can produce biased estimates of the ATE.</p></li>
+<li><p><strong>Confounding</strong>: G-computation relies on the assumption that there are no unmeasured confounders. If this assumption is violated, the estimates can be biased.</p></li>
 </ol>
 </section>
 <section id="applications" class="level2">

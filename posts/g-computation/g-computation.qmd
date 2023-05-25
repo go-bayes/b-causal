@@ -48,9 +48,16 @@ $$Y^a \perp\!\!\!\perp A|L$$
 
 Outside of controlled experiments, we cannot typically ensure this conditional independence. For this reason, we use sensitivity analysis, such as the *E-value* [@vanderweele2020].
 
-## G-Computation (or Regression Standardisation)
+## G-Computation
 
-To consistently estimate a causal association, we must infer the average outcomes for the entire population, were it subject to different levels of the exposure variable $A = a$ and $A=a^*$. The average treatment effect (ATE) can be expressed as:
+
+### What is G-Computation?
+G-computation, sometimes called "regression standardisation" is a non-parametric method for estimating causal effects from observational data in the presence of confounding variables. It was introduced by James Robins in 1986 and is based on the potential outcomes framework. G-computation allows for estimating the causal effects of time-varying treatments and can handle complex treatment regimens and effect modification. 
+
+
+### How Does G-Computation Work?
+
+To consistently estimate a causal association from statistical associations in the data, we must infer the average outcomes for the entire population were it subject to different levels of the exposure variable $A = a$ and $A=a^*$. The average treatment effect (ATE) can be expressed as:
 
 $$ATE = E[Y^{a^*}] - E[Y^a] = \sum_l E[Y|A=a^*, L=l]\Pr[L=l] - \sum_l E[Y|A=a, L=l]\Pr[L=l]$$
 
@@ -58,11 +65,8 @@ However, we need not estimate $\Pr(L = l)$ directly. Instead, we can obtain the 
 
 $$ATE = E[E(Y|A = a, \boldsymbol{L}) - E(Y|A = a^*, \boldsymbol{L})]$$
 
-We use the `stdReg` package in R to obtain marginal contrasts for the expected outcomes for the entire population [@sjölander2016].
 
-## Steps for G-Computation
-
-1. Fit a regression for the outcome on the exposure $A_{t0}$ and baseline covariates $\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)$. To avoid making unjustified linearity assumptions, model the relationship between the exposure and each of the potential outcomes of interest using a cubic spline. Include in the set of baseline confounders $\boldsymbol{L}$, the baseline measure of the exposure as well as the baseline responses:
+Step 1. Fit a regression for the outcome on the exposure $A_{t0}$ and baseline covariates $\boldsymbol{L} = (L_1, L_2,L_3 \dots L_n)$. To avoid making unjustified linearity assumptions, model the relationship between the exposure and each of the potential outcomes of interest using a cubic spline. Include in the set of baseline confounders $\boldsymbol{L}$, the baseline measure of the exposure as well as the baseline responses:
 
    $$\{A_{t-1}, \boldsymbol{Y_{t-1}} = (Y_{1, t-1}, Y_{2, t-1}, Y_{3, t-1}\dots Y_{n, t-1})\} \subset \boldsymbol{L}$$
 
@@ -70,25 +74,36 @@ We use the `stdReg` package in R to obtain marginal contrasts for the expected o
 
    $$E(Y|A, \boldsymbol{L})$$
 
-2. Use the model from step 1 to predict the values of a potential outcome $Y^{a}$ by setting the exposure to the value $A = a$.
+Step 2. Use the model from step 1 to predict the values of a potential outcome $Y^{a}$ by setting the exposure to the value $A = a$.
 
    This provides
 
    $$\hat{E}(Y|A = a, \boldsymbol{L})$$
 
-3. Use the model from step 1 to predict the values of a different potential outcome $Y^{a*}$ by setting the exposure to a different value of $A = a^{\star}$.
+Step 3. Use the model from step 1 to predict the values of a different potential outcome $Y^{a*}$ by setting the exposure to a different value of $A = a^{\star}$.
 
    This provides
 
    $$\hat{E}(Y|A = a^*, \boldsymbol{L})$$
 
-4. Obtain the focal contrast as the expected difference in the average outcomes when exposure is at levels $a*$ and $a$. For continuous outcomes, calculate the mean of $Y^a$ and the mean of $Y^{a*}$ and then find their difference. This provides:
+Step 4. Obtain the focal contrast as the expected difference in the average outcomes when exposure is at levels $a*$ and $a$. For continuous outcomes, calculate the mean of $Y^a$ and the mean of $Y^{a*}$ and then find their difference. This provides:
 
    $$\hat{ATE} = \hat{E}[\hat{E}(Y|A = a, \boldsymbol{L}) - \hat{E}(Y|A = a^*, \boldsymbol{L})]$$
 
-5. For binary outcomes, calculate the causal risk ratio in moving between different levels of A. When binary outcomes are more common than 10%, use a log-normal model to calculate a causal rate ratio [@vanderweele2020].
+Step 5. For binary outcomes, calculate the causal risk ratio in moving between different levels of A. When binary outcomes are more common than 10%, use a log-normal model to calculate a causal rate ratio [@vanderweele2020].
 
-6. The `stdReg` package in R calculates standard errors using the Delta method, from which we construct confidence intervals under asymptotic assumptions [@sjölander2016]. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin's Rules.
+Step 6. The `stdReg` package in R calculates standard errors using the Delta method, from which we construct confidence intervals under asymptotic assumptions [@sjölander2016]. Additionally, we pool uncertainty arising from the multiple imputation procedure by employing Rubin's Rules.
+
+Step 7. Finally, we perform sensitivity analyses to assess the sensitivity of the causal effect estimates to modelling assumptions.
+
+
+## What are the assumptions of g-computation? 
+
+
+1. **Outcome Model Misspecification**: G-computation's performance depends on the correct specification of the outcome model. If the model is misspecified, g-computation can produce biased estimates of the ATE.
+
+2. **Confounding**: G-computation relies on the assumption that there are no unmeasured confounders. If this assumption is violated, the estimates can be biased.
+
 
 
 ## Applications
