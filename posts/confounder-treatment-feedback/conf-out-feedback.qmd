@@ -20,43 +20,47 @@ image: "tv.png"
 format:
   html:
     code-fold: true
-    code-summary: "reveal code"
+    code-summary: "Show the code"
+bibliography: references.bib
 categories: 
   - Causal Inference
   - Methods
-bibliography: references.bib
 citation-location: margin
+references: ./references.bib
 ---
 
-```{r}
-#| label: setup
-#| echo: false
-library(katex)
-# see https://remlapmot.github.io/mrdags/
-# https://github.com/remlapmot/mrdags/blob/master/index.qmd
-knitr::opts_chunk$set(cache = TRUE,
-                      dev = "svg",
-                      fig.align = "center")
-# Using advice from Andrew Heiss blogpost to use SVGs in HTML from TikZ
-# https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/#connecting-dvisvgm-to-ghostscript-on-macos
-# For svg figures we require the latex package dvisvgm
-if (!tinytex::check_installed("dvisvgm")) tinytex::tlmgr_install("dvisvgm")
-# On macOS dvisvgm needs the ghostscript library dynamically linked to it via
-# either the LIBGS environment variable or the --libgs flag.
-# The libgs.dylib from Homebrew (brew install ghostscript) is sufficient.
-if (Sys.info()[["sysname"]] == "Darwin" && Sys.info()[["machine"]] == "arm64") {
-  #Sys.setenv(LIBGS = "/usr/local/lib/libgs.dylib")
-  Sys.setenv(LIBGS = "/opt/homebrew/Cellar/ghostscript/10.0.0/lib/libgs.dylib")
-}
-```
+<!-- ```{r} -->
+<!-- #| label: setup -->
+<!-- #| echo: false -->
+<!-- library(katex) -->
+<!-- # see https://remlapmot.github.io/mrdags/ -->
+<!-- # https://github.com/remlapmot/mrdags/blob/master/index.qmd -->
+<!-- knitr::opts_chunk$set(cache = TRUE, -->
+<!--                       dev = "svg", -->
+<!--                       fig.align = "center") -->
+<!-- # Using advice from Andrew Heiss blogpost to use SVGs in HTML from TikZ -->
+<!-- # https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/#connecting-dvisvgm-to-ghostscript-on-macos -->
+<!-- # For svg figures we require the latex package dvisvgm -->
+<!-- if (!tinytex::check_installed("dvisvgm")) tinytex::tlmgr_install("dvisvgm") -->
+<!-- # On macOS dvisvgm needs the ghostscript library dynamically linked to it via -->
+<!-- # either the LIBGS environment variable or the --libgs flag. -->
+<!-- # The libgs.dylib from Homebrew (brew install ghostscript) is sufficient. -->
+<!-- if (Sys.info()[["sysname"]] == "Darwin" && Sys.info()[["machine"]] == "arm64") { -->
+<!--   #Sys.setenv(LIBGS = "/usr/local/lib/libgs.dylib") -->
+<!--   Sys.setenv(LIBGS = "/opt/homebrew/Cellar/ghostscript/10.0.0/lib/libgs.dylib") -->
+<!-- } -->
+<!-- ``` -->
 
 ```{r tnytx}
 #| eval: false
 #| include: false
 #tinytex::install_tinytex()
 #tinytex::tlmgr_install("tikz-cd")
-
+library("tinytex")
+library("extrafont")
+loadfonts(device = "all")
 ```
+
 
 ## Purpose
 
@@ -77,8 +81,12 @@ Here, I use three causal graphs to describe a problem of treatment-confounder fe
 Suppose we wish to compute the causal effect of treatment $A$ on outcome $Y$. Because $L$ is a common cause of both $A$ and $Y$, $L$ will lead to an association between $A$ and $Y$. We face *confounding by common cause*. The good news: where $L$ is measured, a regression model that conditions on $L$ will break the association between $A$ and $Y$. Again, causation occurs in time. We index measured nodes to ensure our data adhere to time's arrow
 
 ```{tikz}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzset{>=latex}
 
 \begin{tikzpicture}[squarednode/.style={rectangle, draw=gray!90, fill=gray!5, auto}]
 \tikzset{>=latex}
@@ -89,6 +97,7 @@ Suppose we wish to compute the causal effect of treatment $A$ on outcome $Y$. Be
 \node[right =of 2] (3) {$Y_{t+1}$};
 \draw[Arrow,bend left] (1) to (3);
 \draw[Arrow] (1) to (2);
+\end{tikzpicture}
 ```
 
 ## Confounding by Over-Conditioning
@@ -96,21 +105,23 @@ Suppose we wish to compute the causal effect of treatment $A$ on outcome $Y$. Be
 Suppose $L_{t+1}$ is an effect of $A_{t}$. To condition on the common effect will induce a spurious association between $A_t$ and $Y_{t+1}$ through the unmeasured confounder $U$ (red path). We may avoid this problem by excluding $L_{t+1}$ from our regression model. To know whether exclusion is warranted requires indexing the relative occurrences of $A$ and $L$. However, without time-series data, we cannot generally know whether $L$ is a cause of $A$ or its effect. Figures 1 and 2 illustrate the importance of collecting time-series data to infer causality. Although psychological scientists are familiar with adjustment by regression to address confounding by common cause, we are less familiar with the hazards of over-conditioning. Generally, **confounding control in any observational science requires time series data**.
 
 ```{tikz}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
-
-\begin{tikzpicture}[squarednode/.style={rectangle, draw=red!60, fill=red!5}, scale = 4]
-\tikzset{>=latex}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations}
 \tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
-\tikzstyle{DoubleArrow} = [-, dotted, preaction = {decorate}]
-\node[] (0) {$U$};
-\node[ below =of 0] (1) {$A_t$};
-\node[squarednode, right =of 1] (2) {$L_{t+1}$};
-\node[right =of 2] (3) {$Y_{t+1}$};
-\draw[Arrow,bend left=25, red] (0) to (3);
-\draw[Arrow] (0) to (2);
-\draw[Arrow] (1) to (2);
-\draw[DoubleArrow, bend right=20, red] (0) to (1);
+\tikzset{>=latex}
+
+\begin{tikzpicture}
+%\node [draw=none, align=center, font=\small] at (2,1) {\bf Condition on child of collider};
+\node [draw = none, inner sep = 1] (U) at (0, 0) {$U$};
+\node [draw = none, inner sep = 1] (A) at (.75, 0) {$A_{0}$};
+\node [rectangle, draw=red, thick](L) at (1.75, 0) {$L_{1}$};
+\node [draw = none, inner sep = 1] (Y) at (3, 0) {$Y_{2}$};
+\draw [-latex, bend right=30, draw = red] (U) to (L);
+\draw [-latex, bend left = 30, draw=red] (U) to (Y);
+\draw [-latex,draw=red] (A) to (L);
+\end{tikzpicture}
 ```
 
 ## Confounding control for Treatment-Confounder Feedback: Damned if you condition damned if you do not.
@@ -120,8 +131,12 @@ Suppose we collect time series data. Suppose further that conditioning on $L$ bl
 [^1]: We draw the minimum number of paths to clarify the problem.
 
 ```{tikz}
-#| engine.opts=list(template = "tikz-template.tex",
-#|                  dvisvgm.opts = "--font-format=woff")
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations}
+\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
+\tikzset{>=latex}
 
 \begin{tikzpicture}[squarednode/.style={rectangle, draw=red!60, fill=red!5}, scale = 4]
 \tikzset{>=latex}
@@ -143,6 +158,7 @@ Suppose we collect time series data. Suppose further that conditioning on $L$ bl
 \draw[Arrow, bend right, red] (7) to (4);
 \draw[Arrow, bend right] (7) to (3);
 \draw[Arrow, bend left, red] (2) to (4);
+\end{tikzpicture}
 ```
 
 ## Importance

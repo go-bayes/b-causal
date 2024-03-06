@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.5.22">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>b-causal.org - b-causal</title>
+<title>b-causal.org – b-causal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -47,7 +47,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,8 +62,10 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -93,16 +101,43 @@ ul.task-list li input[type="checkbox"] {
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">b-causal.org</span>
     </a>
@@ -114,23 +149,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/go-bayes" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/go-bayes"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://qoto.org/@joseph_bulbulia" rel="" target=""><i class="bi bi-mastodon" role="img">
+    <a class="nav-link" href="https://qoto.org/@joseph_bulbulia"> <i class="bi bi-mastodon" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -143,7 +178,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
     
   
-  <div class="quarto-title-meta">
+  <div class="quarto-title-meta column-page-left">
 
       
     
@@ -167,21 +202,22 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="Causal Inference,NZAVS,Methods" data-listing-date-sort="1683720000000" data-listing-file-modified-sort="1686355194238" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10">
+<div class="quarto-post image-right" data-index="0" data-categories="Causal Inference,NZAVS,Methods" data-listing-date-sort="1683720000000" data-listing-file-modified-sort="1709602077509" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1876">
 <div class="thumbnail">
-<p><a href="./posts/iptw/iptw.html"> <p class="card-img-top"><img src="posts/iptw/iptw_files/figure-html/fig-dag-1.png"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/iptw/iptw.html" class="no-external"></a></p><a href="./posts/iptw/iptw.html" class="no-external">
+<p class="card-img-top"><img src="posts/iptw/iptw_files/figure-html/fig-dag-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/iptw/iptw.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/iptw/iptw.html">
 <h3 class="no-anchor listing-title">
-Inverse Probability of Treatment Weighting: A Practical Guide
+<a href="./posts/iptw/iptw.html" class="no-external">Inverse Probability of Treatment Weighting: A Practical Guide</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/iptw/iptw.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
 Causal Inference
@@ -193,14 +229,12 @@ NZAVS
 Methods
 </div>
 </div>
-<a href="./posts/iptw/iptw.html">
 <div class="listing-description">
-Inverse Probability of Treatment Weighting (IPTW) is a method for estimating causal effects from observational data, using propensity scores to balance covariates between…
+<a href="./posts/iptw/iptw.html" class="no-external">Inverse Probability of Treatment Weighting (IPTW) is a method for estimating causal effects from observational data, using propensity scores to balance covariates between…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/iptw/iptw.html">
+<a href="./posts/iptw/iptw.html" class="no-external">
 <div class="listing-date">
 May 11, 2023
 </div>
@@ -210,19 +244,19 @@ Joseph Bulbulia
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="NZAVS,COVID,Descriptive" data-listing-date-sort="1679482800000" data-listing-file-modified-sort="1679949875464" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27">
+<div class="quarto-post image-right" data-index="1" data-categories="NZAVS,COVID,Descriptive" data-listing-date-sort="1679482800000" data-listing-file-modified-sort="1709602077510" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="27" data-listing-word-count-sort="5293">
 <div class="thumbnail">
-<p><a href="./posts/trust-science/trust-science.html"> <img src="./posts/trust-science/trust_science.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/trust-science/trust-science.html" class="no-external"></a></p><a href="./posts/trust-science/trust-science.html" class="no-external">
+<p><img src="./posts/trust-science/trust_science.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/trust-science/trust-science.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/trust-science/trust-science.html">
 <h3 class="no-anchor listing-title">
-Exploring Institutional Trust in New Zealand Pre/Post COVID-19 Pandemic
+<a href="./posts/trust-science/trust-science.html" class="no-external">Exploring Institutional Trust in New Zealand Pre/Post COVID-19 Pandemic</a>
 </h3>
 <div class="listing-subtitle">
-New Zealand Attitudes and Values Study: Years 2019-2022 N = 42,681
+<a href="./posts/trust-science/trust-science.html" class="no-external">New Zealand Attitudes and Values Study: Years 2019-2022 N = 42,681</a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('NZAVS'); return false;">
 NZAVS
@@ -234,14 +268,12 @@ COVID
 Descriptive
 </div>
 </div>
-<a href="./posts/trust-science/trust-science.html">
 <div class="listing-description">
-This report delves into the changes in institutional trust among New Zealanders from the pre-pandemic period in 2019 to 2022.
+<a href="./posts/trust-science/trust-science.html" class="no-external">This report delves into the changes in institutional trust among New Zealanders from the pre-pandemic period in 2019 to 2022.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/trust-science/trust-science.html">
+<a href="./posts/trust-science/trust-science.html" class="no-external">
 <div class="listing-date">
 Mar 23, 2023
 </div>
@@ -251,19 +283,19 @@ Authors TBA, Chris G Sibley, Joseph Bulbulia
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="Causal Inference,Outcome-wide Science,Methods" data-listing-date-sort="1669028400000" data-listing-file-modified-sort="1683971958443" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="2" data-categories="Causal Inference,Outcome-wide Science,Methods" data-listing-date-sort="1669028400000" data-listing-file-modified-sort="1709602077509" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="818">
 <div class="thumbnail">
-<p><a href="./posts/m-bias/m-bias.html"> <img src="./posts/m-bias/m-bias.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/m-bias/m-bias.html" class="no-external"></a></p><a href="./posts/m-bias/m-bias.html" class="no-external">
+<p><img src="./posts/m-bias/m-bias.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/m-bias/m-bias.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/m-bias/m-bias.html">
 <h3 class="no-anchor listing-title">
-M-Bias: Confounding Control Using Three Waves of Panel Data
+<a href="./posts/m-bias/m-bias.html" class="no-external">M-Bias: Confounding Control Using Three Waves of Panel Data</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/m-bias/m-bias.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
 Causal Inference
@@ -275,14 +307,12 @@ Outcome-wide Science
 Methods
 </div>
 </div>
-<a href="./posts/m-bias/m-bias.html">
 <div class="listing-description">
-Elsewhere, we have…
+<a href="./posts/m-bias/m-bias.html" class="no-external">Elsewhere, we have described our strategy for using three waves of panel data to identify causal effects. For confounding control, we adopt VanderWeele’s modified…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/m-bias/m-bias.html">
+<a href="./posts/m-bias/m-bias.html" class="no-external">
 <div class="listing-date">
 Nov 22, 2022
 </div>
@@ -292,19 +322,19 @@ Joseph Bulbulia
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="NZAVS,COVID,Descriptive" data-listing-date-sort="1668682800000" data-listing-file-modified-sort="1679570141597" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="30">
+<div class="quarto-post image-right" data-index="3" data-categories="NZAVS,COVID,Descriptive" data-listing-date-sort="1668682800000" data-listing-file-modified-sort="1709602077508" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="30" data-listing-word-count-sort="5884">
 <div class="thumbnail">
-<p><a href="./posts/covid-change/cv.html"> <img src="./posts/covid-change/covid-change2.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/covid-change/cv.html" class="no-external"></a></p><a href="./posts/covid-change/cv.html" class="no-external">
+<p><img src="./posts/covid-change/covid-change2.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/covid-change/cv.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/covid-change/cv.html">
 <h3 class="no-anchor listing-title">
-Changes in Perceived Risks and Government Attitudes to COVID-19 in New Zealand: years 2021 - 2022
+<a href="./posts/covid-change/cv.html" class="no-external">Changes in Perceived Risks and Government Attitudes to COVID-19 in New Zealand: years 2021 - 2022</a>
 </h3>
 <div class="listing-subtitle">
-New Zealand Attitudes and Values Study (Panel), N = 38,551 (28,642 retained)
+<a href="./posts/covid-change/cv.html" class="no-external">New Zealand Attitudes and Values Study (Panel), N = 38,551 (28,642 retained)</a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('NZAVS'); return false;">
 NZAVS
@@ -316,14 +346,12 @@ COVID
 Descriptive
 </div>
 </div>
-<a href="./posts/covid-change/cv.html">
 <div class="listing-description">
-We investigate changes in attitudes to COVID-19 from the Time 12 to the Time 13 waves of the…
+<a href="./posts/covid-change/cv.html" class="no-external">We investigate changes in attitudes to COVID-19 from the Time 12 to the Time 13 waves of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/covid-change/cv.html">
+<a href="./posts/covid-change/cv.html" class="no-external">
 <div class="listing-date">
 Nov 18, 2022
 </div>
@@ -333,19 +361,19 @@ Joseph Bulbulia, Chris G Sibley
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="Background,NZAVS" data-listing-date-sort="1668423600000" data-listing-file-modified-sort="1669034787865" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11">
+<div class="quarto-post image-right" data-index="4" data-categories="Background,NZAVS" data-listing-date-sort="1668423600000" data-listing-file-modified-sort="1709602077510" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2074">
 <div class="thumbnail">
-<p><a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html"> <p class="card-img-top"><img src="posts/virtue-measures/fig1.png"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html" class="no-external"></a></p><a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html" class="no-external">
+<p class="card-img-top"><img src="posts/virtue-measures/fig1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html">
 <h3 class="no-anchor listing-title">
-NZAVS Virtue Measures introduced in 2018
+<a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html" class="no-external">NZAVS Virtue Measures introduced in 2018</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Background'); return false;">
 Background
@@ -354,33 +382,31 @@ Background
 NZAVS
 </div>
 </div>
-<a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html">
 <div class="listing-description">
-In 2018, the New Zealand Attitudes and Values Study (NZAVS) developed the following measures to investigate classical theories of virtue and human flourishing.
+<a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html" class="no-external">In 2018, the New Zealand Attitudes and Values Study (NZAVS) developed the following measures to investigate classical theories of virtue and human flourishing.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html">
+<a href="./posts/virtue-measures/2018-NZAVS-New Virtue-Measures.html" class="no-external">
 <div class="listing-date">
 Nov 15, 2022
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="Causal Inference,Methods" data-listing-date-sort="1667646000000" data-listing-file-modified-sort="1669067705534" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="5" data-categories="Causal Inference,Methods" data-listing-date-sort="1667646000000" data-listing-file-modified-sort="1709613338115" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="937">
 <div class="thumbnail">
-<p><a href="./posts/confounder-treatment-feedback/conf-out-feedback.html"> <img src="./posts/confounder-treatment-feedback/tv.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/confounder-treatment-feedback/conf-out-feedback.html" class="no-external"></a></p><a href="./posts/confounder-treatment-feedback/conf-out-feedback.html" class="no-external">
+<p><img src="./posts/confounder-treatment-feedback/tv.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/confounder-treatment-feedback/conf-out-feedback.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/confounder-treatment-feedback/conf-out-feedback.html">
 <h3 class="no-anchor listing-title">
-On the Problem of Treatment Confounder Feedback
+<a href="./posts/confounder-treatment-feedback/conf-out-feedback.html" class="no-external">On the Problem of Treatment Confounder Feedback</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/confounder-treatment-feedback/conf-out-feedback.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
 Causal Inference
@@ -389,14 +415,12 @@ Causal Inference
 Methods
 </div>
 </div>
-<a href="./posts/confounder-treatment-feedback/conf-out-feedback.html">
 <div class="listing-description">
-Causation occurs in time. Therefore, investigating the relationship between cause and effect requires time series data.
+<a href="./posts/confounder-treatment-feedback/conf-out-feedback.html" class="no-external">Causation occurs in time. Therefore, investigating the relationship between cause and effect requires time series data.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/confounder-treatment-feedback/conf-out-feedback.html">
+<a href="./posts/confounder-treatment-feedback/conf-out-feedback.html" class="no-external">
 <div class="listing-date">
 Nov 6, 2022
 </div>
@@ -406,19 +430,19 @@ Joseph Bulbulia
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="Causal Inference,NZAVS,Methods" data-listing-date-sort="1667559600000" data-listing-file-modified-sort="1683852197726" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="6" data-categories="Causal Inference,NZAVS,Methods" data-listing-date-sort="1667559600000" data-listing-file-modified-sort="1709602077508" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="873">
 <div class="thumbnail">
-<p><a href="./posts/g-computation/g-computation.html"> <img src="./posts/g-computation/gc.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/g-computation/g-computation.html" class="no-external"></a></p><a href="./posts/g-computation/g-computation.html" class="no-external">
+<p><img src="./posts/g-computation/gc.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/g-computation/g-computation.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/g-computation/g-computation.html">
 <h3 class="no-anchor listing-title">
-G-computation in NZAVS Studies
+<a href="./posts/g-computation/g-computation.html" class="no-external">G-computation in NZAVS Studies</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/g-computation/g-computation.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
 Causal Inference
@@ -430,14 +454,12 @@ NZAVS
 Methods
 </div>
 </div>
-<a href="./posts/g-computation/g-computation.html">
 <div class="listing-description">
-Suppose we want to infer whether a binary exposure has a causal effect. We must answer three questions:
+<a href="./posts/g-computation/g-computation.html" class="no-external">Suppose we want to infer whether a binary exposure has a causal effect. We must answer three questions:</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/g-computation/g-computation.html">
+<a href="./posts/g-computation/g-computation.html" class="no-external">
 <div class="listing-date">
 Nov 5, 2022
 </div>
@@ -447,19 +469,19 @@ Joseph Bulbulia
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="Causal Inference,NZAVS,Outcome-wide Science,Methods" data-listing-date-sort="1667559600000" data-listing-file-modified-sort="1669067743946" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="7" data-categories="Causal Inference,NZAVS,Outcome-wide Science,Methods" data-listing-date-sort="1667559600000" data-listing-file-modified-sort="1709602077510" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="972">
 <div class="thumbnail">
-<p><a href="./posts/outcomewide/outcome-wide.html"> <img src="./posts/outcomewide/ow.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/outcomewide/outcome-wide.html" class="no-external"></a></p><a href="./posts/outcomewide/outcome-wide.html" class="no-external">
+<p><img src="./posts/outcomewide/ow.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/outcomewide/outcome-wide.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/outcomewide/outcome-wide.html">
 <h3 class="no-anchor listing-title">
-Outcome-wide Science in NZAVS Studies
+<a href="./posts/outcomewide/outcome-wide.html" class="no-external">Outcome-wide Science in NZAVS Studies</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/outcomewide/outcome-wide.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Causal Inference'); return false;">
 Causal Inference
@@ -474,14 +496,12 @@ Outcome-wide Science
 Methods
 </div>
 </div>
-<a href="./posts/outcomewide/outcome-wide.html">
 <div class="listing-description">
-Confounding occurs when the statistical association between indicators in the data…
+<a href="./posts/outcomewide/outcome-wide.html" class="no-external">Confounding occurs when the statistical association between indicators in the data do not reflect a causal association between parameters in a target population. A causal…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/outcomewide/outcome-wide.html">
+<a href="./posts/outcomewide/outcome-wide.html" class="no-external">
 <div class="listing-date">
 Nov 5, 2022
 </div>
@@ -491,19 +511,19 @@ Joseph Bulbulia
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="Background,NZAVS" data-listing-date-sort="1667473200000" data-listing-file-modified-sort="1668115952534" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12">
+<div class="quarto-post image-right" data-index="8" data-categories="Background,NZAVS" data-listing-date-sort="1667473200000" data-listing-file-modified-sort="1709602077509" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2387">
 <div class="thumbnail">
-<p><a href="./posts/nzavsnetwork/nzavs_network.html"> <img src="./posts/nzavsnetwork/a_plot.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/nzavsnetwork/nzavs_network.html" class="no-external"></a></p><a href="./posts/nzavsnetwork/nzavs_network.html" class="no-external">
+<p><img src="./posts/nzavsnetwork/a_plot.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/nzavsnetwork/nzavs_network.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/nzavsnetwork/nzavs_network.html">
 <h3 class="no-anchor listing-title">
-NZAVS Retention Graph
+<a href="./posts/nzavsnetwork/nzavs_network.html" class="no-external">NZAVS Retention Graph</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/nzavsnetwork/nzavs_network.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Background'); return false;">
 Background
@@ -512,14 +532,12 @@ Background
 NZAVS
 </div>
 </div>
-<a href="./posts/nzavsnetwork/nzavs_network.html">
 <div class="listing-description">
-The fundamental challenge of longitudinal research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). Fi…
+<a href="./posts/nzavsnetwork/nzavs_network.html" class="no-external">The fundamental challenge of longitudinal research is participant retention. This graph presents sample retention for the New Zealand Attitudes and Values Study (NZAVS). Figu…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/nzavsnetwork/nzavs_network.html">
+<a href="./posts/nzavsnetwork/nzavs_network.html" class="no-external">
 <div class="listing-date">
 Nov 4, 2022
 </div>
@@ -529,19 +547,19 @@ Joseph Bulbulia, Chris G Sibley
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="Background,NZAVS" data-listing-date-sort="1667300400000" data-listing-file-modified-sort="1677825920768" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
+<div class="quarto-post image-right" data-index="9" data-categories="Background,NZAVS" data-listing-date-sort="1667300400000" data-listing-file-modified-sort="1709602077509" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1747">
 <div class="thumbnail">
-<p><a href="./posts/nzavs/index.html"> <img src="./posts/nzavs/timeline-1.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/nzavs/index.html" class="no-external"></a></p><a href="./posts/nzavs/index.html" class="no-external">
+<p><img src="./posts/nzavs/timeline-1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/nzavs/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/nzavs/index.html">
 <h3 class="no-anchor listing-title">
-The New Zealand Attitudes and Values Study
+<a href="./posts/nzavs/index.html" class="no-external">The New Zealand Attitudes and Values Study</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/nzavs/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Background'); return false;">
 Background
@@ -550,14 +568,12 @@ Background
 NZAVS
 </div>
 </div>
-<a href="./posts/nzavs/index.html">
 <div class="listing-description">
-The New Zealand Attitudes and Values Study (NZAVS) is a national…
+<a href="./posts/nzavs/index.html" class="no-external">The New Zealand Attitudes and Values Study (NZAVS) is a national panel study that Professor Chris G Sibley started in 2009. The study has surveyed 69,021 New Zealanders. The…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/nzavs/index.html">
+<a href="./posts/nzavs/index.html" class="no-external">
 <div class="listing-date">
 Nov 2, 2022
 </div>
@@ -567,19 +583,19 @@ Joseph Bulbulia
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="Background,Lab" data-listing-date-sort="1667041200000" data-listing-file-modified-sort="1669068166769" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2">
+<div class="quarto-post image-right" data-index="10" data-categories="Background,Lab" data-listing-date-sort="1667041200000" data-listing-file-modified-sort="1709602077511" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="204">
 <div class="thumbnail">
-<p><a href="./posts/welcome/index.html"> <p class="card-img-top"><img src="posts/welcome/jb.jpg"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/welcome/index.html" class="no-external"></a></p><a href="./posts/welcome/index.html" class="no-external">
+<p class="card-img-top"><img src="posts/welcome/jb.jpg"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/welcome/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/welcome/index.html">
 <h3 class="no-anchor listing-title">
-Welcome to the b-causal lab
+<a href="./posts/welcome/index.html" class="no-external">Welcome to the b-causal lab</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/welcome/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Background'); return false;">
 Background
@@ -588,14 +604,12 @@ Background
 Lab
 </div>
 </div>
-<a href="./posts/welcome/index.html">
 <div class="listing-description">
-Hello. My name is Joseph Bulbulia (Joe). I am a Professor of Psychology at Victoria University of Wellington, a member of the New Zealand Attitudes and Values Senior…
+<a href="./posts/welcome/index.html" class="no-external">Hello. My name is Joseph Bulbulia (Joe). I am a Professor of Psychology at Victoria University of Wellington, a member of the New Zealand Attitudes and Values Senior…</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/welcome/index.html">
+<a href="./posts/welcome/index.html" class="no-external">
 <div class="listing-date">
 Oct 30, 2022
 </div>
@@ -609,7 +623,7 @@ Joseph Bulbulia
 <div class="listing-no-matching d-none">
 No matching items
 </div>
-</div><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div>CC BY-NC-SA</div></div></section></div></main> <!-- /main -->
+</div><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -689,10 +703,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -702,8 +733,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -715,7 +755,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -759,6 +922,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -784,6 +948,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -844,6 +1034,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
