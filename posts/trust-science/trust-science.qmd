@@ -24,7 +24,7 @@ format:
   html:
     code-fold: true
     code-summary: "Show the code"
-bibliography: references.bib
+bibliography: /Users/joseph/GIT/b-causal/posts/trust-science/references.bib
 editor_options: 
   chunk_output_type: console
 ---
@@ -65,11 +65,11 @@ Previous research using a propensity score design reported on changes in Trust i
 
 ### Sample responses: years 2019-2020: Pre-Covid, Lockdown, Post-Lockdown
 
-```{r setup}
+```{r}
 #| include: false
 #| echo: false
 #| warning: false
-#source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
+source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
 
 # if you run mlim for imputation, comment out the source file and run these libraries
 # library(tidyverse)
@@ -79,6 +79,7 @@ Previous research using a propensity score design reported on changes in Trust i
 # read functions
 
 # for mice functions see: https://amices.org/mice/
+options(repos = c(CRAN = "https://cloud.r-project.org"))
 
 source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")
 

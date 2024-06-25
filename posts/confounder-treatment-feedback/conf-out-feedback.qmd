@@ -26,7 +26,7 @@ categories:
   - Causal Inference
   - Methods
 citation-location: margin
-references: ./references.bib
+references: /Users/joseph/GIT/b-causal/posts/confounder-treatment-feedback/references.bib
 ---
 
 <!-- ```{r} -->
