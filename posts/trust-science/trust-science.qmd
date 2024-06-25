@@ -1,19 +1,17 @@
 ---
-title: "Exploring Institutional Trust in New Zealand Pre/Post COVID-19 Pandemic" 
+title: "Institutional Trust in New Zealand Pre/Post COVID-19 Pandemic" 
 subtitle: "New Zealand Attitudes and Values Study: Years 2019-2022 N = 42,681"
 date: 2023-03-23
 date-format: short
 author: 
-  - name: Authors TBA
-    affiliation: TBA
-  - name: Chris G Sibley
-    orcid: 0000-0002-4064-8800
-    affiliation: University of Auckland,  New Zealand
   - name: Joseph Bulbulia
     orcid: 0000-0002-5861-2056
     affiliation: Victoria University of Wellington, New Zealand
     email: joseph.bulbulia@vuw.ac.nz
     corresponding: yes
+  - name: Chris G Sibley
+    orcid: 0000-0002-4064-8800
+    affiliation: University of Auckland,  New Zealand
 categories:
   - NZAVS
   - COVID
@@ -33,7 +31,7 @@ editor_options:
 
 ## NZAVS Report on Institutional Trust Pre/Post COVID
 
-This report delves into the changes in institutional trust among New Zealanders from the pre-pandemic period in 2019 to 2022.
+We investigate changes to institutional trust among New Zealanders from the pre-pandemic period in 2019 to 2022.
 
 The New Zealand Attitudes and Values Study uses a two-item scale to measure **Trust in Science**
 
@@ -41,8 +39,8 @@ The New Zealand Attitudes and Values Study uses a two-item scale to measure **Tr
 
 -   "Our society places too much emphasis on science."(reverse coded) 
 
-We average these scores to form a single score [@hartman2017]. ^[We do not blindly adhere to the standard measurement approaches in psychometrics.  It might be preferable to work with single items instead of the averaged score. See [@vanderweele2022] for more information on this point.]
-These items were introduced in NZAVS Wave 11 (2019 - 2020) ^[We must be cautious: causal identification requires contrasting outcomes under different exposures.  Because all were exposed to the COVID-19 pandemic, these contrasts are not identified without the strong assumption that there were no pre-existing trends in the acceptance of science before the COVID-19 pandemic struck.]
+We average these scores to form a single score [@hartman2017]. 
+These items were introduced in NZAVS Wave 11 (2019 - 2020).
 
 Previous research using a propensity score design reported on changes in Trust in Science during the first three weeks of New Zealand's COVID lockdown in March and April 2020 [@sibley2020].
 
@@ -301,7 +299,7 @@ We observe:
 3.  Trust in politicians increased during the lockdown period. It decreased slightly in the post-lockdown period but remained higher than in the pre-Covid period.
 4. Conspiracy Beliefs: the average mistrust of official versions of major world events given by authorities appear to decrease during lockdown but subsequently decrease.
 
-Notably, the central tendency may not always be the interesting statistic for understanding social change. There may be greater galvanisation in response that is masked by overall average response.  In future work, we will examine this point.  For now, the trends suggest overall stability during 2019-2020, with increasing confidence in science.  
+Notably, the central tendency may not always be the interesting statistic for understanding social change. There may be greater separation in response that is masked by overall average response.  In future work, we will examine this point.  For now, the trends suggest overall stability during 2019-2020, with increasing confidence in science.  
 
 
 ### NZAVS sample responses: years 2019-2022
@@ -750,7 +748,7 @@ tab_trust_mice |>
   kbl(format = "markdown", booktabs = TRUE)
 ```
 
-The imputed data contain ten imputed datasets plus the original data with missing values.  We will need to adjust for the uncertainities of multiple imputation using Rubin's rule.
+The data consist of ten imputed datasets plus the original data with missing values.  We will need to adjust for the uncertainities of multiple imputation using Rubin's rule.
 
 Additionally, we are now grouping pre and post responses together in the 2019 wave. So we are no longer identifying specific responses of to the COVID pandemic and response. To identify the specific effects of the COVID pandemic and response requires care. There are no contrasts from which to derive comparisons. That is, because all in the population were subject to the exposure, we cannot straightforwardly infer how people would have responded were they not exposed. We will return to this issue in future work.
 
