@@ -2,7 +2,7 @@
 title: "M-Bias: Confounding Control Using Three Waves of Panel Data"
 format: html
 title-block-style: plain
-bibliography: references.bib
+bibliography: /Users/joseph/GIT/b-causal/posts/m-bias/references.bib
 date: 2022-11-22
 date-format: short
 image: "m-bias.png"
@@ -100,43 +100,7 @@ By including forgiveness in our model, we've inadvertently introduced a correlat
 ## The Power of Baseline Measures
 
 
-One might think the solution is simple - don't include forgiveness in the model. However, our understanding of causal relationships is often imperfect, and there may be plausible reasons to believe that forgiveness does, in fact, influence perfectionism. Indeed, it seems plausible that if I am more forgiving of other I will be more forgiving of my imperfections.  
-
-To mitigate bias, we incorporate both prior measurements of the exposure and the outcome in our studies. By doing so, we control for unmeasured confounders that could bias our results. The logic is that any such bias would need to be orthogonal to the measurement of the outcome at baseline. This strategy is depicted in @fig-2.
-
-```{tikz} 
-#| label: fig-2
-#| fig-cap: "M-bias: confounding control by including previous measures of the outcome"
-#| out-width: 100%
-#| echo: false
-
-
-\usetikzlibrary{positioning}
-\usetikzlibrary{shapes.geometric}
-\usetikzlibrary{arrows}
-\usetikzlibrary{decorations}
-\tikzstyle{Arrow} = [->, thin, preaction = {decorate}]
-\tikzstyle{DoubleArrow} = [-, preaction = {decorate}]
-\tikzset{>=latex}
-
-\begin{tikzpicture}[{every node/.append style}=draw]
-
-\node [rectangle, draw=white] (U1) at (0, 2) {Childhood~Schooling};
-\node [rectangle, draw=white] (U2) at (0, -2) {Childhood~Religion};
-\node [rectangle, draw=black, align=left] (L) at (4, 0) {t0/Forgiveness\\t0/Perfectionism\\t0/Humility};
-\node [rectangle, draw=white] (A) at (8, 0) {t1/Perfectionism};
-\node [rectangle, draw=white] (Y) at (12, 0) {t2/Humility};
-
-\draw [-latex, draw=black] (U1) to (L);
-\draw [-latex, draw =black] (U2) to (L);
-\draw [-latex, draw=black, bend left,dotted] (U1) to (Y);
-\draw [-latex, draw =black, bend right,dotted] (U2) to (Y);
-\draw [-latex,  draw=red, black, dotted] (A) to (Y);
-\draw [-latex, draw =black] (L) to (A);
-
-
-\end{tikzpicture}
-```
+One might think the solution is simple - don't include forgiveness in the model. However, our understanding of causal relationships is often imperfect, and there may be plausible reasons to believe that forgiveness does, in fact, influence perfectionism.  If this were the case, to avoid bias, we would need to condition on a proxy of the unmeasured variables. This strategy might not completely avoid bias, which is why it is important to include sensitivity analyses to assess how much unmeasured confounding would be required to explain a result away [@vanderweele2017]
 
 
 ## Conclusion

@@ -1,0 +1,1317 @@
+---
+title: "Changes in Perceived Risks and Government Attitudes to COVID-19 in New Zealand: years 2021 - 2022"
+subtitle: "New Zealand Attitudes and Values Study (Panel), N = 38,551 (28,642 retained)"
+execute:
+  warning: false
+  echo: false
+draft: false
+author: 
+  - name: Joseph Bulbulia
+    orcid: 0000-0002-5861-2056
+    affiliation: Victoria University of Wellington, New Zealand
+    email: joseph.bulbulia@vuw.ac.nz
+    corresponding: yes
+  - name: Chris G Sibley
+    orcid: 0000-0002-4064-8800
+    affiliation: University of Auckland,  New Zealand
+citation:
+  url: https://go-bayes.github.io/b-causal/
+date: 2022-11-18
+date-format: short
+image: covid-change2.png
+categories: 
+  - NZAVS
+  - COVID
+  - Descriptive
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+bibliography: /Users/joseph/GIT/b-causal/posts/covid-change/references.bib
+---
+
+```{r, include = FALSE}
+# covid omnibus
+# joseph bulbulia  1 NOV 2022
+
+# options(future.globals.maxSize = 8000 * 1024 ^ 2)  # needed
+# set science digits
+options(scipen = 999)
+
+# function for installing dependencies
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg))
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+# usage
+packages <- c("tidyverse",
+              "remotes",
+              "devtools",
+              "janitor",
+              "here",
+              "purrr",
+              "ggplot2",
+              "stdReg",
+              "mice",
+              "miceadds",
+              "Amelia",
+              "conflicted",
+              "naniar",
+              "skimr",
+              "marginaleffects",
+              "splines",
+             # "CMAverse",
+              "gghighlight",
+              "formula.tools",
+              "ggpubr",
+              "lme4",
+              "rstan",
+              "cmdstanr",
+              "geepack",
+              "brms",
+              "ggokabeito",
+              "table1",
+              "kableExtra",
+              "parameters",
+              "lubridate",
+              "patchwork",
+              "katex",
+               "ggeffects",
+               "report",
+               "gt",
+              "tidyr")
+ipak(packages)
+
+
+# next install rethinking
+# if (!require(rethinking)) {
+#   devtools::install_github("rmcelreath/rethinking")
+# }
+
+if (!require(CMAverse)) {
+  devtools::install_github("BS1125/CMAverse")
+}
+
+if (!require(equatiomatic)) {
+remotes::install_github("datalorax/equatiomatic")
+  }
+
+if (!require(gtsummary)) {
+  remotes::install_github("ddsjoberg/gtsummary")
+}
+
+
+# install.packages("remotes")
+
+# install.packages("remotes")
+
+if (!require(cmdstanr)) {
+ remotes::install_github("stan-dev/cmdstanr")
+ install_cmdstan()
+}
+
+if (!require(brms)) {
+  devtools::install_github("paul-buerkner/brms", build_vignettes = FALSE)
+
+}
+
+
+# rstan options
+rstan::rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores ())
+
+
+if (!require(cmdstanr)) {
+ remotes::install_github("stan-dev/cmdstanr")
+ install_cmdstan() 
+}
+
+# # libraries and functions
+# # read libraries
+# source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs.R")
+
+# read functions
+# source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/funs.R")
+
+# for saving models  # ONLY FOR JOSEPH BULUBLIA -- 
+push_mods <-
+  fs::path_expand("~/The\ Virtues\ Project\ Dropbox/outcomewide/mods")
+push_figs <-
+  fs::path_expand("~/Users/joseph/The\ Virtues\ Project\ Dropbox/outcomewide/figs")
+
+# read data # ONLY FOR JOSEPH BULUBLIA
+pull_path <-
+  fs::path_expand(
+    "~/The\ Virtues\ Project\ Dropbox/Joseph\ Bulbulia/00Bulbulia\ Pubs/2021/DATA/ldf.5"
+  )
+
+# read data
+dt <- readRDS(pull_path)
+
+# select data
+dt <- dt |>
+  dplyr::filter((Wave == "2020" & YearMeasured == 1) |
+                  (Wave == "2021"  & YearMeasured == 1)) |>
+  dplyr::filter(YearMeasured  != -1) %>% # remove people who passed away
+  group_by(Id) |>  # only those who were in 2020
+  dplyr::mutate(org2020 =  ifelse(Wave == 2020 &
+                                    YearMeasured == 1, 1, 0)) %>%  # creating an indicator for the first wave
+  dplyr::mutate(hold20 = mean(org2020, na.rm = TRUE)) %>%  # Hack
+  dplyr::filter(hold20 > 0) %>% # hack to enable repeat of baseline
+  ungroup() %>%
+  droplevels() %>%
+    dplyr::mutate(Euro = if_else(EthCat == 1, 1, 0),
+                SexualOrientation = as.factor(if_else(SexualOrientationL1 == 1,
+                                                      "Heterosexual",
+                                                      if_else(SexualOrientationL1==2, "Homosexual", "OtherSexuality" )))) %>%
+  dplyr::mutate(Gender3 = as.factor(ifelse(GendAll == 0, "Female", if_else(GendAll == 1, "Male", "GenderDiverse")))) %>%
+  mutate(wave = as.numeric(Wave) - 1) |>
+  arrange(Id, Wave)
+
+levels(dt$Wave) <-c("Time12","Time13")
+
+
+N <- length(unique(dt$Id))
+
+# below not run
+
+# inspect 
+cvd_vars = c(
+  "COVID19.Timeline",
+  "COVID.RiskCatching",
+  "COVID.Rumination",
+  "COVID.ConfidentRecovery",
+  "COVID.RisksExaggerated",
+  "COVID.CreatedLab",
+  "COVID.InfoSourceGovt",
+  "COVID.InfoSourceNewsMedia",
+  "COVID.InfoSourceSocialMedia",
+  "COVID.SatGovtResponse",
+  "COVID.TrustGovtResponse",
+  "COVID.ComplianceTesting",
+  "COVID.ComplianceVaccinate",
+  "COVID.ComplianceMask",
+  "COVID.ComplianceIsolateHome",
+  "COVID.ComplianceContactTrace",
+  "COVID.ComplianceAllMoHGuidelines",
+  "COVID.BeenTested",
+  "COVID.RequestTest",
+  "COVID.DeclineReq",
+  "COVID.Vaccinated",
+  "COVID.VaccinatedIntend",
+  "COVID.VaccinationSafe",
+  "COVID.VaccinatedRefusal"
+)
+# cvd_vars
+# out2 <- paste0(cvd_vars,
+#                collapse = "+")
+# out2 <- noquote(out2)
+```
+
+
+
+
+## Summary
+
+(1) New Zealanders report high levels of trust and satisfaction with the New Zealand Government's response to COVID-19. However, levels of trust and satisfaction have waned somewhat from 2021 to 2022.[^1]
+(2) Despite relatively low mortality rates, New Zealanders do not generally believe that COVID-19 risks have been exaggerated. However, the perceived exaggeration of COVID-19 risks increased from 2021-2022.[^2]
+(3) There has been an increase in belief that COVID-19 was manufactured in a laboratory.[^3]
+(4) Results remain unchanged in models that impute missing data arising from sample attrition.
+
+[^1]: We make no judgment about the New Zealand Government response to COVID-19.
+
+[^2]: We make no judgment about the communication of risks from COVID-19.
+
+[^3]: We make no judgment about the origins of COVID-19.
+
+## Purpose
+
+We investigate changes in attitudes to COVID-19 from the Time 12 to the Time 13 waves of the New Zealand Attitudes and Values Study (NZAVS). The NZAVS is a national probability panel study of attitudes and values in New Zealanders, started by Chris G. Sibley in 2009 (see:[NZAVS homepage](https://www.psych.auckland.ac.nz/en/about/new-zealand-attitudes-and-values-study.html) and [link](https://go-bayes.github.io/b-causal/posts/nzavs/))
+
+There were $N = 38,551$ participants who responded to the NZAVS at Time 12 and $n = 28,642$ participants who responded at Time 13.
+
+## Covid attitude items repeated in NZAVS Time 12 and Time 13
+
+The NZAVS recorded the following four attitudes to COVID-19 in both Time 12 and Time 13:
+
+**Covid risks are exaggerated**
+
+-   "I think that health risks associated with COVID-19 have been wildly exaggerated." (1-7)
+
+**Covid created in a lab**
+
+-   "I think it is quite likely that COVID-19 was created in a laboratory." (1-7)
+
+**COVID-19 Trust Government response**
+
+-   "I trust the Government to make sensible decisions about how to best manage COVID-19 in New Zealand." (1-7)
+
+**COVID-19 Satisfied with Government response**
+
+-   "The New Zealand government response to COVID-19." (0-10)
+
+## Boxplot indicates decline in both perceived risks of COVID & Satisfaction with Government Response
+
+
+
+
+```{r}
+#| echo: false
+#| label: prepare-data
+
+# prepare data frames 
+# filter just the variables we need
+dt_temp <- dt |> select(
+  Wave,
+  COVID.RisksExaggerated,
+  COVID.CreatedLab,
+  COVID.TrustGovtResponse,
+  COVID.SatGovtResponse,
+)
+
+# boxplot dataframe
+dt_long <- pivot_longer(
+  dt_temp,
+  cols = -c("Wave"),
+  names_prefix = "COVID.",
+  values_to = "Values",
+  names_to = "Attitudes"
+) |>
+  drop_na()
+
+# inspect 
+cvd_vars = c(
+  "COVID19.Timeline",
+  "COVID.RiskCatching",
+  "COVID.Rumination",
+  "COVID.ConfidentRecovery",
+  "COVID.RisksExaggerated",
+  "COVID.CreatedLab",
+  "COVID.InfoSourceGovt",
+  "COVID.InfoSourceNewsMedia",
+  "COVID.InfoSourceSocialMedia",
+  "COVID.SatGovtResponse",
+  "COVID.TrustGovtResponse",
+  "COVID.ComplianceTesting",
+  "COVID.ComplianceVaccinate",
+  "COVID.ComplianceMask",
+  "COVID.ComplianceIsolateHome",
+  "COVID.ComplianceContactTrace",
+  "COVID.ComplianceAllMoHGuidelines",
+  "COVID.BeenTested",
+  "COVID.RequestTest",
+  "COVID.DeclineReq",
+  "COVID.Vaccinated",
+  "COVID.VaccinatedIntend",
+  "COVID.VaccinationSafe",
+  "COVID.VaccinatedRefusal"
+)
+
+# model data frame
+dt_model <- dt |> select(
+  Id,
+  Wave,
+  wave,
+  COVID.RisksExaggerated,
+  COVID.CreatedLab,
+  COVID.TrustGovtResponse,
+  COVID.SatGovtResponse
+) |>
+  arrange(Id, Wave)
+
+```
+
+
+
+
+In 2021, beliefs that COVID=19 was created in a lab were low. Raw response data suggest that tjese beliefs increased from in 2022.
+
+
+
+
+```{r}
+#| label: fig-boxplot-COVID-RISKS-EXAGGERATED
+#| column: page-left
+#| fig-cap: "Boxplot for Covid Created in a Lab attitudes: NZAVS Time 12 & NZAVS Time 13"
+
+# make graph
+plot_COVID.CreatedLab <- dt_model |>
+  ggplot2::ggplot(aes(Wave, COVID.CreatedLab, fill = Wave)) +
+  labs(title = "Belief that COVID Created in a Lab (1-7)",
+       subtitle = "NZ 2020/21 to 2021/22 (N = 38,551 (28,642 retained)") +
+  geom_boxplot(size = .05, notch = T) +
+  scale_fill_viridis_d(option = "C") +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+  theme(legend.position = "none") +
+  theme_classic()
+
+# graph 
+plot_COVID.CreatedLab
+```
+
+
+
+
+Although beliefs that risks for COVID-19 are low, raw response data suggest these beliefs increased between 2021 and 2022.
+
+
+
+
+```{r}
+#| label: fig-boxplot-COVID-LAB
+#| column: page-left
+#| fig-cap: "Boxplot for Covid Risk Exaggerated attitudes: NZAVS Time 12 & NZAVS Time 13"
+
+# make graph
+plot_COVID.RisksExaggerated <- dt_model |>
+  ggplot2::ggplot(aes(Wave, COVID.RisksExaggerated, fill = Wave)) +
+  labs(title = "Belief that COVID Risks are Exaggered (1-7)",
+       subtitle = "NZ 2020/21 to 2021/22 (N = 38,551 (28,642 retained)") +
+  geom_boxplot(size = .05, notch = T) +
+  scale_fill_viridis_d(option = "C") +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+  theme(legend.position = "none") +
+  theme_classic()
+
+# graph 
+plot_COVID.RisksExaggerated
+```
+
+
+
+
+Although trust in the NZ government COVID-19 response is high, raw response data suggest trust dropped between 2021 and 2022.
+
+
+
+
+```{r}
+#| label: fig-boxplot-COVID.TrustGovtResponse
+#| column: page-left
+#| fig-cap: "Boxplot for Trust Government Response attitudes: NZAVS Time 12 & NZAVS Time 13"
+
+# make graph 
+plot_COVID.TrustGovtResponse <- dt_model |>
+  ggplot2::ggplot(aes(Wave,COVID.TrustGovtResponse, fill = Wave)) +
+  labs(title = "Trust in NZ Government response (1-7)",
+       subtitle = "NZ 2020/21 to 2021/22, N = 38,551, (28,642 retained)") +
+  geom_boxplot(size = .05, notch = T) +
+  scale_fill_viridis_d(option = "C") +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+  theme(legend.position = "none") +
+  theme_classic()
+
+# graph 
+plot_COVID.TrustGovtResponse
+```
+
+```{r}
+#| label: save-graph
+#| eval: false
+
+ggsave(
+  plot_COVID.TrustGovtResponse,
+  path = here::here(here::here("posts", "covid-change")),
+  width = 8,
+  height = 10,
+  units = "in",
+  filename = "covid-change2.png",
+  device = 'png',
+  limitsize = FALSE,
+  dpi = 200
+)
+```
+
+
+
+
+Although Satisfaction with the NZ Government response to COVID-19 is high, raw response data suggest satisfaction dropped between 2021 and 2022.
+
+
+
+
+```{r}
+#| label: fig-boxplot-COVID.SatGovtResponse
+#| column: page-left
+#| fig-cap: "Boxplot for Satisfied with Government Response attitudes: NZAVS Time 12 & NZAVS Time 13"
+
+# make graph 
+plot_COVID.SatGovtResponse<- dt_model |>
+  ggplot2::ggplot(aes(Wave, COVID.SatGovtResponse, fill = Wave)) +
+  labs(title = "Satisfied with the New Zealand Government response (0-10)",
+       subtitle = "NZ 2020/21 to 2021/22, N = 38,551, (28,642 retained)") +
+  geom_boxplot(size = .05, notch = T) +
+  scale_fill_viridis_d(option = "C") +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+  theme(legend.position = "none") +
+  theme_classic()
+
+
+plot_COVID.SatGovtResponse
+```
+
+
+
+
+## Model
+
+Next, we formally model change in COVID attitudes using multilevel models.
+
+
+
+
+```{r, cache = TRUE}
+#| label: models-ml
+# Models
+
+library(lme4)
+library(parameters)
+
+m1 <- lmer(COVID.RisksExaggerated ~  wave + (1|Id), data = dt_model)
+
+m2 <- lmer(COVID.CreatedLab ~  wave + (1|Id), data = dt_model)
+
+m3 <- lmer(COVID.TrustGovtResponse ~  wave + (1|Id), data = dt_model)
+
+m4 <- lmer(COVID.SatGovtResponse ~  wave + (1|Id), data = dt_model)
+
+```
+
+
+
+
+Results presented in @tbl-tables and @fig-graphs show the magnitudes of change in response across the four indicators of COVID-19 attitudes.
+
+
+
+
+```{r, cache = TRUE}
+#| label: tbl-tables
+#| tbl-cap: "Model results"
+
+t1 <- model_parameters(
+  m1,
+  digits = 2,
+  ci = 0.95,
+  bootstrap = TRUE,
+  iterations = 100
+)
+
+
+t2 <- model_parameters(
+  m2,
+  digits = 2,
+  ci = 0.95,
+  bootstrap = TRUE,
+  iterations = 100
+) 
+
+
+t3 <- model_parameters(
+  m3,
+  digits = 2,
+  ci = 0.95,
+  bootstrap = TRUE,
+  iterations = 100
+) 
+
+t4 <- model_parameters(
+  m4,
+  digits = 2,
+  ci = 0.95,
+  bootstrap = TRUE,
+  iterations = 100
+) 
+
+# combined table
+compare_parameters(
+  t1,
+  t2,
+  t3,
+  t4,
+  groups = "wave",
+  column_names = c(
+    "Risks Exaggerated",
+    "Created Lab",
+    "Trust Govt Response",
+    "Sat Govt Response"
+  )
+) |>
+  print_html()
+
+```
+
+```{r}
+#| label: fig-graphs 
+#| column: page-left
+#| fig-cap: "Predicted responses in Time 12 and Time 13"
+
+library(ggeffects)
+library(patchwork)
+
+gg1 <- plot(ggpredict(m1, terms = "wave"),
+            add.data = TRUE,
+            dot.alpha = .003) +
+  scale_y_continuous(limits = c(1, 7)) +
+  labs(title = "Risks Exaggerated")
+
+
+gg2 <- plot(ggpredict(m2, terms = "wave"),
+            add.data = TRUE,
+            dot.alpha = .003) +
+  scale_y_continuous(limits = c(1, 7)) +
+  labs(title =  "COVID Created Lab")
+
+gg3 <- plot(ggpredict(m3, terms = "wave"),
+            add.data = TRUE,
+            dot.alpha = .003) +
+  scale_y_continuous(limits = c(1, 7)) +
+  labs(title =  "Trust Gov't Response")
+
+gg4 <- plot(ggpredict(m4, terms = "wave"),
+            add.data = TRUE,
+            dot.alpha = .003) +
+  scale_y_continuous(limits = c(0, 10)) +
+  labs(title =  "Satisfied Gov't Response")
+
+
+(gg1 + gg2 + gg3) / gg4  +
+  plot_annotation(title = "Change in Covid Attitudes: 2021-2022", subtitle = "Source: New Zealand Attitudes and Values Study, N = 38,551  (28,642 retained)")
+  
+```
+
+
+
+
+## Findings
+
+These models indicate overall high levels of support for the New Zealand Government Response to COVID 19, that has somewhat waned between NZAVS Time 12 and 13 (October 2020 - October 2022). Notably, these models do not adjust for bias from NZAVS sample attrition.
+
+We next investigate models that adjust for panel attrition by imputing missing responses.
+
+## Follow up: Bayesian models impute missing outcomes arising from loss to follow up
+
+Panel studies follow the same people over time. There is typically attrition of any panel over time. Where attrition is related to the outcomes of interest, this can lead to selection bias. That is, responses can be higher or lower because the residual panel systematically differs from initial cohort.
+
+We use Bayesian multilevel models to impute the missing data arising from panel attrition. Our models include a broad range of indicators measured in the baseline year (Time 12) that might affect panel attrition in the following year (Time 13)[^4]. We did not estimate missing predictor values at baseline. These values were excluded. Although exclusion at baseline may result in departure from the population estimate, the time effect estimate is consistent for the population with full response information at baseline. We estimated these models using the brms package in R using the packages default weakly informative priors [@bürkner2022].
+
+[^4]: These indicators are personality, age, gender-identification, ethnicity, employment, education, political orientation, social dominance orientation, right-wing authoritarianism, NZSEI employment status, Religious identification, parental status, partner status, urban residence.
+
+
+
+
+```{r, eval = FALSE}
+#| label: dat-prep-bayes
+
+# data prepared in separate folder "mi-qv" 
+# to save time we do not evaluate 
+dt <- dat |>
+  dplyr::mutate(Male = if_else(GendAll == 1,1,0),
+    Euro = if_else(EthCat == 1, 1, 0))|>
+  dplyr::select(
+    Id,
+    Wave,
+    Age,
+    Male,
+    Euro,
+    CONSCIENTIOUSNESS,
+    OPENNESS,
+    HONESTY_HUMILITY,
+    EXTRAVERSION,
+    NEUROTICISM,
+    AGREEABLENESS,
+    BornNZ,
+    Employed,
+    Urban,
+    Edu,
+    Pol.Orient,
+    SDO,
+    RWA,
+    NZSEI13,
+    NZDep.2018,
+    Religious,
+    Partner,
+    Parent,
+    TSCORE,
+    YearMeasured,
+    COVID.RisksExaggerated,
+    COVID.CreatedLab,
+    COVID.TrustGovtResponse,
+    COVID.SatGovtResponse
+  ) |>
+  dplyr::mutate(Employed = as.numeric(Employed)) |>
+  dplyr::filter((Wave ==  2020 & YearMeasured != -1) |
+                  (Wave ==  2021 & YearMeasured != -1)) |>
+  droplevels() |>
+  dplyr::mutate(org2020 =  ifelse(Wave == 2020 &
+                                    YearMeasured == 1, 1, 0)) %>%
+  group_by(Id) %>%
+  dplyr::mutate(hold = mean(org2020, na.rm = TRUE)) %>%  # Hack
+  filter(hold > 0) |>
+  dplyr::mutate(Edu = as.numeric(Edu)) |>
+  arrange(Id, Wave) |>
+  group_by(Id) |>
+  dplyr::mutate(Age_c = if_else(Wave == "2020", (Age), NA_real_)) %>%
+  fill(Age_c) %>%
+  dplyr::mutate(Male_c = if_else(Wave == "2020", as.numeric(Male), NA_real_)) %>%
+  fill(Male_c) %>%
+  dplyr::mutate(Euro_c = if_else(Wave == "2020", as.numeric(Euro), NA_real_)) %>%
+  fill(Euro_c) %>%
+  dplyr::mutate(CONSCIENTIOUSNESS_c = if_else(Wave == "2020", as.numeric(CONSCIENTIOUSNESS), NA_real_)) %>%
+  fill(CONSCIENTIOUSNESS_c) %>%
+  dplyr::mutate(OPENNESS_c = if_else(Wave == "2020", as.numeric(OPENNESS), NA_real_)) %>%
+  fill(OPENNESS_c) %>%
+  dplyr::mutate(HONESTY_HUMILITY_c = if_else(Wave == "2020", as.numeric(HONESTY_HUMILITY), NA_real_)) %>%
+  fill(HONESTY_HUMILITY_c) %>%
+  dplyr::mutate(EXTRAVERSION_c = if_else(Wave == "2020", as.numeric(EXTRAVERSION), NA_real_)) %>%
+  fill(EXTRAVERSION_c) %>%
+  dplyr::mutate(NEUROTICISM_c = if_else(Wave == "2020", as.numeric(NEUROTICISM), NA_real_)) %>%
+  fill(NEUROTICISM_c) %>%
+  dplyr::mutate(AGREEABLENESS_c = if_else(Wave == "2020", as.numeric(AGREEABLENESS), NA_real_)) %>%
+  fill(AGREEABLENESS_c) %>%
+  dplyr::mutate(BornNZ_c = if_else(Wave == "2020", as.numeric(BornNZ), NA_real_)) %>%
+  fill(BornNZ_c) %>%
+  dplyr::mutate(Pol.Orient_c = if_else(Wave == "2020", (Pol.Orient), NA_real_)) %>%
+  fill(Pol.Orient_c) %>%
+  dplyr::mutate(Religious_c = if_else(Wave == "2020", as.numeric(Religious), NA_real_)) %>%
+  fill(Religious_c) %>%
+  dplyr::mutate(Partner_c = if_else(Wave == "2020", (as.numeric(Partner)), NA_real_)) %>%
+  fill(Partner_c) %>%
+  dplyr::mutate(Parent_c = if_else(Wave == "2020", (as.numeric(Parent)), NA_real_)) %>%
+  fill(Parent_c) %>%
+  dplyr::mutate(NZDep.2018_c = if_else(Wave == "2020", (NZDep.2018), NA_real_)) %>%
+  fill(NZDep.2018_c) %>%
+  dplyr::mutate(Male_c = if_else(Wave == "2020", (as.numeric(Male)) / 2, NA_real_)) %>%
+  fill(Male_c) %>%
+  dplyr::mutate(Employed_c = if_else(Wave == "2020", (as.numeric(Employed)), NA_real_)) %>%
+  fill(Employed_c) %>%
+  dplyr::mutate(Edu_c = if_else(Wave == "2020", (Edu), NA_real_)) %>%
+  fill(Edu_c) %>%
+  dplyr::mutate(Urban_c = if_else(Wave == "2020", (as.numeric(Urban)), NA_real_)) %>%
+  fill(Urban_c) %>%
+  dplyr::mutate(SDO_c = if_else(Wave == "2020", (as.numeric(SDO)), NA_real_)) %>%
+  fill(SDO_c) %>%
+  dplyr::mutate(RWA_c = if_else(Wave == "2020", (as.numeric(RWA)), NA_real_)) %>%
+  fill(RWA_c) %>%
+  dplyr::mutate(NZSEI13_c = if_else(Wave == "2020", (as.numeric(NZSEI13)), NA_real_)) %>%
+  fill(NZSEI13_c) %>%
+  ungroup() %>%
+  select(
+    -c(
+      CONSCIENTIOUSNESS,
+      OPENNESS,
+      HONESTY_HUMILITY,
+      EXTRAVERSION,
+      NEUROTICISM,
+      AGREEABLENESS,
+      Employed,
+      Urban,
+      Edu,
+      Pol.Orient,
+      SDO,
+      RWA,
+      NZSEI13,
+      NZDep.2018,
+      Age,
+      Religious,
+      Partner,
+      Parent,
+      hold,
+      Age,
+      Male,
+      Euro,
+      BornNZ,
+      TSCORE,
+      org2020,
+      hold,
+      YearMeasured
+    )
+  ) |>
+  dplyr::mutate(wave = as.numeric(Wave) - 1) |>
+  dplyr::filter(
+    !is.na(CONSCIENTIOUSNESS_c),
+    !is.na(OPENNESS_c),
+    !is.na(HONESTY_HUMILITY_c),
+    !is.na(EXTRAVERSION_c),
+    !is.na(NEUROTICISM_c),
+    !is.na(AGREEABLENESS_c),
+    !is.na(Age_c),
+    !is.na(BornNZ_c),
+    !is.na(Male_c),
+    !is.na(Edu_c),
+    !is.na(Employed_c),
+    !is.na(Euro_c),
+    !is.na(Parent_c),
+    !is.na(Partner_c),
+    !is.na(Religious_c),
+    !is.na(Pol.Orient_c),
+    !is.na(Urban_c),
+    !is.na(SDO_c),
+    !is.na(RWA_c),
+    !is.na(NZDep.2018_c),
+    !is.na(NZSEI13_c)
+  ) |>
+  dplyr::mutate(across(!c(Id, Wave), ~ as.numeric(.x))) %>% # make factors numeric for easy of processing
+  dplyr::mutate(across(
+    !c(
+      Id,
+      Wave,
+      wave,
+      COVID.RisksExaggerated,
+      COVID.CreatedLab,
+      COVID.TrustGovtResponse,
+      COVID.SatGovtResponse
+    ),
+    ~ scale(.x)
+  )) %>%  
+    mutate(across(where(is.double), as.numeric)) %>% 
+  arrange(Id, Wave)
+
+# rename wave
+levels(dt$Wave) <-
+  c("Time12", "Time13")
+
+# check n
+length(unique(dt$Id))
+
+# missing graph 
+naniar::gg_miss_var(dt)
+```
+
+```{r}
+#| label: bayes-trust-gov
+
+bform_COVID.TrustGovtResponse <-
+  bf(
+    COVID.TrustGovtResponse | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+m_1 <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.TrustGovtResponse,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods, "COVID.TrustGovtResponse_2020_2021.rds")
+)
+
+```
+
+```{r, include = FALSE, echo = TRUE}
+#| label: bayes-trust-gov-plot
+m1_p  <- plot(
+  conditional_effects(
+    m_1,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+    spaghetti = TRUE,
+    ndraws = 200,
+    plot = F
+  )
+)[[1]]
+
+bp_1 <- m1_p + labs(subtitle = "COVID Trust Govt Response",
+                    y = "Trust Govt Response",
+                    x = "Wave") +
+  scale_colour_okabe_ito(alpha = 1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(1, 7))
+```
+
+```{r}
+#| label: fig-bayes-sat-gov
+
+# COVID.SatGovtResponse
+bform_COVID.SatGovtResponse <-
+  bf(
+   COVID.SatGovtResponse | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+
+m_2 <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.SatGovtResponse,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods, "COVID.SatGovtResponse_2020_2021.rds")
+)
+
+
+```
+
+```{r, include = FALSE, echo = TRUE}
+#| label: bayes-sat-gov-plot
+
+m2_p  <- plot(
+  conditional_effects(
+    m_2,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+    spaghetti = TRUE,
+    ndraws = 200,
+    plot = F
+  ))[[1]]
+
+bp_2 <- m2_p + labs(subtitle = "COVID Satisfied with Govt Response",
+                    y = "Satisfied with Govt Response ",
+                    x = "Wave") +
+  scale_colour_okabe_ito(alpha = 1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(0, 10))
+
+```
+
+```{r}
+#| label: bayes-covid-lab
+
+bform_COVID.CreatedLab <-
+  bf(
+  COVID.CreatedLab | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+
+m_3 <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.CreatedLab,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods,"COVID.CreatedLab_2020_2021.rds")
+)
+```
+
+```{r, include = FALSE, echo = TRUE}
+#| label: bayes-covid-lab-plot 
+m3_p  <- plot(
+  conditional_effects(
+    m_3,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+    spaghetti = TRUE,
+    ndraws = 200,
+    plot = F
+  )
+)[[1]]
+
+bp_3 <- m3_p + labs(subtitle = "COVID Created in a Lab",
+                    y = "Covid Created Lab",
+                    x = "Wave") + 
+  scale_colour_okabe_ito(alpha = 1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(1, 7))
+
+```
+
+```{r}
+#| label: bayes-covid-risks
+
+
+bform_COVID.RisksExaggerated <- bf(
+    COVID.RisksExaggerated | mi()  ~ wave +  CONSCIENTIOUSNESS_c + OPENNESS_c + HONESTY_HUMILITY_c + EXTRAVERSION_c + NEUROTICISM_c + AGREEABLENESS_c + Age_c + BornNZ_c + Male_c + Edu_c  + Employed_c + Euro_c  + NZDep.2018_c + NZSEI13_c  + Parent_c  + Partner_c +  Religious_c + Pol.Orient_c + SDO_c + RWA_c + Urban_c + (1 | Id)
+  )
+
+m_0w <- brm(
+  backend = "cmdstanr",
+  data = dt,
+  family = "gaussian",
+  bform_COVID.RisksExaggerated,
+  #prior = prior,
+  init = 0,
+  file = here::here(push_mods, "COVID.RisksExaggerated_2020_2021_wave.rds")
+)
+```
+
+```{r, include = FALSE, echo = TRUE}
+#| label: fig-bayes-covid-lab-plot
+
+m0w_p  <- plot(
+  conditional_effects(
+    m_0w,
+    "wave",
+    points = TRUE,
+    alpha = .1,
+    jitter_width	= .1,
+    spaghetti = TRUE,
+    ndraws = 200,
+    plot = F
+  )
+)[[1]]
+
+bp_0 <- m0w_p + labs(subtitle = "COVID Risks Exaggerated",
+                     y = "Covid Risks Exaggeratedin (1-7) ",
+                     x = "Wave") +  
+  scale_colour_okabe_ito(alpha = 1) +
+  theme_classic()   +
+  scale_y_continuous(limits = c(1, 7))
+```
+
+```{r}
+#| label: fig-bayes
+#| column: page-left
+#| fig-cap: "To handle panel attrition Bayesian models impute missing outcomes"
+
+# graph using the patchwork library
+(
+  bp_0 + bp_1 + bp_3
+) / bp_2  +
+  plot_annotation(title = "Change in Covid Attitudes: 2021-2022", subtitle = "Source: New Zealand Attitudes and Values Study, N = 34,319")
+
+```
+
+
+
+
+@fig-bayes and @tbl-bayes-compare present the results of the Bayesian multilevel imputation models. These agree with the models that do not handle attrition. Conditional on the imputation model, then, we infer there was little bias in estimated average responses arising from panel attrition.
+
+
+
+
+```{r}
+#| label: tbl-bayes-compare
+#| tbl-cap: "Bayes models (missing data imputed) "
+# combined table
+
+
+# saved to save time
+# compare_bayes <- compare_parameters(
+#   m_0w,
+#   m_3,
+#   m_1,
+#   m_2,
+#   keep = c("Intercept", "wave"),
+#   component = "conditional",
+#   effects = "fixed",
+#   centrality = "mean",
+# column_names = c("Risks Exaggerated",
+#                  "Created Lab",
+#                  "Trust Govt Response",
+#                  "Sat Govt Response")
+# ) 
+# 
+# compare_bayes |>
+#   print_html()
+
+#saveRDS(compare_bayes, here::here("mods", "bayes-tab-compare_bayes"))
+
+# read table
+compare_bayes <- readRDS(here::here("mods", "bayes-tab-compare_bayes"))
+
+compare_bayes |>
+  print_html()
+
+```
+
+
+
+
+## Bayesian models do change inference
+
+Overall, New Zealanders do not perceive the risks of COVID-19 to be exaggerated. However, there was somewhat greater perception of exaggeration in 2022 compared with 2021. Here, we speculate about the causes of this dicline. COVID-19 only became widespread in New Zealand after the population was vaccinated. During 2022, about two-million New Zealanders reported testing positive for COVID-19 [source](https://www.health.govt.nz/covid-19-novel-coronavirus/covid-19-data-and-statistics/covid-19-current-cases#case-summary), of whom 3239 died within 28 days of their positive test. This low death-to-case-positive ratio perhaps motivate the somewhat greater perception of risk-exaggeration in 2022. The causes of change in risk-exaggeration remain unclear. The overall high rate in the perception of risk accuracy implies effective science communication.
+
+In 2022 beliefs that COVID-19 was manufactured in a laboratory increased. At present, there is some scientific disagreement about the origins of COVID-19 (see for example [link](https://www.thelancet.com/action/showPdf?pii=S0140-6736%2822%2901585-9)), even if most evidence points to a natural origin [source](https://www.science.org/content/article/evidence-suggests-pandemic-came-nature-not-lab-panel-says). Future NZAVS research will investigate whether growing beliefs in a laboratory origin are grounding in confidence in science or tendencies to conspiracy beliefs, or both.
+
+In 2022, New Zealanders continued to express high levels of trust in the New Zealand Government's response to COVID-19. However, levels of trust declined somewhat from where they were in 2021.
+
+Similarly, in 2022, New Zealanders continued to express high levels of satisfaction with New Zealand Government's response to COVID-19. However, levels of trust declined somewhat from where they were in 2021.
+
+High trust and satisfaction with the government's COVID-19 response might be partially explained by New Zealand's low COVID-19 death rate. Indeed, the low death rate might also explain **waning** trust and satisfaction. Suffering was averted. That is satisfying. The averted suffering is not directly observable -- it was averted. As such, the averted suffering remains intellectual. By contrast, the economic and social fallout of the pandemic was experienced, and continues to be experienced.\
+Future NZAVS research will systematically investigate the causal basis of trust and satisfaction with the New Zealand Government's COVID-19 response, which although falling, remains high.[^5]
+
+[^5]: For an explanation of why three-waves are required for causal inference see other research posted on <https://go-bayes.github.io/b-causal/>
+
+## Appendix A: Descriptive data
+
+Demographic data are presented in @tbl-demo. Response data are presented in @tbl-descriptive.
+
+
+
+
+```{r}
+#| label: tbl-demo
+
+dt |> 
+  select(
+    Wave,
+      Age,
+      Gender3,
+      EthnicCats,
+      BornNZ,
+      Employed,
+      Edu,
+      Pol.Orient,
+      SDO,
+      RWA,
+      NZSEI13,
+      NZDep.2018,
+      Age,
+      Religious,
+      Partner,
+      Parent,
+      CONSCIENTIOUSNESS,
+      OPENNESS,
+      HONESTY_HUMILITY,
+      EXTRAVERSION,
+      NEUROTICISM,
+      AGREEABLENESS
+  )%>% 
+  tbl_summary(by = Wave)
+```
+
+```{r, cache = TRUE}
+#| label: tbl-descriptive
+#| tbl-cap: "Descriptive table"
+
+table_x <- tbl_summary(
+  dt_temp,
+  by = "Wave",
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} / {N} ({p}%)"
+  ))
+
+# show
+table_x
+```
+
+
+
+
+## Appendix B: Model equations
+
+**Model 1**
+
+
+
+
+```{r}
+#| label: eq-1
+equatiomatic::extract_eq(m1)
+```
+
+
+
+
+**Model 2**
+
+
+
+
+```{r}
+#| label: eq-2
+equatiomatic::extract_eq(m2)
+```
+
+
+
+
+**Model 3**
+
+
+
+
+```{r}
+#| label: eq-3
+equatiomatic::extract_eq(m3)
+```
+
+
+
+
+**Model 4**
+
+
+
+
+```{r}
+#| label: eq-4
+equatiomatic::extract_eq(m4)
+```
+
+
+
+
+## Appendix C: All COVID-related questions (only four items repeated in 2022)
+
+NZAVS Time 12 (2019-2020) contains more indicators of COVID attitudes than those presented above. Responses are graphed in @fig-all.[^6]
+
+[^6]: We exclude the satisfaction with government response item because it is measured on an ordinal scale 0-10, whereas all other items are measured on an ordinal scale 1-7. Recall the satisfaction with government reponses are presented in @fig-boxplot-COVID.SatGovtResponse.
+
+
+
+
+```{r}
+#| echo: false
+#| label: fig-all
+#| fig-cap: "Attitudes to a broad range of COVID-19 attitudes measured in Time 12"
+
+# prepare data frames 
+# filter just the variables we need
+
+dt_temp <- dt |> 
+ dplyr::filter(Wave == "Time12") |> 
+  select(
+    "Wave",
+  "COVID.RiskCatching",
+  "COVID.Rumination",
+  "COVID.ConfidentRecovery",
+  "COVID.RisksExaggerated",
+  "COVID.CreatedLab",
+  "COVID.InfoSourceGovt",
+  "COVID.InfoSourceNewsMedia",
+  "COVID.InfoSourceSocialMedia",
+#  "COVID.SatGovtResponse",
+  "COVID.TrustGovtResponse",
+  "COVID.ComplianceTesting",
+  "COVID.ComplianceVaccinate",
+  "COVID.ComplianceMask",
+  "COVID.ComplianceIsolateHome",
+  "COVID.ComplianceContactTrace",
+  "COVID.ComplianceAllMoHGuidelines",
+  "COVID.BeenTested",
+  "COVID.RequestTest",
+  "COVID.DeclineReq"
+  # "COVID.Vaccinated",
+  # "COVID.VaccinatedIntend",
+  # "COVID.VaccinationSafe",
+  # "COVID.VaccinatedRefusal"
+)
+
+# boxplot dataframe
+dt_long <- pivot_longer(
+  dt_temp,
+  cols = -c("Wave"),
+  names_prefix = "COVID.",
+  values_to = "Values",
+  names_to = "Attitudes"
+) |>
+  drop_na()
+
+cov_values <- dt_long |>
+  dplyr::mutate(Attitude = forcats::fct_reorder(Attitudes, desc(Values))) |>
+  #filter(Attitudes == "COVID.RisksExaggerated (1-7)") |> 
+  ggplot2::ggplot(aes(Attitude, Values, fill = Attitudes)) +
+  facet_grid (. ~ Wave, scales = "free_x", space = "free_x") +
+  labs(title = "Covid Attitudes NZ 2020/21 to 2021/22 (N = 38,551)") +
+  geom_boxplot(size = .05, notch = T) +  
+  scale_fill_viridis_d(option = "D") +
+  theme(legend.position = "none") + 
+  theme_classic()
+
+cov_values <- cov_values +
+  # theme(axis.text.x=element_blank(),
+  #       axis.ticks.x=element_blank()
+  #       ) +
+  # theme(legend.position = "top") +
+  coord_flip()  + 
+  theme(legend.position = "none") 
+
+
+# print graph  
+cov_values
+```
+
+
+
+
+## Appendix D: Vacitiation attitudes in the Time 13 sample
+
+In Time 13, the NZAVS included four new items to to measure COVID-19 Vaccination attitudes. These are:
+
+### Vaccination Safe
+
+"It is safe for adults to get vaccinated for COVID-19 using the Pfizer vaccine (Pfizer is the vaccine used in New Zealand's COVID-19 vaccine rollout)."
+
+### Vaccinated
+
+"Have you been vaccinated for COVID-19?"
+
+### Vaccinated Intend
+
+"If not, do you intend to get vaccinated for COVID-19?"
+
+### Reason for Vaccinated Refusal
+
+"If you are not, and do not intend to get, vaccinated for COVID-19, why not?"
+
+@fig-vaccination-attitudes presents descriptive summaries of responses.
+
+
+
+
+```{r}
+#| label: fig-vaccination-attitudes
+#| fig-cap: "Vaccination attitudes 2021/22"
+
+d13 <- dt |> 
+  dplyr::filter(Wave == "Time13" & YearMeasured == 1) |> 
+  select("COVID.Vaccinated",
+  "COVID.VaccinatedIntend",
+  "COVID.VaccinationSafe", #"COVID.VaccinatedRefusal"
+  ) |> 
+  dplyr::mutate(across(!c(COVID.VaccinationSafe), ~ as.factor(.x))) # make factors numeric for easy
+
+table_x <- tbl_summary(
+  d13,
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} / {N} ({p}%)"
+  )) 
+  
+# show
+table_x
+```
+
+
+
+
+We note that the vaccination intent question contains measurement error. Among the 26688 participants who indicated that they had been vaccinated, 283 (1%) indicated that they did not intend to be vaccinated.
+
+It is therefore more informative to focus on those 1395 participants who were not vaccinated. Of these, 102 indended to be vaccinated. Thus, 7.3% of participants who reported they were not vaccinated intended to be vaccinated.
+
+
+
+
+```{r}
+#| label: fig-vaccination-cross-table
+#| fig-cap: "Vaccination cross-tab Intent and Vaccination Status"
+
+tbl_cross(data = d13, 
+  row = COVID.VaccinatedIntend,
+  col = COVID.Vaccinated,
+  margin = "col",
+  missing  = "ifany",
+  percent =  "col") |> 
+  bold_labels()
+
+```
+
+
+
+
+## Appendix E: Acknowledgments
+
+We are grateful to the maintainers of the following packages, which we use in our work.
+
+We are grateful for Templeton Religion Trust Grant: 0418 for supporting this work.[^7]
+
+[^7]: The funders played no role in the design or interpretation of this research.
+
+
+
+
+```{r}
+sessionInfo()
+```
+

@@ -226,22 +226,7 @@ Figure&nbsp;1: M-bias: an example of confounding that arises from over-adjustmen
 </section>
 <section id="the-power-of-baseline-measures" class="level2">
 <h2 class="anchored" data-anchor-id="the-power-of-baseline-measures">The Power of Baseline Measures</h2>
-<p>One might think the solution is simple - don’t include forgiveness in the model. However, our understanding of causal relationships is often imperfect, and there may be plausible reasons to believe that forgiveness does, in fact, influence perfectionism. Indeed, it seems plausible that if I am more forgiving of other I will be more forgiving of my imperfections.</p>
-<p>To mitigate bias, we incorporate both prior measurements of the exposure and the outcome in our studies. By doing so, we control for unmeasured confounders that could bias our results. The logic is that any such bias would need to be orthogonal to the measurement of the outcome at baseline. This strategy is depicted in <a href="#fig-2" class="quarto-xref">Figure&nbsp;2</a>.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-2" class="quarto-figure quarto-figure-center quarto-float anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="m-bias_files/figure-html/fig-2-1.png" class="img-fluid figure-img" style="width:100.0%">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: M-bias: confounding control by including previous measures of the outcome
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
+<p>One might think the solution is simple - don’t include forgiveness in the model. However, our understanding of causal relationships is often imperfect, and there may be plausible reasons to believe that forgiveness does, in fact, influence perfectionism. If this were the case, to avoid bias, we would need to condition on a proxy of the unmeasured variables. This strategy might not completely avoid bias, which is why it is important to include sensitivity analyses to assess how much unmeasured confounding would be required to explain a result away <span class="citation" data-cites="vanderweele2017">(<a href="#ref-vanderweele2017" role="doc-biblioref">VanderWeele and Ding 2017</a>)</span></p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
@@ -260,6 +245,9 @@ Figure&nbsp;2: M-bias: confounding control by including previous measures of the
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-vanderweele2019" class="csl-entry" role="listitem">
 VanderWeele, Tyler J. 2019. <span>“Principles of Confounder Selection.”</span> <em>European Journal of Epidemiology</em> 34 (3): 211219.
+</div>
+<div id="ref-vanderweele2017" class="csl-entry" role="listitem">
+VanderWeele, Tyler J, and Peng Ding. 2017. <span>“Sensitivity Analysis in Observational Research: Introducing the e-Value.”</span> <em>Annals of Internal Medicine</em> 167 (4): 268274.
 </div>
 <div id="ref-vanderweele2020" class="csl-entry" role="listitem">
 VanderWeele, Tyler J, Maya B Mathur, and Ying Chen. 2020. <span>“Outcome-Wide Longitudinal Designs for Causal Inference: A New Template for Empirical Studies.”</span> <em>Statistical Science</em> 35 (3): 437466.

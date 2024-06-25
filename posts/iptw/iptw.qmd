@@ -14,7 +14,7 @@ affiliation: Victoria University of Wellington, New Zealand
 email: joseph.bulbulia@vuw.ac.nz
 corresponding: yes
 date-format: short
-bibliography: references.bib
+bibliography: /Users/joseph/GIT/b-causal/posts/iptw/references.bib
 categories: 
   - Causal Inference
   - NZAVS
