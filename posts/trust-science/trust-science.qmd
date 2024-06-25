@@ -69,8 +69,7 @@ Previous research using a propensity score design reported on changes in Trust i
 #| include: false
 #| echo: false
 #| warning: false
-
-source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
+#source("https://raw.githubusercontent.com/go-bayes/templates/main/functions/libs2.R")
 
 # if you run mlim for imputation, comment out the source file and run these libraries
 # library(tidyverse)
@@ -754,7 +753,7 @@ Additionally, we are now grouping pre and post responses together in the 2019 wa
 
 These provisos aside, we find evidence for continued average confidence in science, with some evidence for a continued downward shift in trust for the NZ police. 
 
-Next, we formally model change over time using generalised estimating equations (GEE).  They models take into account uncertainties from multiple imputation. We employ survey weights to recover population estimates. 
+Next, we formally model change over time using generalised estimating equations (GEE), taking into account uncertainties from multiple imputation. We employ survey weights to recover population estimates. 
 
 ### Results for average responses. 
 
@@ -921,7 +920,7 @@ The results reflect findings in the descriptiove tables.
 - From 2019 to 2020, trust in science reliably increased (estimate = 0.192, p < 0.001).
 - From 2019 to 2021, trust in science also reliably increased (estimate = 0.215, p < 0.001).
 
-There is no downward trend in average Trust in Science. 
+There is no evidence for a downward trend in average Trust in Science as of 2021. 
 
 
 
@@ -954,16 +953,18 @@ On average, we find that conspiracy beliefs are falling. However, this evidence 
 
 ### Summary
 
-The results indicate a reliable increase in trust in science from 2019 to 2020, and that this shift has remained constant. In contrast, changes in trust in politicians, trust in police, trust in the government's COVID response, across the waves were generally unreliable.  Evidence suggests that average conspiracy beliefs may have declined.   
+The results suggest a reliable increase in trust in science from 2019 to 2020, and that this shift has remained constant. In contrast, changes in trust in politicians, trust in police, trust in the government's COVID response, across the waves were generally unreliable.  Evidence suggests that average conspiracy beliefs may have declined.   
 
 
-The preliminary findings merit further research. 
+The preliminary findings merit further research.
 
 Firstly, multiple imputation models rely on assumptions. These assumptions must be tested. 
 
-Secondly, when a population becomes more polarized, the average response may be misleading, potentially indicating no change. We must investigate change at the margins of reponse, not merely at the average response. 
+Secondly, when a population becomes more polarised, the average response may be misleading, potentially indicating no change. We must investigate change at the margins of reponse, not merely at the average response. 
 
 Thirdly, we need not assume that the items model a univariate latent construct. We might instead model items from the scales individually, as suggested by @vanderweele2022.
+
+Fourth, we cannot know how trust in science would have changed had there been no Pandemic because there is no contrast condition.
 
 In the near future, that address these challenges. Stay tuned!  
 
